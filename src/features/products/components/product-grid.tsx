@@ -1,0 +1,117 @@
+import Image from "next/image";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ShoppingCart } from "lucide-react";
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+}
+
+export function ProductGrid() {
+  const products: Product[] = [
+    {
+      id: 1,
+      name: "Whole Chicken",
+      price: 12.99,
+      image:
+        "https://images.unsplash.com/photo-1672787153655-0c19308dcc60?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aG9sZSUyMGNoaWNrZW4lMjByYXd8ZW58MXx8fHwxNzYxMzc3NzgwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    },
+    {
+      id: 2,
+      name: "Farm Fresh Eggs",
+      price: 6.99,
+      image:
+        "https://images.unsplash.com/photo-1585355611444-06154f329e96?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlja2VuJTIwZWdncyUyMGNhcnRvbnxlbnwxfHx8fDE3NjEzNzc3ODB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    },
+    {
+      id: 3,
+      name: "Chicken Wings",
+      price: 8.99,
+      image:
+        "https://images.unsplash.com/photo-1690923888922-f775da8f2346?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlja2VuJTIwd2luZ3MlMjByYXd8ZW58MXx8fHwxNzYxMzc3NzgxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    },
+    {
+      id: 4,
+      name: "Chicken Breast",
+      price: 9.99,
+      image:
+        "https://images.unsplash.com/photo-1700324638718-dade543770fa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlja2VuJTIwYnJlYXN0JTIwZmlsbGV0fGVufDF8fHx8MTc2MTI3NzI2MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    },
+    {
+      id: 5,
+      name: "Chicken Drumsticks",
+      price: 7.99,
+      image:
+        "https://images.unsplash.com/photo-1690519315565-c31ce99f8d58?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlja2VuJTIwZHJ1bXN0aWNrcyUyMHJhd3xlbnwxfHx8fDE3NjEzNzc3ODJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    },
+    {
+      id: 6,
+      name: "Organic Duck",
+      price: 18.99,
+      image:
+        "https://images.unsplash.com/photo-1672787380764-a603a9d4196d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkdWNrJTIwbWVhdHxlbnwxfHx8fDE3NjEzNzc3ODJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    },
+    {
+      id: 7,
+      name: "Premium Turkey",
+      price: 24.99,
+      image:
+        "https://images.unsplash.com/photo-1672787380735-2fb682c30b18?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0dXJrZXklMjB3aG9sZXxlbnwxfHx8fDE3NjEzNzc3ODJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    },
+    {
+      id: 8,
+      name: "Quail Eggs",
+      price: 8.99,
+      image:
+        "https://images.unsplash.com/photo-1645218167710-356801f89a7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxxdWFpbCUyMGVnZ3N8ZW58MXx8fHwxNzYxMzc3NzgyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    },
+  ];
+
+  return (
+    <section id="products" className="py-20 bg-background">
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl mb-4">Meaty Fresh Products</h2>
+          <p className="text-muted-foreground">
+            Explore our wide range of premium poultry products
+          </p>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {products.map((product) => (
+            <Card
+              key={product.id}
+              className="group overflow-hidden hover:shadow-lg transition-shadow"
+            >
+              <div className="aspect-square overflow-hidden bg-muted">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  width={300}
+                  height={300}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  unoptimized
+                />
+              </div>
+              <CardContent className="p-6 text-center">
+                <h3 className="mb-3">{product.name}</h3>
+                <div className="mb-4">
+                  <span className="text-2xl text-primary">
+                    ${product.price}
+                  </span>
+                </div>
+                <Button className="w-full bg-primary hover:bg-primary/90">
+                  <ShoppingCart className="mr-2 h-4 w-4" />
+                  Add to Cart
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

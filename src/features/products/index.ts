@@ -1,0 +1,7 @@
+export { ProductCategories } from "./components/product-categories";
+export { ProductHero } from "./components/product-hero";
+export { ProductGrid } from "./components/product-grid";
+export { Categories } from "./components/categories";
+export { FeaturedProducts } from "./components/featured-products";
+export { ProductGallery } from "./components/product-gallery";
+export { VideoSection } from "./components/video-section";
