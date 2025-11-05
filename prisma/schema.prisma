@@ -45,17 +45,19 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  role          UserRole  @default(CUSTOMER)
-  accounts      Account[]
-  sessions      Session[]
-  orders        Order[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id                 String              @id @default(cuid())
+  name               String?
+  email              String?             @unique
+  emailVerified      DateTime?
+  image              String?
+  role               UserRole            @default(CUSTOMER)
+  accounts           Account[]
+  sessions           Session[]
+  orders             Order[]
+  testimonials       Testimonial[]
+  contactSubmissions ContactSubmission[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
 
   @@index([email])
 }
@@ -101,6 +103,7 @@ model Breed {
   categoryId  String
   category    Category         @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   variants    ProductVariant[]
+  images      ProductImage[]
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
 
@@ -109,18 +112,19 @@ model Breed {
 }
 
 model ProductVariant {
-  id         String      @id @default(cuid())
+  id         String         @id @default(cuid())
   breedId    String
-  breed      Breed       @relation(fields: [breedId], references: [id], onDelete: Cascade)
+  breed      Breed          @relation(fields: [breedId], references: [id], onDelete: Cascade)
   gender     String // "Male" | "Female" | "Pair"
   ageGroup   String // "Chick" | "1-7 months" | "Mature"
   price      Float
-  stock      Int         @default(0)
+  stock      Int            @default(0)
   image      String?
+  images     ProductImage[]
   cartItems  CartItem[]
   orderItems OrderItem[]
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
 
   @@index([breedId])
 }
@@ -193,4 +197,267 @@ enum OrderStatus {
   SHIPPED
   DELIVERED
   CANCELLED
+}
+
+// ============================================
+// Content Management Models
+// ============================================
+
+model BlogCategory {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?    @db.Text
+  posts       BlogPost[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([slug])
+}
+
+model BlogTag {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  slug      String        @unique
+  posts     BlogPostTag[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([slug])
+}
+
+model BlogPost {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  excerpt     String        @db.Text
+  content     String        @db.Text
+  image       String?
+  featured    Boolean       @default(false)
+  published   Boolean       @default(false)
+  publishedAt DateTime?
+  readTime    Int           @default(5) // minutes
+  views       Int           @default(0)
+  likes       Int           @default(0)
+  categoryId  String
+  category    BlogCategory  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  authorId    String
+  author      BlogAuthor    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  tags        BlogPostTag[]
+  comments    BlogComment[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([slug])
+  @@index([categoryId])
+  @@index([authorId])
+  @@index([published, publishedAt])
+  @@index([featured])
+}
+
+model BlogPostTag {
+  id        String   @id @default(cuid())
+  postId    String
+  post      BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  tagId     String
+  tag       BlogTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([postId, tagId])
+  @@index([postId])
+  @@index([tagId])
+}
+
+model BlogAuthor {
+  id        String     @id @default(cuid())
+  name      String
+  email     String     @unique
+  avatar    String?
+  bio       String?    @db.Text
+  posts     BlogPost[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([email])
+}
+
+model BlogComment {
+  id        String   @id @default(cuid())
+  postId    String
+  post      BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author    String
+  email     String
+  avatar    String?
+  content   String   @db.Text
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([postId])
+  @@index([approved])
+  @@index([createdAt])
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  bio       String?  @db.Text
+  email     String   @unique
+  image     String?
+  linkedin  String?
+  twitter   String?
+  order     Int      @default(0) // For ordering display
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([active, order])
+}
+
+model FAQ {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  category  String? // Optional: "General", "Products", "Orders", etc.
+  order     Int      @default(0) // For ordering display
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published, order])
+  @@index([category])
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String?
+  content   String   @db.Text
+  rating    Int      @default(5) // 1-5 stars
+  image     String?
+  userId    String? // Optional link to User
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  approved  Boolean  @default(false)
+  featured  Boolean  @default(false)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([approved, featured])
+  @@index([userId])
+}
+
+model GalleryImage {
+  id          String   @id @default(cuid())
+  title       String?
+  alt         String
+  imageUrl    String
+  category    String? // "Farm", "Animals", "Products", etc.
+  description String?  @db.Text
+  order       Int      @default(0)
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category, order])
+  @@index([featured])
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  icon        String? // Icon identifier or name
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([active, order])
+}
+
+model Stat {
+  id          String   @id @default(cuid())
+  value       String // e.g., "25+", "1000+", "100%"
+  label       String
+  description String?  @db.Text
+  icon        String? // Icon identifier
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([active, order])
+}
+
+model Milestone {
+  id          String   @id @default(cuid())
+  year        String
+  title       String
+  description String   @db.Text
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([order])
+}
+
+model NewsletterSubscription {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  active         Boolean   @default(true)
+  subscribedAt   DateTime  @default(now())
+  unsubscribedAt DateTime?
+  source         String? // Where they subscribed from
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([email])
+  @@index([active])
+}
+
+model ContactSubmission {
+  id        String                  @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String                  @db.Text
+  status    ContactSubmissionStatus @default(PENDING)
+  userId    String? // Optional link to User
+  user      User?                   @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt DateTime                @default(now())
+  updatedAt DateTime                @updatedAt
+
+  @@index([status])
+  @@index([email])
+  @@index([createdAt])
+  @@index([userId])
+}
+
+enum ContactSubmissionStatus {
+  PENDING
+  READ
+  REPLIED
+  ARCHIVED
+}
+
+// ============================================
+// Product Image Enhancement
+// ============================================
+
+model ProductImage {
+  id        String          @id @default(cuid())
+  variantId String?
+  variant   ProductVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  breedId   String?
+  breed     Breed?          @relation(fields: [breedId], references: [id], onDelete: Cascade)
+  imageUrl  String
+  alt       String?
+  order     Int             @default(0)
+  createdAt DateTime        @default(now())
+
+  @@index([variantId])
+  @@index([breedId])
 }
