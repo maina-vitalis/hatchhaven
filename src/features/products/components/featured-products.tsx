@@ -28,16 +28,16 @@ export function FeaturedProducts() {
   ];
 
   return (
-    <section className="py-16 bg-primary/5">
+    <section className="pb-16 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="grid md:grid-cols-2 gap-8 items-center mb-12">
+        <div className="grid md:grid-cols-2 gap-12 items-center mb-12">
           <div>
-            <h2 className="text-4xl md:text-5xl mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Welcome to Our Mega Agg Farm
             </h2>
           </div>
           <div className="text-muted-foreground">
-            <p className="mb-4">
+            <p className="mb-6 text-base">
               At Mega Farm, we take pride in delivering the freshest,
               highest-quality poultry products. Our commitment to ethical
               farming ensures every product meets exceptional standards.
@@ -52,20 +52,20 @@ export function FeaturedProducts() {
           {featured.map((product, index) => (
             <Card
               key={index}
-              className="overflow-hidden hover:shadow-lg transition-shadow"
+              className="overflow-hidden hover:shadow-lg transition-shadow flex flex-col !p-0 !py-0 !gap-0 rounded-xl"
             >
-              <div className="aspect-square overflow-hidden bg-muted">
+              <div className="relative aspect-4/3 w-full overflow-hidden bg-muted rounded-t-xl">
                 <Image
                   src={product.image}
                   alt={product.title}
-                  width={300}
+                  width={400}
                   height={300}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   unoptimized
                 />
               </div>
-              <CardContent className="p-4 text-center bg-background">
-                <h3 className="text-sm">{product.title}</h3>
+              <CardContent className="p-4 text-center">
+                <h3 className="text-sm font-semibold">{product.title}</h3>
               </CardContent>
             </Card>
           ))}

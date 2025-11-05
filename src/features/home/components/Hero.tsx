@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 export function Hero() {
   return (
-    <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
+    <section className="relative h-[600px] md:h-[700px] flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
@@ -16,41 +16,36 @@ export function Hero() {
           priority
           unoptimized
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40" />
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
       {/* Content */}
       <div className="container relative z-10 mx-auto px-4 lg:px-8">
-        <div className="max-w-2xl text-white">
-          <p className="text-primary mb-4">Welcome to Our Farm</p>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl mb-6">
+        <div className="max-w-2xl text-white text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
             Fresh Ethical Poultry
           </h1>
-          <p className="text-xl md:text-2xl mb-4 text-white/80">
-            Chicken, Turkey, Ducks
+          <p className="text-lg md:text-xl mb-8 text-white/90">
+            Farm-fresh chicken, turkey, and ducks delivered to your door
           </p>
-          <p className="text-lg mb-8 text-white/70 max-w-xl">
-            Experience the difference of farm-fresh, ethically raised poultry.
-            Committed to quality, sustainability, and the highest standards of
-            animal welfare.
-          </p>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <Button
               size="lg"
-              className="bg-primary hover:bg-primary/90"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8"
               asChild
             >
               <Link href="/products">
-                Explore Products
+                Shop Now
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/10 backdrop-blur border-white text-white hover:bg-white/20"
+              className="border-white/30 text-white hover:bg-white/10 px-8"
+              asChild
             >
-              Learn More
+              <Link href="/about">Learn More</Link>
             </Button>
           </div>
         </div>

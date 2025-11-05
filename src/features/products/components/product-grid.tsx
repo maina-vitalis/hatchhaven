@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
@@ -84,30 +85,32 @@ export function ProductGrid() {
           {products.map((product) => (
             <Card
               key={product.id}
-              className="group overflow-hidden hover:shadow-lg transition-shadow"
+              className="group overflow-hidden hover:shadow-lg transition-shadow flex flex-col !p-0 !py-0 !gap-0 rounded-xl"
             >
-              <div className="aspect-square overflow-hidden bg-muted">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={300}
-                  height={300}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  unoptimized
-                />
-              </div>
-              <CardContent className="p-6 text-center">
-                <h3 className="mb-3">{product.name}</h3>
-                <div className="mb-4">
-                  <span className="text-2xl text-primary">
-                    ${product.price}
-                  </span>
+              <Link href={`/products/${product.id}`}>
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted rounded-t-xl">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={400}
+                    height={300}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    unoptimized
+                  />
                 </div>
-                <Button className="w-full bg-primary hover:bg-primary/90">
-                  <ShoppingCart className="mr-2 h-4 w-4" />
-                  Add to Cart
-                </Button>
-              </CardContent>
+                <CardContent className="p-4 text-center flex flex-col flex-1">
+                  <h3 className="text-base font-semibold mb-2">{product.name}</h3>
+                  <div className="mb-4">
+                    <span className="text-xl font-bold text-primary">
+                      ${product.price}
+                    </span>
+                  </div>
+                  <Button className="w-full bg-primary hover:bg-primary/90 mt-auto">
+                    <ShoppingCart className="mr-2 h-4 w-4" />
+                    View Details
+                  </Button>
+                </CardContent>
+              </Link>
             </Card>
           ))}
         </div>

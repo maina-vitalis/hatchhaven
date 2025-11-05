@@ -81,11 +81,10 @@ export function Products() {
   ];
 
   return (
-    <section className="py-20 bg-muted/30">
+    <section className="py-20 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="text-center mb-12">
-          <p className="text-primary mb-2">Our Products</p>
-          <h2 className="text-4xl md:text-5xl mb-4">Fresh Farm Products</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Our Products</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Browse our selection of premium, farm-fresh poultry and eggs
           </p>
@@ -95,38 +94,48 @@ export function Products() {
           {products.map((product) => (
             <Card
               key={product.id}
-              className="group hover:shadow-lg transition-shadow overflow-hidden"
+              className="group overflow-hidden hover:shadow-lg transition-shadow flex flex-col p-0 py-0 gap-0 rounded-xl"
             >
-              <div className="aspect-square overflow-hidden">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={300}
-                  height={300}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  unoptimized
-                />
-              </div>
-              <CardContent className="p-6">
-                <p className="text-xs text-primary mb-2">{product.category}</p>
-                <h3 className="mb-2">{product.name}</h3>
-                <div className="flex items-center justify-between">
-                  <span className="text-foreground">{product.price}</span>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="hover:bg-primary/10 hover:text-primary"
-                  >
-                    <ShoppingCart className="h-4 w-4" />
-                  </Button>
+              <Link href={`/products/${product.id}`}>
+                <div className="relative aspect-4/3 w-full overflow-hidden bg-muted rounded-t-xl">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={400}
+                    height={300}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    unoptimized
+                  />
                 </div>
-              </CardContent>
+
+                <CardContent className="p-4 px-4 flex flex-col flex-1">
+                  <span className="text-xs font-medium text-primary mb-1 uppercase tracking-wide">
+                    {product.category}
+                  </span>
+                  <h3 className="text-base font-semibold mb-2 line-clamp-2">
+                    {product.name}
+                  </h3>
+                  <div className="mt-auto flex items-center justify-between pt-3 border-t">
+                    <span className="text-lg font-bold">{product.price}</span>
+                    <Button
+                      size="sm"
+                      className="h-8 w-8 rounded-full p-0"
+                      aria-label={`View ${product.name} details`}
+                      asChild
+                    >
+                      <Link href={`/products/${product.id}`}>
+                        <ShoppingCart className="h-4 w-4" />
+                      </Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Link>
             </Card>
           ))}
         </div>
 
         <div className="text-center mt-12">
-          <Button className="bg-primary hover:bg-primary/90" asChild>
+          <Button size="lg" className="px-8" asChild>
             <Link href="/products">View All Products</Link>
           </Button>
         </div>

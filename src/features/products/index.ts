@@ -5,3 +5,4 @@ export { Categories } from "./components/categories";
 export { FeaturedProducts } from "./components/featured-products";
 export { ProductGallery } from "./components/product-gallery";
 export { VideoSection } from "./components/video-section";
+export { ProductDetails } from "./components/product-details";
