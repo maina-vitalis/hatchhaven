@@ -17,8 +17,8 @@ export function TeamGrid() {
     {
       name: "John Anderson",
       role: "Founder & CEO",
-      bio: "Passionate farmer with 30+ years of experience in sustainable agriculture. Founded Mega Farm in 2000 with a vision for ethical poultry farming.",
-      email: "john@megafarm.com",
+      bio: "Passionate farmer with 30+ years of experience in sustainable agriculture. Founded Hatch Haven in 2000 with a vision for ethical poultry farming.",
+      email: "john@hatchhaven.com",
       image:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
     },
@@ -26,7 +26,7 @@ export function TeamGrid() {
       name: "Sarah Mitchell",
       role: "Farm Manager",
       bio: "Expert in free-range farming practices and animal welfare. Oversees daily operations ensuring the highest quality standards.",
-      email: "sarah@megafarm.com",
+      email: "sarah@hatchhaven.com",
       image:
         "https://images.unsplash.com/photo-1494790108755-2616b612b786?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
     },
@@ -34,7 +34,7 @@ export function TeamGrid() {
       name: "Robert Chen",
       role: "Operations Director",
       bio: "Manages supply chains and logistics with a focus on sustainability. Ensures fresh products reach customers on time.",
-      email: "robert@megafarm.com",
+      email: "robert@hatchhaven.com",
       image:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
     },
@@ -42,7 +42,7 @@ export function TeamGrid() {
       name: "Emily Davis",
       role: "Quality Assurance",
       bio: "Dedicated to maintaining the highest quality standards. Conducts regular inspections and ensures all products meet our strict criteria.",
-      email: "emily@megafarm.com",
+      email: "emily@hatchhaven.com",
       image:
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
     },
@@ -50,7 +50,7 @@ export function TeamGrid() {
       name: "Michael Johnson",
       role: "Veterinarian",
       bio: "Ensures the health and well-being of all our poultry. Regular health checks and nutrition management for optimal bird health.",
-      email: "michael@megafarm.com",
+      email: "michael@hatchhaven.com",
       image:
         "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
     },
@@ -58,7 +58,7 @@ export function TeamGrid() {
       name: "Jennifer Martinez",
       role: "Marketing Director",
       bio: "Brings our story to customers through creative campaigns. Connects our farm values with conscious consumers.",
-      email: "jennifer@megafarm.com",
+      email: "jennifer@hatchhaven.com",
       image:
         "https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
     },
@@ -70,7 +70,7 @@ export function TeamGrid() {
         <div className="text-center mb-12">
           <p className="text-primary mb-2">Meet The Team</p>
           <h2 className="text-4xl md:text-5xl mb-4">
-            The People Behind Mega Farm
+            The People Behind Hatch Haven
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Our dedicated team brings together decades of experience in

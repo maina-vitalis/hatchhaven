@@ -1,5 +1,5 @@
 import { ContactHero, ContactInfo, ContactForm } from "@/src/features/contact";
-import { ContactFooter } from "@/src/features/shared";
+import { Footer } from "@/src/features/shared";
 
 export default function ContactPage() {
   return (
@@ -7,7 +7,7 @@ export default function ContactPage() {
       <ContactHero />
       <ContactInfo />
       <ContactForm />
-      <ContactFooter />
+      <Footer />
     </>
   );
 }

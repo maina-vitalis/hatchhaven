@@ -31,7 +31,7 @@ export function Header() {
               <span className="text-primary-foreground text-xl">🐔</span>
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-lg text-foreground leading-tight">Mega Farm</span>
+              <span className="font-bold text-lg text-foreground leading-tight">Hatch Haven</span>
               <span className="text-xs text-muted-foreground leading-tight">
                 Fresh & Ethical
               </span>
@@ -107,7 +107,7 @@ export function Header() {
                         <span className="text-primary-foreground text-lg">🐔</span>
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-bold text-lg text-foreground">Mega Farm</span>
+                        <span className="font-bold text-lg text-foreground">Hatch Haven</span>
                         <span className="text-xs text-muted-foreground">Fresh & Ethical</span>
                       </div>
                     </div>

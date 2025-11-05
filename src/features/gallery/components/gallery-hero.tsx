@@ -16,7 +16,7 @@ export function GalleryHero() {
       </div>
 
       <div className="container relative z-10 mx-auto px-4 lg:px-8 text-center text-white">
-        <h1 className="text-5xl md:text-6xl mb-4">Mega Farm Gallery</h1>
+        <h1 className="text-5xl md:text-6xl mb-4">Hatch Haven Gallery</h1>
         <p className="text-lg">
           <span className="text-white/70">Home</span> /{" "}
           <span className="text-white/70">Gallery</span> / <span>Gallery</span>

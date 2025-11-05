@@ -45,7 +45,7 @@ export function Footer() {
                 <span className="text-primary-foreground text-xl">🐔</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-foreground">Mega Farm</span>
+                <span className="text-foreground">Hatch Haven</span>
                 <span className="text-xs text-muted-foreground">
                   Fresh & Ethical
                 </span>
@@ -108,14 +108,14 @@ export function Footer() {
             </div>
             <div className="flex items-center gap-2">
               <Mail className="h-4 w-4 text-primary" />
-              <span>info@megafarm.com</span>
+              <span>info@hatchhaven.com</span>
             </div>
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 text-primary" />
               <span>123 Farm Road, Countryside</span>
             </div>
           </div>
-          <p className="text-sm">© 2025 Mega Farm. All rights reserved.</p>
+          <p className="text-sm">© 2025 Hatch Haven. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -25,7 +25,7 @@ export function CustomerTestimonials() {
       name: "Michael Chen",
       role: "Restaurant Owner",
       content:
-        "As a restaurant owner, quality matters. Mega Farm delivers consistently excellent products every time.",
+        "As a restaurant owner, quality matters. Hatch Haven delivers consistently excellent products every time.",
       rating: 5,
       image:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
@@ -43,7 +43,7 @@ export function CustomerTestimonials() {
       name: "David Martinez",
       role: "Loyal Customer",
       content:
-        "Been buying from Mega Farm for over 2 years. The delivery service is reliable and the products are always fresh.",
+        "Been buying from Hatch Haven for over 2 years. The delivery service is reliable and the products are always fresh.",
       rating: 5,
       image:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",

@@ -3,7 +3,7 @@ import {
   BlogSingleContent,
   BlogSingleSidebar,
 } from "@/src/features/blog";
-import { ContactFooter } from "@/src/features/shared";
+import { Footer } from "@/src/features/shared";
 
 export default function BlogSinglePage() {
   return (
@@ -24,7 +24,7 @@ export default function BlogSinglePage() {
           </div>
         </div>
       </section>
-      <ContactFooter />
+      <Footer />
     </>
   );
 }

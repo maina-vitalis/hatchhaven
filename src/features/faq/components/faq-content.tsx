@@ -14,7 +14,7 @@ export function FAQContent() {
 
   const faqs: FAQItem[] = [
     {
-      question: "Where does Mega Farm source its poultry from?",
+      question: "Where does Hatch Haven source its poultry from?",
       answer:
         "All our poultry is raised on our own certified organic farms. We maintain complete control over the breeding, raising, and processing of our chickens to ensure the highest quality and ethical standards throughout the entire supply chain.",
     },
@@ -31,12 +31,12 @@ export function FAQContent() {
     {
       question: "How do I place an order?",
       answer:
-        "You can place orders through our website by selecting products and adding them to your cart, or by calling us directly at (555) 123-4567. We also accept orders via email at info@megafarm.com.",
+        "You can place orders through our website by selecting products and adding them to your cart, or by calling us directly at (555) 123-4567. We also accept orders via email at info@hatchhaven.com.",
     },
     {
       question: "Do you offer wholesale pricing for restaurants or businesses?",
       answer:
-        "Yes, we have special pricing for wholesale customers including restaurants, markets, and food service businesses. Please contact our sales team at wholesale@megafarm.com to discuss your needs and pricing options.",
+        "Yes, we have special pricing for wholesale customers including restaurants, markets, and food service businesses. Please contact our sales team at wholesale@hatchhaven.com to discuss your needs and pricing options.",
     },
     {
       question: "What makes your eggs different from store-bought eggs?",

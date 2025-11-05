@@ -18,7 +18,7 @@ export function TeamHero() {
       <div className="container relative z-10 mx-auto px-4 lg:px-8 text-center text-white">
         <h1 className="text-5xl md:text-6xl mb-4">Our Team</h1>
         <p className="text-lg">
-          Meet the dedicated professionals behind Mega Farm
+          Meet the dedicated professionals behind Hatch Haven
         </p>
       </div>
     </section>

@@ -12,7 +12,7 @@ export function Welcome() {
   ];
 
   return (
-    <section className="pb-20 bg-background">
+    <section className="py-20 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Image */}
@@ -32,16 +32,16 @@ export function Welcome() {
           {/* Content */}
           <div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Welcome to Our Mega Agg Farm
+              Welcome to Hatch Haven
             </h2>
             <p className="text-muted-foreground mb-8 text-base leading-relaxed">
-              At Mega Farm, we&apos;re dedicated to providing the finest quality
+              At Hatch Haven, we&apos;re dedicated to providing the finest quality
               poultry and eggs. Our commitment to ethical farming practices
               ensures that every product meets the highest standards of
               freshness and nutrition.
             </p>
 
-            <div className="space-y-3">
+            <div className="space-y-3 mb-8">
               {features.map((feature) => (
                 <div key={feature} className="flex items-center gap-3">
                   <div className="shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">

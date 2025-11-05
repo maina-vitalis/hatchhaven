@@ -36,7 +36,7 @@ export function ContactFooter() {
                 <span className="text-primary-foreground text-xl">🐔</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-foreground">Mega Farm</span>
+                <span className="text-foreground">Hatch Haven</span>
                 <span className="text-xs text-muted-foreground">
                   Fresh & Ethical
                 </span>
@@ -68,7 +68,7 @@ export function ContactFooter() {
               </div>
               <div className="flex items-start gap-3">
                 <Mail className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <p>info@megafarm.com</p>
+                <p>info@hatchhaven.com</p>
               </div>
             </div>
           </div>
@@ -108,7 +108,7 @@ export function ContactFooter() {
 
         {/* Bottom */}
         <div className="text-center text-sm text-muted-foreground">
-          <p>© 2025 Mega Farm. All rights reserved.</p>
+          <p>© 2025 Hatch Haven. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -1,10 +1,13 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import { Mail, Linkedin } from "lucide-react";
 
 interface TeamMember {
   name: string;
   role: string;
   image: string;
+  bio: string;
+  email: string;
 }
 
 export function Team() {
@@ -12,40 +15,51 @@ export function Team() {
     {
       name: "John Anderson",
       role: "Founder & CEO",
+      bio: "30+ years of agricultural expertise",
+      email: "john@hatchhaven.com",
       image:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
     },
     {
       name: "Sarah Mitchell",
       role: "Farm Manager",
+      bio: "Expert in sustainable farming practices",
+      email: "sarah@hatchhaven.com",
       image:
         "https://images.unsplash.com/photo-1494790108755-2616b612b786?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
     },
     {
       name: "Robert Chen",
       role: "Operations Director",
+      bio: "Supply chain and logistics specialist",
+      email: "robert@hatchhaven.com",
       image:
         "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
     },
     {
       name: "Emily Davis",
       role: "Quality Assurance",
+      bio: "Ensuring highest quality standards",
+      email: "emily@hatchhaven.com",
       image:
         "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
     },
   ];
 
   return (
-    <section className="py-20 bg-muted/30">
+    <section className="py-24 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="text-center mb-12">
-          <p className="text-primary mb-2">Meet The Team</p>
-          <h2 className="text-4xl md:text-5xl mb-4">
-            The People Behind Mega Farm
+        <div className="text-center mb-16">
+          <p className="text-primary mb-4 text-sm font-semibold uppercase tracking-wider">
+            Meet The Team
+          </p>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            The People Behind Hatch Haven
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-3xl mx-auto text-lg leading-relaxed">
             Our dedicated team brings together decades of experience in
-            sustainable farming
+            sustainable farming, quality assurance, and ethical agriculture.
+            Each member is committed to our mission of excellence.
           </p>
         </div>
 
@@ -53,21 +67,43 @@ export function Team() {
           {team.map((member, index) => (
             <Card
               key={index}
-              className="overflow-hidden hover:shadow-lg transition-shadow"
+              className="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50 group"
             >
-              <div className="aspect-square overflow-hidden">
+              <div className="aspect-square overflow-hidden relative">
                 <Image
                   src={member.image}
                   alt={member.name}
                   width={400}
                   height={400}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   unoptimized
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
-              <CardContent className="p-6 text-center">
-                <h3 className="mb-1">{member.name}</h3>
-                <p className="text-sm text-primary">{member.role}</p>
+              <CardContent className="p-6">
+                <h3 className="text-lg font-bold mb-1">{member.name}</h3>
+                <p className="text-sm text-primary font-semibold mb-2">
+                  {member.role}
+                </p>
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                  {member.bio}
+                </p>
+                <div className="flex items-center gap-3 pt-4 border-t">
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="text-primary hover:text-primary/80 transition-colors"
+                    aria-label={`Email ${member.name}`}
+                  >
+                    <Mail className="h-5 w-5" />
+                  </a>
+                  <a
+                    href="#"
+                    className="text-primary hover:text-primary/80 transition-colors"
+                    aria-label={`LinkedIn ${member.name}`}
+                  >
+                    <Linkedin className="h-5 w-5" />
+                  </a>
+                </div>
               </CardContent>
             </Card>
           ))}

@@ -33,12 +33,12 @@ export function FeaturedProducts() {
         <div className="grid md:grid-cols-2 gap-12 items-center mb-12">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Welcome to Our Mega Agg Farm
+              Welcome to Hatch Haven
             </h2>
           </div>
           <div className="text-muted-foreground">
             <p className="mb-6 text-base">
-              At Mega Farm, we take pride in delivering the freshest,
+              At Hatch Haven, we take pride in delivering the freshest,
               highest-quality poultry products. Our commitment to ethical
               farming ensures every product meets exceptional standards.
             </p>
