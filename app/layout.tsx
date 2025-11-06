@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Header } from "@/src/features/shared";
+import { ConditionalHeader } from "@/src/features/shared/components/conditional-header";
+import { Providers } from "./providers";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,9 +30,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        <main>{children}</main>
-        {/* Footer will be added conditionally based on route */}
+        <Providers>
+          <ConditionalHeader />
+          <main>{children}</main>
+          {/* Footer will be added conditionally based on route */}
+        </Providers>
       </body>
     </html>
   );
