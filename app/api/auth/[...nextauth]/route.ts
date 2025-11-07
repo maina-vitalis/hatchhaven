@@ -1,8 +1,4 @@
-import { authOptions } from "@/lib/auth";
-import NextAuth from "next-auth";
-
-// NextAuth v5 returns handlers object
-const { handlers } = NextAuth(authOptions);
+import { handlers } from "@/lib/auth";
 
 export const { GET, POST } = handlers;
 

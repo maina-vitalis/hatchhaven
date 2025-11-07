@@ -18,9 +18,12 @@ export const authOptions: NextAuthConfig = {
           throw new Error("Please enter your email and password");
         }
 
+        const email = credentials.email as string;
+        const password = credentials.password as string;
+
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials.email,
+            email: email,
           },
         });
 
@@ -34,7 +37,7 @@ export const authOptions: NextAuthConfig = {
         }
 
         // Verify password
-        const isValid = await verifyPassword(credentials.password, user.password);
+        const isValid = await verifyPassword(password, user.password);
 
         if (!isValid) {
           throw new Error("Invalid email or password");
@@ -60,20 +63,23 @@ export const authOptions: NextAuthConfig = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) {
+      if (user && user.id) {
         token.id = user.id;
-        token.role = (user as any).role;
+        token.role = (user as { role: "CUSTOMER" | "ADMIN" }).role;
       }
       return token;
     },
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id as string;
-        (session.user as any).role = token.role;
+      if (session.user && token.id) {
+        session.user.id = token.id;
+        (session.user as { role: "CUSTOMER" | "ADMIN" }).role = token.role as "CUSTOMER" | "ADMIN";
       }
       return session;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
+
+// Export auth function for server-side usage
+export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);
 
