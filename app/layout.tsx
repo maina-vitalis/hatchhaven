@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ConditionalHeader } from "@/src/features/shared/components/conditional-header";
 import { Providers } from "./providers";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -34,6 +35,7 @@ export default function RootLayout({
           <ConditionalHeader />
           <main>{children}</main>
           {/* Footer will be added conditionally based on route */}
+          <Toaster />
         </Providers>
       </body>
     </html>

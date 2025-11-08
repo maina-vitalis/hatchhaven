@@ -1,14 +1,46 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Package, ShoppingCart, Users, DollarSign, LogOut } from "lucide-react";
+import { Package, ShoppingCart, Users, DollarSign, LogOut, Loader2, Tag, Layers } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
+interface Stats {
+  totalProducts: number;
+  totalOrders: number;
+  totalRevenue: number;
+  totalUsers: number;
+  totalCategories: number;
+  totalBreeds: number;
+}
 
 export default function AdminDashboard() {
   const { data: session } = useSession();
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("/api/admin/stats");
+      if (response.ok) {
+        const data = await response.json();
+        setStats(data);
+      }
+    } catch (error) {
+      console.error("Error fetching stats:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -40,10 +72,16 @@ export default function AdminDashboard() {
               <Package className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">0</div>
-              <p className="text-xs text-muted-foreground">
-                Across all categories
-              </p>
+              {loading ? (
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              ) : (
+                <>
+                  <div className="text-2xl font-bold">{stats?.totalProducts || 0}</div>
+                  <p className="text-xs text-muted-foreground">
+                    Product variants
+                  </p>
+                </>
+              )}
             </CardContent>
           </Card>
           <Card>
@@ -52,10 +90,16 @@ export default function AdminDashboard() {
               <ShoppingCart className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">0</div>
-              <p className="text-xs text-muted-foreground">
-                All time orders
-              </p>
+              {loading ? (
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              ) : (
+                <>
+                  <div className="text-2xl font-bold">{stats?.totalOrders || 0}</div>
+                  <p className="text-xs text-muted-foreground">
+                    All time orders
+                  </p>
+                </>
+              )}
             </CardContent>
           </Card>
           <Card>
@@ -64,10 +108,18 @@ export default function AdminDashboard() {
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">$0</div>
-              <p className="text-xs text-muted-foreground">
-                Total sales revenue
-              </p>
+              {loading ? (
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              ) : (
+                <>
+                  <div className="text-2xl font-bold">
+                    ${(stats?.totalRevenue || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Total sales revenue
+                  </p>
+                </>
+              )}
             </CardContent>
           </Card>
           <Card>
@@ -76,10 +128,16 @@ export default function AdminDashboard() {
               <Users className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">0</div>
-              <p className="text-xs text-muted-foreground">
-                Registered customers
-              </p>
+              {loading ? (
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              ) : (
+                <>
+                  <div className="text-2xl font-bold">{stats?.totalUsers || 0}</div>
+                  <p className="text-xs text-muted-foreground">
+                    Registered customers
+                  </p>
+                </>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -110,9 +168,30 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  Quick actions will be available here
-                </p>
+                <Link href="/admin/products">
+                  <Button variant="outline" className="w-full justify-start gap-2">
+                    <Package className="h-4 w-4" />
+                    Add Products
+                  </Button>
+                </Link>
+                <Link href="/admin/categories">
+                  <Button variant="outline" className="w-full justify-start gap-2">
+                    <Tag className="h-4 w-4" />
+                    Manage Categories ({stats?.totalCategories || 0})
+                  </Button>
+                </Link>
+                <Link href="/admin/breeds">
+                  <Button variant="outline" className="w-full justify-start gap-2">
+                    <Layers className="h-4 w-4" />
+                    Manage Breeds ({stats?.totalBreeds || 0})
+                  </Button>
+                </Link>
+                <Link href="/admin/variants">
+                  <Button variant="outline" className="w-full justify-start gap-2">
+                    <Package className="h-4 w-4" />
+                    Manage Variants ({stats?.totalProducts || 0})
+                  </Button>
+                </Link>
               </div>
             </CardContent>
           </Card>

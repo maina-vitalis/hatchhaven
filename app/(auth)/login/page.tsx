@@ -207,7 +207,7 @@ function LoginForm() {
                 </div>
               </div>
 
-              <div className="mt-6 grid grid-cols-2 gap-3">
+              <div className="mt-6 grid  gap-3">
                 <Button
                   type="button"
                   variant="outline"

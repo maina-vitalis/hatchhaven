@@ -45,6 +45,11 @@ const menuItems = [
     title: "Products",
     items: [
       {
+        title: "Add Products",
+        url: "/admin/products",
+        icon: Package,
+      },
+      {
         title: "Categories",
         url: "/admin/categories",
         icon: FolderTree,

@@ -37,6 +37,7 @@ interface ProductDetailsProps {
     id: string;
     name: string;
     category: string;
+    categorySlug?: string;
     breed: {
       name: string;
       description: string;
@@ -155,7 +156,7 @@ export function ProductDetails({
               </Link>
               <span>/</span>
               <Link
-                href={`/products?category=${product.category.toLowerCase()}`}
+                href={`/products?category=${product.categorySlug || product.category.toLowerCase()}`}
                 className="hover:text-foreground transition-colors"
               >
                 {product.category}
@@ -312,79 +313,119 @@ export function ProductDetails({
               <Separator />
 
               {/* Variant Selection */}
-              <div className="space-y-4">
-                {/* Gender Selection */}
-                <div>
-                  <div className="text-sm font-semibold mb-2">Gender</div>
-                  <div className="flex flex-wrap gap-2">
-                    {Array.from(
-                      new Set(product.variants.map((v) => v.gender))
-                    ).map((gender) => {
-                      const variant = product.variants.find(
-                        (v) => v.gender === gender
-                      );
-                      const isSelected = selectedVariant?.gender === gender;
-                      return (
-                        <Button
-                          key={gender}
-                          variant={isSelected ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => {
-                            const newVariant = product.variants.find(
-                              (v) => v.gender === gender
-                            );
-                            if (newVariant) setSelectedVariant(newVariant);
-                          }}
-                          disabled={variant?.stock === 0}
-                          className={cn(variant?.stock === 0 && "opacity-50")}
-                        >
-                          {gender}
-                          {variant?.stock === 0 && " (Sold Out)"}
-                        </Button>
-                      );
-                    })}
-                  </div>
-                </div>
+              {product.variants.length > 1 && (
+                <div className="space-y-4">
+                  {/* Gender Selection - Only show if not all variants have N/A */}
+                  {!product.variants.every((v) => v.gender === "N/A") && (
+                    <div>
+                      <div className="text-sm font-semibold mb-2">Type</div>
+                      <div className="flex flex-wrap gap-2">
+                        {Array.from(
+                          new Set(product.variants.map((v) => v.gender))
+                        ).map((gender) => {
+                          const variant = product.variants.find(
+                            (v) => v.gender === gender
+                          );
+                          const isSelected = selectedVariant?.gender === gender;
+                          return (
+                            <Button
+                              key={gender}
+                              variant={isSelected ? "default" : "outline"}
+                              size="sm"
+                              onClick={() => {
+                                const newVariant = product.variants.find(
+                                  (v) => v.gender === gender
+                                );
+                                if (newVariant) setSelectedVariant(newVariant);
+                              }}
+                              disabled={variant?.stock === 0}
+                              className={cn(
+                                variant?.stock === 0 && "opacity-50"
+                              )}
+                            >
+                              {gender}
+                              {variant?.stock === 0 && " (Sold Out)"}
+                            </Button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
 
-                {/* Age Group Selection */}
-                <div>
-                  <div className="text-sm font-semibold mb-2">Age Group</div>
-                  <div className="flex flex-wrap gap-2">
-                    {Array.from(
-                      new Set(product.variants.map((v) => v.ageGroup))
-                    ).map((ageGroup) => {
-                      const variant = product.variants.find(
-                        (v) =>
-                          v.ageGroup === ageGroup &&
-                          v.gender === selectedVariant?.gender
-                      );
-                      const isSelected = selectedVariant?.ageGroup === ageGroup;
-                      return (
-                        <Button
-                          key={ageGroup}
-                          variant={isSelected ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => {
-                            const newVariant = product.variants.find(
+                  {/* Size/Quantity Selection */}
+                  <div>
+                    <div className="text-sm font-semibold mb-2">
+                      {product.variants.some((v) => v.gender !== "N/A")
+                        ? "Age Group"
+                        : "Size/Quantity"}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {Array.from(
+                        new Set(product.variants.map((v) => v.ageGroup))
+                      )
+                        .filter((ageGroup) => {
+                          // If gender is selected, filter by that gender
+                          if (selectedVariant?.gender && selectedVariant.gender !== "N/A") {
+                            return product.variants.some(
                               (v) =>
                                 v.ageGroup === ageGroup &&
-                                v.gender === selectedVariant?.gender
+                                v.gender === selectedVariant.gender
                             );
-                            if (newVariant) setSelectedVariant(newVariant);
-                          }}
-                          disabled={!variant || variant.stock === 0}
-                          className={cn(
-                            (!variant || variant.stock === 0) && "opacity-50"
-                          )}
-                        >
-                          {ageGroup}
-                          {variant?.stock === 0 && " (Sold Out)"}
-                        </Button>
-                      );
-                    })}
+                          }
+                          // If all variants have N/A gender, show all age groups
+                          if (product.variants.every((v) => v.gender === "N/A")) {
+                            return true;
+                          }
+                          // Otherwise, show age groups for selected gender
+                          return product.variants.some(
+                            (v) =>
+                              v.ageGroup === ageGroup &&
+                              v.gender === selectedVariant?.gender
+                          );
+                        })
+                        .map((ageGroup) => {
+                          const variant = product.variants.find(
+                            (v) =>
+                              v.ageGroup === ageGroup &&
+                              (selectedVariant?.gender === "N/A" ||
+                                v.gender === selectedVariant?.gender ||
+                                product.variants.every((v) => v.gender === "N/A"))
+                          );
+                          const isSelected = selectedVariant?.ageGroup === ageGroup;
+                          return (
+                            <Button
+                              key={ageGroup}
+                              variant={isSelected ? "default" : "outline"}
+                              size="sm"
+                              onClick={() => {
+                                const newVariant = product.variants.find(
+                                  (v) =>
+                                    v.ageGroup === ageGroup &&
+                                    (selectedVariant?.gender === "N/A" ||
+                                      v.gender === selectedVariant?.gender ||
+                                      product.variants.every((v) => v.gender === "N/A"))
+                                );
+                                if (newVariant) setSelectedVariant(newVariant);
+                              }}
+                              disabled={!variant || variant.stock === 0}
+                              className={cn(
+                                (!variant || variant.stock === 0) && "opacity-50"
+                              )}
+                            >
+                              {ageGroup}
+                              {variant && (
+                                <span className="ml-1 text-xs">
+                                  (${variant.price.toFixed(2)})
+                                </span>
+                              )}
+                              {variant?.stock === 0 && " - Sold Out"}
+                            </Button>
+                          );
+                        })}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
               <Separator />
 

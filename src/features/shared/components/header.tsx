@@ -1,6 +1,15 @@
 "use client";
 
-import { Menu, ShoppingCart, Phone, User, LogOut, LogIn, UserPlus, Shield } from "lucide-react";
+import {
+  Menu,
+  ShoppingCart,
+  Phone,
+  User,
+  LogOut,
+  LogIn,
+  UserPlus,
+  Shield,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -14,13 +23,26 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+
+interface user {
+  id: string;
+  name: string;
+  email: string;
+  image: string;
+  role: "CUSTOMER" | "ADMIN";
+}
 
 export function Header() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
+
+  console.log(status);
+  // Only show authenticated state when status is confirmed, not during loading
   const isAuthenticated = status === "authenticated";
-  const isAdmin = (session?.user as any)?.role === "ADMIN";
+  const isLoading = status === "loading";
+  const isAdmin = (session?.user as user)?.role === "ADMIN";
 
   const navItems = [
     { name: "Home", path: "/" },
@@ -36,15 +58,17 @@ export function Header() {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="flex items-center gap-3 group transition-opacity hover:opacity-90"
           >
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary shadow-md group-hover:shadow-lg transition-shadow">
               <span className="text-primary-foreground text-xl">🐔</span>
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-lg text-foreground leading-tight">Hatch Haven</span>
+              <span className="font-bold text-lg text-foreground leading-tight">
+                Hatch Haven
+              </span>
               <span className="text-xs text-muted-foreground leading-tight">
                 Fresh & Ethical
               </span>
@@ -78,16 +102,16 @@ export function Header() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-2">
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               className="hidden sm:flex hover:bg-primary/10 hover:text-primary transition-colors"
               aria-label="Contact us"
             >
               <Phone className="h-5 w-5" />
             </Button>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="icon"
               className="relative hover:bg-primary/10 hover:text-primary transition-colors"
               aria-label="Shopping cart"
@@ -96,7 +120,13 @@ export function Header() {
             </Button>
 
             {/* Authentication Section */}
-            {isAuthenticated ? (
+            {isLoading ? (
+              // Show a loading placeholder that matches the authenticated state to prevent flicker
+              <div className="hidden sm:flex items-center gap-2">
+                <div className="h-9 w-9 rounded-full bg-muted animate-pulse" />
+                <div className="h-4 w-24 bg-muted animate-pulse rounded" />
+              </div>
+            ) : isAuthenticated ? (
               <>
                 {isAdmin && (
                   <Button
@@ -116,10 +146,27 @@ export function Header() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="hidden sm:flex gap-2"
+                      className="hidden sm:flex gap-2 h-9 px-2"
                     >
-                      <User className="h-4 w-4" />
-                      <span className="max-w-[120px] truncate">
+                      <Avatar className="h-7 w-7">
+                        <AvatarImage
+                          src={session?.user?.image || undefined}
+                          alt={session?.user?.name || "User"}
+                        />
+                        <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
+                          {session?.user?.name
+                            ? session.user.name
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")
+                                .toUpperCase()
+                                .slice(0, 2)
+                            : session?.user?.email
+                            ? session.user.email[0].toUpperCase()
+                            : "U"}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="max-w-[120px] truncate text-sm">
                         {session?.user?.name || session?.user?.email}
                       </span>
                     </Button>
@@ -143,12 +190,18 @@ export function Header() {
                       </Link>
                     </DropdownMenuItem>
                     {isAdmin && (
-                      <DropdownMenuItem asChild>
-                        <Link href="/admin" className="cursor-pointer">
-                          <Shield className="mr-2 h-4 w-4" />
-                          Admin Dashboard
-                        </Link>
-                      </DropdownMenuItem>
+                      <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                          <Link
+                            href="/admin"
+                            className="cursor-pointer text-primary font-medium"
+                          >
+                            <Shield className="mr-2 h-4 w-4" />
+                            Admin
+                          </Link>
+                        </DropdownMenuItem>
+                      </>
                     )}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -189,8 +242,8 @@ export function Header() {
             {/* Mobile Menu */}
             <Sheet>
               <SheetTrigger asChild className="md:hidden">
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   size="icon"
                   className="hover:bg-primary/10 hover:text-primary"
                   aria-label="Open menu"
@@ -204,11 +257,17 @@ export function Header() {
                   <div className="px-6 pt-6 pb-4 border-b border-border/50">
                     <div className="flex items-center gap-3">
                       <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary shadow-sm">
-                        <span className="text-primary-foreground text-xl">🐔</span>
+                        <span className="text-primary-foreground text-xl">
+                          🐔
+                        </span>
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-bold text-lg text-foreground leading-tight">Hatch Haven</span>
-                        <span className="text-xs text-muted-foreground leading-tight">Fresh & Ethical</span>
+                        <span className="font-bold text-lg text-foreground leading-tight">
+                          Hatch Haven
+                        </span>
+                        <span className="text-xs text-muted-foreground leading-tight">
+                          Fresh & Ethical
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -238,15 +297,15 @@ export function Header() {
 
                   {/* Footer Actions */}
                   <div className="px-4 pt-4 pb-6 border-t border-border/50 space-y-2">
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       className="w-full justify-start gap-3 h-11 text-base hover:bg-muted/50"
                     >
                       <Phone className="h-5 w-5" />
                       <span>Contact Us</span>
                     </Button>
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       className="w-full justify-start gap-3 h-11 text-base hover:bg-muted/50"
                     >
                       <ShoppingCart className="h-5 w-5" />
@@ -254,7 +313,17 @@ export function Header() {
                     </Button>
 
                     {/* Mobile Auth Section */}
-                    {isAuthenticated ? (
+                    {isLoading ? (
+                      <div className="pt-2 space-y-2">
+                        <div className="px-4 py-2 flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-full bg-muted animate-pulse" />
+                          <div className="flex flex-col gap-2">
+                            <div className="h-4 w-24 bg-muted animate-pulse rounded" />
+                            <div className="h-3 w-32 bg-muted animate-pulse rounded" />
+                          </div>
+                        </div>
+                      </div>
+                    ) : isAuthenticated ? (
                       <>
                         {isAdmin && (
                           <Button
@@ -269,11 +338,33 @@ export function Header() {
                           </Button>
                         )}
                         <div className="pt-2 space-y-2">
-                          <div className="px-4 py-2 text-sm">
-                            <p className="font-medium">{session?.user?.name || "User"}</p>
-                            <p className="text-xs text-muted-foreground truncate">
-                              {session?.user?.email}
-                            </p>
+                          <div className="px-4 py-2 flex items-center gap-3">
+                            <Avatar className="h-10 w-10">
+                              <AvatarImage
+                                src={session?.user?.image || undefined}
+                                alt={session?.user?.name || "User"}
+                              />
+                              <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
+                                {session?.user?.name
+                                  ? session.user.name
+                                      .split(" ")
+                                      .map((n) => n[0])
+                                      .join("")
+                                      .toUpperCase()
+                                      .slice(0, 2)
+                                  : session?.user?.email
+                                  ? session.user.email[0].toUpperCase()
+                                  : "U"}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex flex-col">
+                              <p className="font-medium text-sm">
+                                {session?.user?.name || "User"}
+                              </p>
+                              <p className="text-xs text-muted-foreground truncate">
+                                {session?.user?.email}
+                              </p>
+                            </div>
                           </div>
                           <Button
                             variant="ghost"

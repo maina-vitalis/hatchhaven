@@ -1,7 +1,6 @@
 import {
   ProductHero,
-  Categories,
-  ProductGrid,
+  FilterableProductGrid,
   FeaturedProducts,
   VideoSection,
   ProductGallery,
@@ -12,8 +11,7 @@ export default function ProductsPage() {
   return (
     <>
       <ProductHero />
-      <Categories />
-      <ProductGrid />
+      <FilterableProductGrid />
       <FeaturedProducts />
       <VideoSection />
       <ProductGallery />
