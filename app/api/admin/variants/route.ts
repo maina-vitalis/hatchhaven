@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
 
     // Create all variants
     const createdVariants = await Promise.all(
-      variants.map((variant: any) =>
+      variants.map((variant: { gender: string; ageGroup: string; price: string; stock?: string; image?: string }) =>
         prisma.productVariant.create({
           data: {
             breedId,

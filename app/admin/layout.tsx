@@ -19,7 +19,7 @@ export default function AdminLayout({
     if (status === "unauthenticated") {
       router.push("/login?callbackUrl=/admin");
     } else if (status === "authenticated" && session?.user) {
-      const userRole = (session.user as any)?.role;
+      const userRole = (session.user as { role?: "CUSTOMER" | "ADMIN" })?.role;
       if (userRole !== "ADMIN") {
         router.push("/");
       }
@@ -37,7 +37,7 @@ export default function AdminLayout({
     );
   }
 
-  if (status === "unauthenticated" || (session?.user && (session.user as any)?.role !== "ADMIN")) {
+  if (status === "unauthenticated" || (session?.user && (session.user as { role?: "CUSTOMER" | "ADMIN" })?.role !== "ADMIN")) {
     return null;
   }
 

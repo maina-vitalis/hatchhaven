@@ -8,7 +8,13 @@ export async function GET(request: NextRequest) {
     const categorySlug = searchParams.get("category");
     const limit = searchParams.get("limit");
 
-    const where: any = {};
+    const where: {
+      breed?: {
+        category: {
+          slug: string;
+        };
+      };
+    } = {};
 
     // If category filter is provided, filter by category
     if (categorySlug && categorySlug !== "all") {

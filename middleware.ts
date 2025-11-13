@@ -20,7 +20,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // If token exists but user is not admin, redirect to home
-    if ((token as any)?.role !== "ADMIN") {
+    if ((token?.role as string) !== "ADMIN") {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }

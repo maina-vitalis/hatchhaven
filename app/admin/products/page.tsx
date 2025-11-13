@@ -114,7 +114,7 @@ export default function ProductsPage() {
         const response = await fetch("/api/admin/breeds");
         if (response.ok) {
           const data = await response.json();
-          setBreeds(data.map((breed: any) => ({
+          setBreeds(data.map((breed: { id: string; name: string; categoryId: string; category?: { name: string } }) => ({
             id: breed.id,
             name: breed.name,
             categoryId: breed.categoryId,
@@ -162,8 +162,8 @@ export default function ProductsPage() {
         const refreshData = await refreshResponse.json();
         setCategories(refreshData);
       }
-    } catch (error: any) {
-      toast.error(error.message || "Failed to create category");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to create category");
     } finally {
       setSubmittingCategory(false);
     }
@@ -204,15 +204,15 @@ export default function ProductsPage() {
       const refreshResponse = await fetch("/api/admin/breeds");
       if (refreshResponse.ok) {
         const refreshData = await refreshResponse.json();
-        setBreeds(refreshData.map((breed: any) => ({
+        setBreeds(refreshData.map((breed: { id: string; name: string; categoryId: string; category?: { name: string } }) => ({
           id: breed.id,
           name: breed.name,
           categoryId: breed.categoryId,
           categoryName: breed.category?.name,
         })));
       }
-    } catch (error: any) {
-      toast.error(error.message || "Failed to create breed");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to create breed");
     } finally {
       setSubmittingBreed(false);
     }
@@ -259,8 +259,8 @@ export default function ProductsPage() {
         stock: "",
         image: "",
       });
-    } catch (error: any) {
-      toast.error(error.message || "Failed to create product");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Failed to create product");
     } finally {
       setSubmittingVariant(false);
     }

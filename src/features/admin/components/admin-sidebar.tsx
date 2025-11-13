@@ -11,6 +11,8 @@ import {
   BarChart3,
   FolderTree,
   Egg,
+  FileText,
+  MessageSquare,
 } from "lucide-react";
 import {
   Sidebar,
@@ -63,6 +65,21 @@ const menuItems = [
         title: "Variants",
         url: "/admin/variants",
         icon: Package,
+      },
+    ],
+  },
+  {
+    title: "Blog",
+    items: [
+      {
+        title: "Posts",
+        url: "/admin/blog",
+        icon: FileText,
+      },
+      {
+        title: "Comments",
+        url: "/admin/blog/comments",
+        icon: MessageSquare,
       },
     ],
   },

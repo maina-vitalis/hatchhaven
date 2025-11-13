@@ -52,8 +52,8 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({
-      url: (uploadResult as any).secure_url,
-      publicId: (uploadResult as any).public_id,
+      url: (uploadResult as { secure_url: string; public_id: string }).secure_url,
+      publicId: (uploadResult as { secure_url: string; public_id: string }).public_id,
     });
   } catch (error) {
     console.error("Upload error:", error);
