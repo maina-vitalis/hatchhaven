@@ -1,5 +1,5 @@
 import { Heart, Leaf, Handshake, Target } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/src/components/ui/card";
 
 export function MissionValues() {
   const values = [
@@ -113,4 +113,3 @@ export function MissionValues() {
     </section>
   );
 }
-

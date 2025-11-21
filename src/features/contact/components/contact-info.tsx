@@ -1,5 +1,5 @@
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/src/components/ui/card";
 import Link from "next/link";
 
 interface ContactDetail {
@@ -65,7 +65,9 @@ export function ContactInfo() {
                   {detail.icon}
                 </div>
                 <h3 className="text-lg font-semibold mb-2">{detail.title}</h3>
-                <p className="text-foreground mb-1 font-medium">{detail.subtitle}</p>
+                <p className="text-foreground mb-1 font-medium">
+                  {detail.subtitle}
+                </p>
                 {detail.link ? (
                   <Link
                     href={detail.link}

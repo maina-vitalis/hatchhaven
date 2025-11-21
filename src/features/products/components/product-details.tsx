@@ -3,11 +3,21 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/src/components/ui/card";
+import { Button } from "@/src/components/ui/button";
+import { Badge } from "@/src/components/ui/badge";
+import { Separator } from "@/src/components/ui/separator";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/src/components/ui/tabs";
 import {
   ShoppingCart,
   Heart,
@@ -21,7 +31,7 @@ import {
   Plus,
   ArrowLeft,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 
 interface ProductVariant {
   id: string;
@@ -156,7 +166,9 @@ export function ProductDetails({
               </Link>
               <span>/</span>
               <Link
-                href={`/products?category=${product.categorySlug || product.category.toLowerCase()}`}
+                href={`/products?category=${
+                  product.categorySlug || product.category.toLowerCase()
+                }`}
                 className="hover:text-foreground transition-colors"
               >
                 {product.category}
@@ -365,7 +377,10 @@ export function ProductDetails({
                       )
                         .filter((ageGroup) => {
                           // If gender is selected, filter by that gender
-                          if (selectedVariant?.gender && selectedVariant.gender !== "N/A") {
+                          if (
+                            selectedVariant?.gender &&
+                            selectedVariant.gender !== "N/A"
+                          ) {
                             return product.variants.some(
                               (v) =>
                                 v.ageGroup === ageGroup &&
@@ -373,7 +388,9 @@ export function ProductDetails({
                             );
                           }
                           // If all variants have N/A gender, show all age groups
-                          if (product.variants.every((v) => v.gender === "N/A")) {
+                          if (
+                            product.variants.every((v) => v.gender === "N/A")
+                          ) {
                             return true;
                           }
                           // Otherwise, show age groups for selected gender
@@ -389,9 +406,12 @@ export function ProductDetails({
                               v.ageGroup === ageGroup &&
                               (selectedVariant?.gender === "N/A" ||
                                 v.gender === selectedVariant?.gender ||
-                                product.variants.every((v) => v.gender === "N/A"))
+                                product.variants.every(
+                                  (v) => v.gender === "N/A"
+                                ))
                           );
-                          const isSelected = selectedVariant?.ageGroup === ageGroup;
+                          const isSelected =
+                            selectedVariant?.ageGroup === ageGroup;
                           return (
                             <Button
                               key={ageGroup}
@@ -403,13 +423,16 @@ export function ProductDetails({
                                     v.ageGroup === ageGroup &&
                                     (selectedVariant?.gender === "N/A" ||
                                       v.gender === selectedVariant?.gender ||
-                                      product.variants.every((v) => v.gender === "N/A"))
+                                      product.variants.every(
+                                        (v) => v.gender === "N/A"
+                                      ))
                                 );
                                 if (newVariant) setSelectedVariant(newVariant);
                               }}
                               disabled={!variant || variant.stock === 0}
                               className={cn(
-                                (!variant || variant.stock === 0) && "opacity-50"
+                                (!variant || variant.stock === 0) &&
+                                  "opacity-50"
                               )}
                             >
                               {ageGroup}

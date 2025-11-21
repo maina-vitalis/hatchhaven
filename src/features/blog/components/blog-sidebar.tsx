@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/src/components/ui/card";
+import { Input } from "@/src/components/ui/input";
 import { Facebook, Twitter, Instagram, Linkedin, Search } from "lucide-react";
 
 interface BlogSidebarProps {
@@ -22,7 +22,6 @@ interface BlogSidebarProps {
 }
 
 export function BlogSidebar({ categories, recentPosts }: BlogSidebarProps) {
-
   return (
     <div className="space-y-8">
       {/* Author Profile */}
@@ -106,7 +105,11 @@ export function BlogSidebar({ categories, recentPosts }: BlogSidebarProps) {
           <h3 className="mb-4">Recent Post</h3>
           <div className="space-y-4">
             {recentPosts.map((post) => (
-              <Link key={post.id} href={`/blog/${post.slug}`} className="flex gap-3 group">
+              <Link
+                key={post.id}
+                href={`/blog/${post.slug}`}
+                className="flex gap-3 group"
+              >
                 <div className="w-16 h-16 shrink-0 rounded overflow-hidden">
                   <Image
                     src={post.image || "/placeholder-blog.jpg"}
@@ -136,7 +139,6 @@ export function BlogSidebar({ categories, recentPosts }: BlogSidebarProps) {
           </div>
         </CardContent>
       </Card>
-
     </div>
   );
 }

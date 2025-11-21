@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/src/components/ui/card";
+import { Input } from "@/src/components/ui/input";
+import { Badge } from "@/src/components/ui/badge";
 import { Search } from "lucide-react";
 
 interface BlogSingleSidebarProps {
@@ -22,7 +22,10 @@ interface BlogSingleSidebarProps {
   }>;
 }
 
-export function BlogSingleSidebar({ categories, relatedPosts }: BlogSingleSidebarProps) {
+export function BlogSingleSidebar({
+  categories,
+  relatedPosts,
+}: BlogSingleSidebarProps) {
   return (
     <div className="space-y-6">
       <Card>
@@ -66,7 +69,11 @@ export function BlogSingleSidebar({ categories, relatedPosts }: BlogSingleSideba
             <h3 className="mb-4">Related Posts</h3>
             <div className="space-y-4">
               {relatedPosts.map((post) => (
-                <Link key={post.id} href={`/blog/${post.slug}`} className="flex gap-3 group">
+                <Link
+                  key={post.id}
+                  href={`/blog/${post.slug}`}
+                  className="flex gap-3 group"
+                >
                   <div className="w-20 h-20 shrink-0 rounded overflow-hidden">
                     <Image
                       src={post.image || "/placeholder-blog.jpg"}

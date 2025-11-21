@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent } from "@/src/components/ui/card";
+import { Button } from "@/src/components/ui/button";
+import { Skeleton } from "@/src/components/ui/skeleton";
 import { ShoppingCart } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 
 export type ProductCategory = "all" | string;
 
@@ -38,7 +38,8 @@ const categoryIcons: Record<string, string> = {
 };
 
 export function FilterableProductGrid() {
-  const [selectedCategory, setSelectedCategory] = useState<ProductCategory>("all");
+  const [selectedCategory, setSelectedCategory] =
+    useState<ProductCategory>("all");
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -84,7 +85,11 @@ export function FilterableProductGrid() {
     fetchProducts();
   }, [selectedCategory]);
 
-  const allCategories: Array<{ id: ProductCategory; label: string; icon: string }> = [
+  const allCategories: Array<{
+    id: ProductCategory;
+    label: string;
+    icon: string;
+  }> = [
     { id: "all", label: "All Products", icon: "🛒" },
     ...categories.map((cat) => ({
       id: cat.slug,
@@ -208,7 +213,11 @@ export function FilterableProductGrid() {
                 {selectedCategory !== "all" && (
                   <span>
                     {" "}
-                    in {allCategories.find((c) => c.id === selectedCategory)?.label}
+                    in{" "}
+                    {
+                      allCategories.find((c) => c.id === selectedCategory)
+                        ?.label
+                    }
                   </span>
                 )}
               </p>
@@ -217,7 +226,8 @@ export function FilterableProductGrid() {
         ) : (
           <div className="text-center py-12">
             <p className="text-muted-foreground text-lg">
-              No products found{selectedCategory !== "all" ? " in this category" : ""}.
+              No products found
+              {selectedCategory !== "all" ? " in this category" : ""}.
             </p>
             {selectedCategory !== "all" && (
               <Button

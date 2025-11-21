@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Check } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/src/components/ui/card";
 
 export function OurStory() {
   const values = [
@@ -11,10 +11,27 @@ export function OurStory() {
   ];
 
   const milestones = [
-    { year: "2000", title: "Founded", description: "Started as a small family farm with a vision for ethical poultry farming" },
-    { year: "2010", title: "Expansion", description: "Expanded operations and earned organic certification" },
-    { year: "2018", title: "Recognition", description: "Awarded Best Poultry Farm in the region" },
-    { year: "2024", title: "Innovation", description: "Implemented advanced sustainable farming technologies" },
+    {
+      year: "2000",
+      title: "Founded",
+      description:
+        "Started as a small family farm with a vision for ethical poultry farming",
+    },
+    {
+      year: "2010",
+      title: "Expansion",
+      description: "Expanded operations and earned organic certification",
+    },
+    {
+      year: "2018",
+      title: "Recognition",
+      description: "Awarded Best Poultry Farm in the region",
+    },
+    {
+      year: "2024",
+      title: "Innovation",
+      description: "Implemented advanced sustainable farming technologies",
+    },
   ];
 
   return (
@@ -32,10 +49,10 @@ export function OurStory() {
             </h2>
             <div className="space-y-6 text-muted-foreground leading-relaxed">
               <p className="text-base md:text-lg">
-                What started as a small family farm in 2000 has grown into one of
-                the region's most trusted sources for fresh, ethically-raised
-                poultry and eggs. Our commitment to quality and sustainability has
-                never wavered, even as we've expanded our operations.
+                What started as a small family farm in 2000 has grown into one
+                of the region's most trusted sources for fresh, ethically-raised
+                poultry and eggs. Our commitment to quality and sustainability
+                has never wavered, even as we've expanded our operations.
               </p>
               <p className="text-base md:text-lg">
                 Today, we continue to honor our roots while embracing modern
@@ -52,7 +69,9 @@ export function OurStory() {
                   <div className="shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mt-0.5">
                     <Check className="w-5 h-5 text-primary" />
                   </div>
-                  <span className="text-foreground text-base leading-relaxed">{value}</span>
+                  <span className="text-foreground text-base leading-relaxed">
+                    {value}
+                  </span>
                 </div>
               ))}
             </div>
@@ -85,12 +104,17 @@ export function OurStory() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {milestones.map((milestone, index) => (
-              <Card key={index} className="border-2 hover:border-primary/50 transition-colors">
+              <Card
+                key={index}
+                className="border-2 hover:border-primary/50 transition-colors"
+              >
                 <CardContent className="p-6">
                   <div className="text-primary text-3xl font-bold mb-2">
                     {milestone.year}
                   </div>
-                  <h4 className="text-lg font-semibold mb-2">{milestone.title}</h4>
+                  <h4 className="text-lg font-semibold mb-2">
+                    {milestone.title}
+                  </h4>
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     {milestone.description}
                   </p>

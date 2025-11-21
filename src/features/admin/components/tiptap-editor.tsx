@@ -24,8 +24,8 @@ import {
   Link as LinkIcon,
   Image as ImageIcon,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -33,7 +33,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "@/src/components/ui/dialog";
 import { useState } from "react";
 
 interface TipTapEditorProps {
@@ -42,7 +42,11 @@ interface TipTapEditorProps {
   placeholder?: string;
 }
 
-export function TipTapEditor({ content, onChange, placeholder = "Start writing..." }: TipTapEditorProps) {
+export function TipTapEditor({
+  content,
+  onChange,
+  placeholder = "Start writing...",
+}: TipTapEditorProps) {
   const [isLinkDialogOpen, setIsLinkDialogOpen] = useState(false);
   const [isImageDialogOpen, setIsImageDialogOpen] = useState(false);
   const [linkUrl, setLinkUrl] = useState("");
@@ -79,7 +83,8 @@ export function TipTapEditor({ content, onChange, placeholder = "Start writing..
     },
     editorProps: {
       attributes: {
-        class: "prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none min-h-[300px] p-4",
+        class:
+          "prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none min-h-[300px] p-4",
         "data-placeholder": placeholder,
       },
     },
@@ -159,7 +164,9 @@ export function TipTapEditor({ content, onChange, placeholder = "Start writing..
           type="button"
           variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 1 }).run()
+          }
           className={editor.isActive("heading", { level: 1 }) ? "bg-muted" : ""}
         >
           <Heading1 className="h-4 w-4" />
@@ -168,7 +175,9 @@ export function TipTapEditor({ content, onChange, placeholder = "Start writing..
           type="button"
           variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
           className={editor.isActive("heading", { level: 2 }) ? "bg-muted" : ""}
         >
           <Heading2 className="h-4 w-4" />
@@ -177,7 +186,9 @@ export function TipTapEditor({ content, onChange, placeholder = "Start writing..
           type="button"
           variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 3 }).run()
+          }
           className={editor.isActive("heading", { level: 3 }) ? "bg-muted" : ""}
         >
           <Heading3 className="h-4 w-4" />
@@ -258,9 +269,7 @@ export function TipTapEditor({ content, onChange, placeholder = "Start writing..
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Add Link</DialogTitle>
-            <DialogDescription>
-              Enter the URL for the link
-            </DialogDescription>
+            <DialogDescription>Enter the URL for the link</DialogDescription>
           </DialogHeader>
           <Input
             placeholder="https://example.com"
@@ -274,7 +283,10 @@ export function TipTapEditor({ content, onChange, placeholder = "Start writing..
             }}
           />
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsLinkDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsLinkDialogOpen(false)}
+            >
               Cancel
             </Button>
             <Button onClick={addLink}>Add Link</Button>
@@ -287,9 +299,7 @@ export function TipTapEditor({ content, onChange, placeholder = "Start writing..
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>Add Image</DialogTitle>
-            <DialogDescription>
-              Enter the image URL
-            </DialogDescription>
+            <DialogDescription>Enter the image URL</DialogDescription>
           </DialogHeader>
           <Input
             placeholder="https://example.com/image.jpg"
@@ -303,7 +313,10 @@ export function TipTapEditor({ content, onChange, placeholder = "Start writing..
             }}
           />
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsImageDialogOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setIsImageDialogOpen(false)}
+            >
               Cancel
             </Button>
             <Button onClick={addImage}>Add Image</Button>
@@ -313,4 +326,3 @@ export function TipTapEditor({ content, onChange, placeholder = "Start writing..
     </div>
   );
 }
-

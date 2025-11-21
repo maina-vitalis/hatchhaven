@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/src/components/ui/card";
+import { Button } from "@/src/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 
 interface Product {
@@ -99,7 +99,9 @@ export function ProductGrid() {
                   />
                 </div>
                 <CardContent className="p-4 text-center flex flex-col flex-1">
-                  <h3 className="text-base font-semibold mb-2">{product.name}</h3>
+                  <h3 className="text-base font-semibold mb-2">
+                    {product.name}
+                  </h3>
                   <div className="mb-4">
                     <span className="text-xl font-bold text-primary">
                       ${product.price}

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/src/components/ui/card";
 import { ArrowRight } from "lucide-react";
 
 interface Stage {
@@ -69,8 +69,8 @@ export function LifeCycle() {
           </h2>
           <p className="text-muted-foreground max-w-3xl mx-auto text-lg leading-relaxed">
             From egg to adult, we carefully oversee every stage of development
-            to ensure the health and well-being of our poultry. Our comprehensive
-            approach guarantees the highest quality at every step.
+            to ensure the health and well-being of our poultry. Our
+            comprehensive approach guarantees the highest quality at every step.
           </p>
         </div>
 

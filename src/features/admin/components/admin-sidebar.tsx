@@ -25,7 +25,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar";
+} from "@/src/components/ui/sidebar";
 
 const menuItems = [
   {
@@ -118,7 +118,9 @@ export function AdminSidebar() {
       <SidebarHeader className="border-b border-border/50">
         <div className="flex items-center gap-2 px-2 py-4">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-            <span className="text-primary-foreground text-sm font-bold">HH</span>
+            <span className="text-primary-foreground text-sm font-bold">
+              HH
+            </span>
           </div>
           <div className="flex flex-col group-data-[collapsible=icon]:hidden">
             <span className="text-sm font-semibold">Hatch Haven</span>
@@ -159,4 +161,3 @@ export function AdminSidebar() {
     </Sidebar>
   );
 }
-

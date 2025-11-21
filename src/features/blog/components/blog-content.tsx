@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/src/components/ui/card";
+import { Button } from "@/src/components/ui/button";
+import { Badge } from "@/src/components/ui/badge";
 import {
   MessageCircle,
   ThumbsUp,
@@ -54,7 +54,11 @@ interface BlogContentProps {
   }>;
 }
 
-export function BlogContent({ initialPosts, categories, recentPosts }: BlogContentProps) {
+export function BlogContent({
+  initialPosts,
+  categories,
+  recentPosts,
+}: BlogContentProps) {
   const blogPosts = initialPosts;
 
   return (
@@ -144,7 +148,9 @@ function BlogPost({
 }: BlogPost) {
   const imageUrl = image || "/placeholder-blog.jpg";
   const authorAvatar = author.avatar || "/placeholder-avatar.jpg";
-  const publishedDate = publishedAt ? format(new Date(publishedAt), "MMM d, yyyy") : "Unknown";
+  const publishedDate = publishedAt
+    ? format(new Date(publishedAt), "MMM d, yyyy")
+    : "Unknown";
 
   return (
     <Card className="overflow-hidden group hover:shadow-xl transition-all duration-300 border-border/50">

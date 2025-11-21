@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
+import { Textarea } from "@/src/components/ui/textarea";
+import { Label } from "@/src/components/ui/label";
+import { Card, CardContent } from "@/src/components/ui/card";
 import { Send, MapPin, Mail, Phone } from "lucide-react";
 
 export function ContactForm() {
@@ -28,9 +28,7 @@ export function ContactForm() {
           <p className="text-primary mb-4 text-sm font-semibold uppercase tracking-wider">
             Send Us A Message
           </p>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Get In Touch
-          </h2>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">Get In Touch</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
             Fill out the form below and we'll respond as soon as possible
           </p>
@@ -121,8 +119,12 @@ export function ContactForm() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email" className="text-base font-semibold">
-                        Email Address <span className="text-destructive">*</span>
+                      <Label
+                        htmlFor="email"
+                        className="text-base font-semibold"
+                      >
+                        Email Address{" "}
+                        <span className="text-destructive">*</span>
                       </Label>
                       <Input
                         id="email"
@@ -136,7 +138,10 @@ export function ContactForm() {
 
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label htmlFor="phone" className="text-base font-semibold">
+                      <Label
+                        htmlFor="phone"
+                        className="text-base font-semibold"
+                      >
                         Phone Number
                       </Label>
                       <Input
@@ -147,7 +152,10 @@ export function ContactForm() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="subject" className="text-base font-semibold">
+                      <Label
+                        htmlFor="subject"
+                        className="text-base font-semibold"
+                      >
                         Subject <span className="text-destructive">*</span>
                       </Label>
                       <Input
@@ -161,7 +169,10 @@ export function ContactForm() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="message" className="text-base font-semibold">
+                    <Label
+                      htmlFor="message"
+                      className="text-base font-semibold"
+                    >
                       Message <span className="text-destructive">*</span>
                     </Label>
                     <Textarea

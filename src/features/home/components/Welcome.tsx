@@ -1,7 +1,7 @@
 import { Check } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/components/ui/button";
 
 export function Welcome() {
   const features = [
@@ -35,10 +35,10 @@ export function Welcome() {
               Welcome to Hatch Haven
             </h2>
             <p className="text-muted-foreground mb-8 text-base leading-relaxed">
-              At Hatch Haven, we&apos;re dedicated to providing the finest quality
-              poultry and eggs. Our commitment to ethical farming practices
-              ensures that every product meets the highest standards of
-              freshness and nutrition.
+              At Hatch Haven, we&apos;re dedicated to providing the finest
+              quality poultry and eggs. Our commitment to ethical farming
+              practices ensures that every product meets the highest standards
+              of freshness and nutrition.
             </p>
 
             <div className="space-y-3 mb-8">

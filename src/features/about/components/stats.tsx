@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/src/components/ui/card";
 import { TrendingUp, Package, Users, Award, Heart, Globe } from "lucide-react";
 
 interface Stat {

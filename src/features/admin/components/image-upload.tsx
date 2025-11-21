@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
+import { Label } from "@/src/components/ui/label";
 import { Upload, X, Loader2, Image as ImageIcon } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 
 interface ImageUploadProps {
   label?: string;
@@ -100,7 +100,10 @@ export function ImageUpload({
 
   return (
     <div className={cn("space-y-2", className)}>
-      <Label>{label}{required && " *"}</Label>
+      <Label>
+        {label}
+        {required && " *"}
+      </Label>
       <div className="space-y-3">
         {preview ? (
           <div className="relative group">
@@ -143,7 +146,8 @@ export function ImageUpload({
                   <Upload className="w-8 h-8 mb-2 text-muted-foreground" />
                 )}
                 <p className="mb-2 text-sm text-muted-foreground">
-                  <span className="font-semibold">Click to upload</span> or drag and drop
+                  <span className="font-semibold">Click to upload</span> or drag
+                  and drop
                 </p>
                 <p className="text-xs text-muted-foreground">
                   PNG, JPG, GIF up to 10MB
@@ -177,6 +181,3 @@ export function ImageUpload({
     </div>
   );
 }
-
-
-

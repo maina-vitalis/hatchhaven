@@ -1,6 +1,6 @@
 import { MapPin, Phone, Mail } from "lucide-react";
 import Image from "next/image";
-import { Separator } from "@/components/ui/separator";
+import { Separator } from "@/src/components/ui/separator";
 import { InstagramFeed } from "./InstagramFeed";
 
 interface Product {

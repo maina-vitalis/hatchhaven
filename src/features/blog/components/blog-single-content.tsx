@@ -4,10 +4,10 @@ import { useState } from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { Share2, Heart, Flag, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/src/components/ui/button";
+import { Input } from "@/src/components/ui/input";
+import { Textarea } from "@/src/components/ui/textarea";
+import { Label } from "@/src/components/ui/label";
 import { format } from "date-fns";
 import { toast } from "sonner";
 
@@ -30,7 +30,7 @@ interface BlogSingleContentProps {
 
 export function BlogSingleContent({ post }: BlogSingleContentProps) {
   const params = useParams();
-  const slug = params?.slug as string || post.slug;
+  const slug = (params?.slug as string) || post.slug;
   const [likes, setLikes] = useState(post.likes);
   const [isLiking, setIsLiking] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,7 +42,7 @@ export function BlogSingleContent({ post }: BlogSingleContentProps) {
 
   const handleLike = async () => {
     if (isLiking) return;
-    
+
     try {
       setIsLiking(true);
       const response = await fetch(`/api/blog/posts/${slug}/like`, {
@@ -66,7 +66,7 @@ export function BlogSingleContent({ post }: BlogSingleContentProps) {
 
   const handleCommentSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!commentForm.author || !commentForm.email || !commentForm.content) {
       toast.error("Please fill in all fields");
       return;
@@ -118,7 +118,7 @@ export function BlogSingleContent({ post }: BlogSingleContentProps) {
   return (
     <div className="space-y-8">
       <div className="bg-card p-8 rounded-lg shadow-lg space-y-6">
-        <div 
+        <div
           className="prose prose-lg max-w-none text-muted-foreground leading-relaxed"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
@@ -128,9 +128,9 @@ export function BlogSingleContent({ post }: BlogSingleContentProps) {
             <Share2 className="mr-2 h-4 w-4" />
             Share
           </Button>
-          <Button 
-            variant="outline" 
-            size="sm" 
+          <Button
+            variant="outline"
+            size="sm"
             onClick={handleLike}
             disabled={isLiking}
           >
@@ -169,7 +169,10 @@ export function BlogSingleContent({ post }: BlogSingleContentProps) {
                 <div className="flex items-center justify-between mb-2">
                   <h4>{comment.author}</h4>
                   <span className="text-sm text-muted-foreground">
-                    {format(new Date(comment.createdAt), "dd MMM, yyyy 'at' h:mm a")}
+                    {format(
+                      new Date(comment.createdAt),
+                      "dd MMM, yyyy 'at' h:mm a"
+                    )}
                   </span>
                 </div>
                 <p className="text-muted-foreground leading-relaxed">
@@ -195,7 +198,9 @@ export function BlogSingleContent({ post }: BlogSingleContentProps) {
                 type="text"
                 placeholder="Your Name"
                 value={commentForm.author}
-                onChange={(e) => setCommentForm({ ...commentForm, author: e.target.value })}
+                onChange={(e) =>
+                  setCommentForm({ ...commentForm, author: e.target.value })
+                }
                 required
               />
             </div>
@@ -206,7 +211,9 @@ export function BlogSingleContent({ post }: BlogSingleContentProps) {
                 type="email"
                 placeholder="Your Email"
                 value={commentForm.email}
-                onChange={(e) => setCommentForm({ ...commentForm, email: e.target.value })}
+                onChange={(e) =>
+                  setCommentForm({ ...commentForm, email: e.target.value })
+                }
                 required
               />
             </div>
@@ -218,12 +225,14 @@ export function BlogSingleContent({ post }: BlogSingleContentProps) {
               placeholder="Share your thoughts..."
               rows={6}
               value={commentForm.content}
-              onChange={(e) => setCommentForm({ ...commentForm, content: e.target.value })}
+              onChange={(e) =>
+                setCommentForm({ ...commentForm, content: e.target.value })
+              }
               required
             />
           </div>
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="bg-primary hover:bg-primary/90"
             disabled={isSubmitting}
           >
