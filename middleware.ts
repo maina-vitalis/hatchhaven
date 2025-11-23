@@ -14,6 +14,7 @@ export async function middleware(request: NextRequest) {
   if (isAdminRoute) {
     // If no token, redirect to login
     if (!token) {
+      console.log("[Middleware] No token found for admin route");
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("callbackUrl", request.nextUrl.pathname);
       return NextResponse.redirect(loginUrl);
@@ -21,8 +22,11 @@ export async function middleware(request: NextRequest) {
 
     // If token exists but user is not admin, redirect to home
     if ((token?.role as string) !== "ADMIN") {
+      console.log(`[Middleware] User role is ${token?.role}, expected ADMIN`);
       return NextResponse.redirect(new URL("/", request.url));
     }
+
+    console.log("[Middleware] Admin access granted");
   }
 
   return NextResponse.next();
