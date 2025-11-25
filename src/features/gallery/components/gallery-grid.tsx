@@ -17,8 +17,10 @@ interface GalleryGridProps {
 export function GalleryGrid({ images = [] }: GalleryGridProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Use provided images or fallback to empty array (or could keep hardcoded as fallback, but better to use DB)
-  const galleryImages = images.map(img => ({
+  // Use provided images or fallback to empty array
+  const displayImages = images.length > 0 ? images : [];
+
+  const galleryImages = displayImages.map(img => ({
     src: img.imageUrl,
     alt: img.alt
   }));
