@@ -53,7 +53,6 @@ model User {
   sessions           Session[]
   orders             Order[]
   testimonials       Testimonial[]
-  contactSubmissions ContactSubmission[]
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
 
@@ -362,45 +361,6 @@ model GalleryImage {
   @@index([featured])
 }
 
-model Service {
-  id          String   @id @default(cuid())
-  title       String
-  description String   @db.Text
-  icon        String? // Icon identifier or name
-  order       Int      @default(0)
-  active      Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([active, order])
-}
-
-model Stat {
-  id          String   @id @default(cuid())
-  value       String // e.g., "25+", "1000+", "100%"
-  label       String
-  description String?  @db.Text
-  icon        String? // Icon identifier
-  order       Int      @default(0)
-  active      Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([active, order])
-}
-
-model Milestone {
-  id          String   @id @default(cuid())
-  year        String
-  title       String
-  description String   @db.Text
-  order       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([order])
-}
-
 model NewsletterSubscription {
   id             String    @id @default(cuid())
   email          String    @unique
@@ -413,32 +373,6 @@ model NewsletterSubscription {
 
   @@index([email])
   @@index([active])
-}
-
-model ContactSubmission {
-  id        String                  @id @default(cuid())
-  name      String
-  email     String
-  phone     String?
-  subject   String
-  message   String                  @db.Text
-  status    ContactSubmissionStatus @default(PENDING)
-  userId    String? // Optional link to User
-  user      User?                   @relation(fields: [userId], references: [id], onDelete: SetNull)
-  createdAt DateTime                @default(now())
-  updatedAt DateTime                @updatedAt
-
-  @@index([status])
-  @@index([email])
-  @@index([createdAt])
-  @@index([userId])
-}
-
-enum ContactSubmissionStatus {
-  PENDING
-  READ
-  REPLIED
-  ARCHIVED
 }
 
 // ============================================

@@ -16,42 +16,64 @@ export const authOptions: NextAuthConfig = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Please enter your email and password");
+        try {
+          if (!credentials?.email || !credentials?.password) {
+            throw new Error("Please enter both your email and password to continue.");
+          }
+
+          const email = credentials.email as string;
+          const password = credentials.password as string;
+
+          // Add timeout to database query
+          const queryTimeout = new Promise((_, reject) => {
+            setTimeout(() => reject(new Error("Database connection timeout")), 5000);
+          });
+
+          const userQuery = prisma.user.findUnique({
+            where: {
+              email: email,
+            },
+          });
+
+          const user = await Promise.race([userQuery, queryTimeout]) as any;
+
+          if (!user || !user.email) {
+            throw new Error("We couldn't find an account with that email address. Please check your email or sign up for a new account.");
+          }
+
+          // Check if user has a password set (for credentials-based auth)
+          if (!user.password) {
+            throw new Error("This account was created using a social login (Google/GitHub). Please use that method to sign in, or reset your password to use email/password login.");
+          }
+
+          // Verify password
+          const isValid = await verifyPassword(password, user.password);
+
+          if (!isValid) {
+            throw new Error("The password you entered is incorrect. Please try again or use the 'Forgot password?' link if you need to reset it.");
+          }
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            image: user.image,
+            role: user.role,
+          };
+        } catch (error) {
+          console.error("Auth error:", error);
+
+          // Handle specific errors
+          if (error instanceof Error) {
+            if (error.message.includes("timeout") || error.message.includes("ETIMEDOUT")) {
+              throw new Error("We're having trouble connecting to our servers. Please check your internet connection and try again.");
+            }
+            // Re-throw user-friendly errors
+            throw error;
+          }
+
+          throw new Error("An unexpected error occurred during sign in. Please try again.");
         }
-
-        const email = credentials.email as string;
-        const password = credentials.password as string;
-
-        const user = await prisma.user.findUnique({
-          where: {
-            email: email,
-          },
-        });
-
-        if (!user || !user.email) {
-          throw new Error("No user found with this email");
-        }
-
-        // Check if user has a password set (for credentials-based auth)
-        if (!user.password) {
-          throw new Error("Please sign in with your social account or set a password");
-        }
-
-        // Verify password
-        const isValid = await verifyPassword(password, user.password);
-
-        if (!isValid) {
-          throw new Error("Invalid email or password");
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          image: user.image,
-          role: user.role,
-        };
       },
     }),
   ],
@@ -59,17 +81,7 @@ export const authOptions: NextAuthConfig = {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
-  cookies: {
-    sessionToken: {
-      name: `${process.env.NODE_ENV === "production" ? "__Secure-" : ""}next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      },
-    },
-  },
+
   pages: {
     signIn: "/login",
     signOut: "/",

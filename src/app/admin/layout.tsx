@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { SidebarProvider, SidebarInset } from "@/src/components/ui/sidebar";
 import { AdminSidebar } from "@/src/features/admin/components/admin-sidebar";
-import { Skeleton } from "@/src/components/ui/skeleton";
+import { Loader2 } from "lucide-react";
 
 export default function AdminLayout({
   children,
@@ -29,10 +29,7 @@ export default function AdminLayout({
   if (status === "loading") {
     return (
       <div className="flex min-h-screen w-full items-center justify-center">
-        <div className="space-y-4 w-full max-w-md">
-          <Skeleton className="h-12 w-full" />
-          <Skeleton className="h-64 w-full" />
-        </div>
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     );
   }

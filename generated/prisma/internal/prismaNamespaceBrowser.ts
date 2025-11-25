@@ -72,11 +72,7 @@ export const ModelName = {
   FAQ: 'FAQ',
   Testimonial: 'Testimonial',
   GalleryImage: 'GalleryImage',
-  Service: 'Service',
-  Stat: 'Stat',
-  Milestone: 'Milestone',
   NewsletterSubscription: 'NewsletterSubscription',
-  ContactSubmission: 'ContactSubmission',
   ProductImage: 'ProductImage'
 } as const
 
@@ -394,48 +390,6 @@ export const GalleryImageScalarFieldEnum = {
 export type GalleryImageScalarFieldEnum = (typeof GalleryImageScalarFieldEnum)[keyof typeof GalleryImageScalarFieldEnum]
 
 
-export const ServiceScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  description: 'description',
-  icon: 'icon',
-  order: 'order',
-  active: 'active',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ServiceScalarFieldEnum = (typeof ServiceScalarFieldEnum)[keyof typeof ServiceScalarFieldEnum]
-
-
-export const StatScalarFieldEnum = {
-  id: 'id',
-  value: 'value',
-  label: 'label',
-  description: 'description',
-  icon: 'icon',
-  order: 'order',
-  active: 'active',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type StatScalarFieldEnum = (typeof StatScalarFieldEnum)[keyof typeof StatScalarFieldEnum]
-
-
-export const MilestoneScalarFieldEnum = {
-  id: 'id',
-  year: 'year',
-  title: 'title',
-  description: 'description',
-  order: 'order',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type MilestoneScalarFieldEnum = (typeof MilestoneScalarFieldEnum)[keyof typeof MilestoneScalarFieldEnum]
-
-
 export const NewsletterSubscriptionScalarFieldEnum = {
   id: 'id',
   email: 'email',
@@ -448,22 +402,6 @@ export const NewsletterSubscriptionScalarFieldEnum = {
 } as const
 
 export type NewsletterSubscriptionScalarFieldEnum = (typeof NewsletterSubscriptionScalarFieldEnum)[keyof typeof NewsletterSubscriptionScalarFieldEnum]
-
-
-export const ContactSubmissionScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  phone: 'phone',
-  subject: 'subject',
-  message: 'message',
-  status: 'status',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ContactSubmissionScalarFieldEnum = (typeof ContactSubmissionScalarFieldEnum)[keyof typeof ContactSubmissionScalarFieldEnum]
 
 
 export const ProductImageScalarFieldEnum = {

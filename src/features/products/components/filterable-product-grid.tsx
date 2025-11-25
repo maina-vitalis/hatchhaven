@@ -11,7 +11,7 @@ import { cn } from "@/src/lib/utils";
 
 export type ProductCategory = "all" | string;
 
-interface Product {
+export interface Product {
   id: string;
   name: string;
   price: number;
@@ -21,11 +21,16 @@ interface Product {
   stock: number;
 }
 
-interface Category {
+export interface Category {
   id: string;
   name: string;
   slug: string;
   image?: string;
+}
+
+interface FilterableProductGridProps {
+  initialProducts: Product[];
+  initialCategories: Category[];
 }
 
 const categoryIcons: Record<string, string> = {
@@ -37,32 +42,22 @@ const categoryIcons: Record<string, string> = {
   turkey: "🦃",
 };
 
-export function FilterableProductGrid() {
+export function FilterableProductGrid({
+  initialProducts,
+  initialCategories,
+}: FilterableProductGridProps) {
   const [selectedCategory, setSelectedCategory] =
     useState<ProductCategory>("all");
-  const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [loading, setLoading] = useState(false);
 
-  // Fetch categories
+  // Fetch products when category changes (client-side filtering)
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch("/api/categories/public");
-        if (response.ok) {
-          const data = await response.json();
-          setCategories(data);
-        }
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
+    // Skip the first fetch if we already have initial data for "all"
+    if (selectedCategory === "all" && products === initialProducts) {
+      return;
+    }
 
-    fetchCategories();
-  }, []);
-
-  // Fetch products
-  useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
@@ -83,7 +78,7 @@ export function FilterableProductGrid() {
     };
 
     fetchProducts();
-  }, [selectedCategory]);
+  }, [selectedCategory, initialProducts]); // Added initialProducts to dependency array to be safe, though strict equality check handles it
 
   const allCategories: Array<{
     id: ProductCategory;
@@ -91,7 +86,7 @@ export function FilterableProductGrid() {
     icon: string;
   }> = [
     { id: "all", label: "All Products", icon: "🛒" },
-    ...categories.map((cat) => ({
+    ...initialCategories.map((cat) => ({
       id: cat.slug,
       label: cat.name,
       icon: categoryIcons[cat.slug] || "📦",
@@ -166,6 +161,7 @@ export function FilterableProductGrid() {
                         height={300}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         unoptimized
+                        priority={true} // Prioritize loading these images
                       />
                       {product.stock === 0 && (
                         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">

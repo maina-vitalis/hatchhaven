@@ -145,30 +145,10 @@ export type Testimonial = Prisma.TestimonialModel
  */
 export type GalleryImage = Prisma.GalleryImageModel
 /**
- * Model Service
- * 
- */
-export type Service = Prisma.ServiceModel
-/**
- * Model Stat
- * 
- */
-export type Stat = Prisma.StatModel
-/**
- * Model Milestone
- * 
- */
-export type Milestone = Prisma.MilestoneModel
-/**
  * Model NewsletterSubscription
  * 
  */
 export type NewsletterSubscription = Prisma.NewsletterSubscriptionModel
-/**
- * Model ContactSubmission
- * 
- */
-export type ContactSubmission = Prisma.ContactSubmissionModel
 /**
  * Model ProductImage
  * 

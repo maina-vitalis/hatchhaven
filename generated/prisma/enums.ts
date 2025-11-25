@@ -27,13 +27,3 @@ export const OrderStatus = {
 } as const
 
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
-
-
-export const ContactSubmissionStatus = {
-  PENDING: 'PENDING',
-  READ: 'READ',
-  REPLIED: 'REPLIED',
-  ARCHIVED: 'ARCHIVED'
-} as const
-
-export type ContactSubmissionStatus = (typeof ContactSubmissionStatus)[keyof typeof ContactSubmissionStatus]
