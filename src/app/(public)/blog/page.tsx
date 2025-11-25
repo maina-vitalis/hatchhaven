@@ -150,6 +150,9 @@ export default async function BlogPage() {
     getRecentPosts(),
   ]);
 
+  console.log("[BlogPage] Posts fetched:", posts.length);
+  posts.forEach(p => console.log(`[BlogPage] Post: ${p.title}, Slug: ${p.slug}`));
+
   return (
     <>
       <BlogHero />

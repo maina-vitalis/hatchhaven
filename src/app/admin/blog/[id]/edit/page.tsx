@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { SidebarTrigger } from "@/src/components/ui/sidebar";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
@@ -28,7 +28,6 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { TipTapEditor } from "@/src/features/admin/components/tiptap-editor";
 import { ImageUpload } from "@/src/features/admin/components/image-upload";
-import { format } from "date-fns";
 
 interface Category {
   id: string;
@@ -48,11 +47,12 @@ interface Author {
   email: string;
 }
 
-export default function EditBlogPostPage() {
+export default function EditBlogPostPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const router = useRouter();
-  const params = useParams();
-  const postId = params.id as string;
-
   const [categories, setCategories] = useState<Category[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
   const [authors, setAuthors] = useState<Author[]>([]);
@@ -64,6 +64,7 @@ export default function EditBlogPostPage() {
   const [creatingCategory, setCreatingCategory] = useState(false);
   const [creatingTag, setCreatingTag] = useState(false);
   const [creatingAuthor, setCreatingAuthor] = useState(false);
+  const [postId, setPostId] = useState<string>("");
 
   const [categoryForm, setCategoryForm] = useState({
     name: "",
@@ -104,41 +105,46 @@ export default function EditBlogPostPage() {
   };
 
   useEffect(() => {
-    fetchData();
-  }, [postId]);
+    const init = async () => {
+      const { id } = await params;
+      setPostId(id);
+      fetchData(id);
+    };
+    init();
+  }, [params]);
 
-  const fetchData = async () => {
+  const fetchData = async (id: string) => {
     try {
       setLoading(true);
       const [postRes, categoriesRes, tagsRes, authorsRes] = await Promise.all([
-        fetch(`/api/admin/blog/posts/${postId}`),
+        fetch(`/api/admin/blog/posts/${id}`),
         fetch("/api/admin/blog/categories"),
         fetch("/api/blog/tags"),
         fetch("/api/admin/blog/authors"),
       ]);
 
       if (postRes.ok) {
-        const postData = await postRes.json();
+        const post = await postRes.json();
         setFormData({
-          title: postData.title,
-          slug: postData.slug,
-          excerpt: postData.excerpt,
-          content: postData.content,
-          image: postData.image || "",
-          featured: postData.featured,
-          published: postData.published,
-          publishedAt: postData.publishedAt
-            ? format(new Date(postData.publishedAt), "yyyy-MM-dd")
+          title: post.title,
+          slug: post.slug,
+          excerpt: post.excerpt,
+          content: post.content,
+          image: post.image || "",
+          featured: post.featured,
+          published: post.published,
+          publishedAt: post.publishedAt
+            ? new Date(post.publishedAt).toISOString().split("T")[0]
             : "",
-          readTime: postData.readTime?.toString() || "5",
-          categoryId: postData.categoryId,
-          authorId: postData.authorId,
-          tagIds:
-            postData.tags?.map((t: { tag: { id: string } }) => t.tag.id) || [],
+          readTime: post.readTime.toString(),
+          categoryId: post.category.id,
+          authorId: post.author.id,
+          tagIds: post.tags.map((t: any) => t.tag.id),
         });
       } else {
         toast.error("Failed to load blog post");
         router.push("/admin/blog");
+        return;
       }
 
       if (categoriesRes.ok) {
@@ -344,49 +350,61 @@ export default function EditBlogPostPage() {
         <div className="max-w-6xl mx-auto space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="title">Title *</Label>
+              <Label htmlFor="title" className="text-base font-medium">Post Title <span className="text-destructive">*</span></Label>
               <Input
                 id="title"
                 value={formData.title}
-                onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
-                }
-                placeholder="Enter post title"
+                onChange={(e) => {
+                  setFormData({ ...formData, title: e.target.value });
+                  if (!formData.slug) {
+                    setFormData((prev) => ({
+                      ...prev,
+                      slug: generateSlug(e.target.value),
+                    }));
+                  }
+                }}
+                placeholder="Enter an engaging title for your post"
+                className="h-11"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="slug">Slug</Label>
+              <Label htmlFor="slug" className="text-base font-medium">URL Slug</Label>
               <Input
                 id="slug"
                 value={formData.slug}
                 onChange={(e) =>
                   setFormData({ ...formData, slug: e.target.value })
                 }
-                placeholder="Post slug"
+                placeholder="auto-generated-from-title"
+                className="h-11 font-mono text-sm"
               />
+              <p className="text-xs text-muted-foreground">The URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.</p>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="excerpt">Excerpt *</Label>
+            <Label htmlFor="excerpt" className="text-base font-medium">Excerpt <span className="text-destructive">*</span></Label>
             <Textarea
               id="excerpt"
               value={formData.excerpt}
               onChange={(e) =>
                 setFormData({ ...formData, excerpt: e.target.value })
               }
-              placeholder="Brief description of the post"
+              placeholder="Write a brief summary of the post (displayed in cards and search results)"
               rows={3}
+              className="resize-none"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="content">Content *</Label>
-            <TipTapEditor
-              content={formData.content}
-              onChange={(content) => setFormData({ ...formData, content })}
-              placeholder="Start writing your blog post..."
-            />
+            <Label htmlFor="content" className="text-base font-medium">Content <span className="text-destructive">*</span></Label>
+            <div className="border rounded-md min-h-[400px]">
+              <TipTapEditor
+                content={formData.content}
+                onChange={(content) => setFormData({ ...formData, content })}
+                placeholder="Start writing your blog post..."
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

@@ -11,68 +11,87 @@ export const dynamic = "force-dynamic";
 
 async function getBlogPost(slug: string) {
   try {
-    const post = await prisma.blogPost.findUnique({
+    // Try to find post by slug (raw)
+    let post = await prisma.blogPost.findUnique({
       where: { slug },
       include: {
-        category: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-          },
-        },
-        author: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            avatar: true,
-            bio: true,
-          },
-        },
-        tags: {
-          include: {
-            tag: {
-              select: {
-                id: true,
-                name: true,
-                slug: true,
-              },
-            },
-          },
-        },
+        category: { select: { id: true, name: true, slug: true } },
+        author: { select: { id: true, name: true, email: true, avatar: true, bio: true } },
+        tags: { include: { tag: { select: { id: true, name: true, slug: true } } } },
         comments: {
-          where: {
-            approved: true,
-          },
-          orderBy: {
-            createdAt: "desc",
-          },
-          select: {
-            id: true,
-            author: true,
-            email: true,
-            avatar: true,
-            content: true,
-            createdAt: true,
-          },
+          where: { approved: true },
+          orderBy: { createdAt: "desc" },
+          select: { id: true, author: true, email: true, avatar: true, content: true, createdAt: true },
         },
       },
     });
+
+    // If not found, try decoded slug
+    if (!post) {
+      const decodedSlug = decodeURIComponent(slug);
+      if (decodedSlug !== slug) {
+        console.log("[BlogSinglePage] Trying decoded slug:", decodedSlug);
+        post = await prisma.blogPost.findUnique({
+          where: { slug: decodedSlug },
+          include: {
+            category: { select: { id: true, name: true, slug: true } },
+            author: { select: { id: true, name: true, email: true, avatar: true, bio: true } },
+            tags: { include: { tag: { select: { id: true, name: true, slug: true } } } },
+            comments: {
+              where: { approved: true },
+              orderBy: { createdAt: "desc" },
+              select: { id: true, author: true, email: true, avatar: true, content: true, createdAt: true },
+            },
+          },
+        });
+      }
+    }
+
+    // If still not found, try slugified version (handle cases where URL has spaces but DB has hyphens)
+    if (!post) {
+      const slugified = decodeURIComponent(slug)
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-");
+      
+      if (slugified !== slug && slugified !== decodeURIComponent(slug)) {
+        console.log("[BlogSinglePage] Trying slugified:", slugified);
+        post = await prisma.blogPost.findUnique({
+          where: { slug: slugified },
+          include: {
+            category: { select: { id: true, name: true, slug: true } },
+            author: { select: { id: true, name: true, email: true, avatar: true, bio: true } },
+            tags: { include: { tag: { select: { id: true, name: true, slug: true } } } },
+            comments: {
+              where: { approved: true },
+              orderBy: { createdAt: "desc" },
+              select: { id: true, author: true, email: true, avatar: true, content: true, createdAt: true },
+            },
+          },
+        });
+      }
+    }
 
     if (!post || !post.published) {
       return null;
     }
 
-    // Increment views
-    await prisma.blogPost.update({
-      where: { id: post.id },
-      data: {
-        views: {
-          increment: 1,
+    // Increment views (non-blocking)
+    try {
+      await prisma.blogPost.update({
+        where: { id: post.id },
+        data: {
+          views: {
+            increment: 1,
+          },
         },
-      },
-    });
+      });
+    } catch (error) {
+      console.error("Failed to increment post views:", error);
+      // Continue rendering even if view increment fails
+    }
 
     return {
       id: post.id,
@@ -186,7 +205,9 @@ export default async function BlogSinglePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  console.log("[BlogSinglePage] Params slug:", slug);
   const post = await getBlogPost(slug);
+  console.log("[BlogSinglePage] Post found:", post ? "Yes" : "No");
 
   if (!post) {
     notFound();

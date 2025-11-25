@@ -13,6 +13,7 @@ import {
   Egg,
   FileText,
   MessageSquare,
+  Image as ImageIcon,
 } from "lucide-react";
 import {
   Sidebar,
@@ -35,11 +36,6 @@ const menuItems = [
         title: "Dashboard",
         url: "/admin",
         icon: LayoutDashboard,
-      },
-      {
-        title: "Analytics",
-        url: "/admin/analytics",
-        icon: BarChart3,
       },
     ],
   },
@@ -80,6 +76,16 @@ const menuItems = [
         title: "Comments",
         url: "/admin/blog/comments",
         icon: MessageSquare,
+      },
+    ],
+  },
+  {
+    title: "Media",
+    items: [
+      {
+        title: "Gallery",
+        url: "/admin/gallery",
+        icon: ImageIcon,
       },
     ],
   },

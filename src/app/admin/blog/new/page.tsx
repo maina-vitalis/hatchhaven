@@ -315,7 +315,7 @@ export default function NewBlogPostPage() {
         <div className="max-w-6xl mx-auto space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="title">Title *</Label>
+              <Label htmlFor="title" className="text-base font-medium">Post Title <span className="text-destructive">*</span></Label>
               <Input
                 id="title"
                 value={formData.title}
@@ -328,42 +328,48 @@ export default function NewBlogPostPage() {
                     }));
                   }
                 }}
-                placeholder="Enter post title"
+                placeholder="Enter an engaging title for your post"
+                className="h-11"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="slug">Slug</Label>
+              <Label htmlFor="slug" className="text-base font-medium">URL Slug</Label>
               <Input
                 id="slug"
                 value={formData.slug}
                 onChange={(e) =>
                   setFormData({ ...formData, slug: e.target.value })
                 }
-                placeholder="Auto-generated from title"
+                placeholder="auto-generated-from-title"
+                className="h-11 font-mono text-sm"
               />
+              <p className="text-xs text-muted-foreground">The URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.</p>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="excerpt">Excerpt *</Label>
+            <Label htmlFor="excerpt" className="text-base font-medium">Excerpt <span className="text-destructive">*</span></Label>
             <Textarea
               id="excerpt"
               value={formData.excerpt}
               onChange={(e) =>
                 setFormData({ ...formData, excerpt: e.target.value })
               }
-              placeholder="Brief description of the post"
+              placeholder="Write a brief summary of the post (displayed in cards and search results)"
               rows={3}
+              className="resize-none"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="content">Content *</Label>
-            <TipTapEditor
-              content={formData.content}
-              onChange={(content) => setFormData({ ...formData, content })}
-              placeholder="Start writing your blog post..."
-            />
+            <Label htmlFor="content" className="text-base font-medium">Content <span className="text-destructive">*</span></Label>
+            <div className="border rounded-md min-h-[400px]">
+              <TipTapEditor
+                content={formData.content}
+                onChange={(content) => setFormData({ ...formData, content })}
+                placeholder="Start writing your blog post..."
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

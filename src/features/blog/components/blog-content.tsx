@@ -242,19 +242,13 @@ function BlogPost({
 
           {/* Read More Button */}
           <div className="mt-6">
-            <Button
-              variant="outline"
-              className="group/btn w-full sm:w-auto hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300"
-              asChild
+            <Link
+              href={`/blog/${slug}`}
+              className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 group/btn w-full sm:w-auto hover:border-primary transition-all duration-300"
             >
-              <Link
-                href={`/blog/${slug}`}
-                className="inline-flex items-center gap-2"
-              >
-                Read Full Article
-                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-              </Link>
-            </Button>
+              Read Full Article
+              <ArrowRight className="ml-2 w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
       </CardContent>
