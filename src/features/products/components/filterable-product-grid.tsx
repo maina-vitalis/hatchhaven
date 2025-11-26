@@ -33,14 +33,7 @@ interface FilterableProductGridProps {
   initialCategories: Category[];
 }
 
-const categoryIcons: Record<string, string> = {
-  eggs: "🥚",
-  chicken: "🍗",
-  ducks: "🦆",
-  "premium-birds": "✨",
-  meat: "🥩",
-  turkey: "🦃",
-};
+
 
 export function FilterableProductGrid({
   initialProducts,
@@ -83,13 +76,11 @@ export function FilterableProductGrid({
   const allCategories: Array<{
     id: ProductCategory;
     label: string;
-    icon: string;
   }> = [
-    { id: "all", label: "All Products", icon: "🛒" },
+    { id: "all", label: "All Products" },
     ...initialCategories.map((cat) => ({
       id: cat.slug,
       label: cat.name,
-      icon: categoryIcons[cat.slug] || "📦",
     })),
   ];
 
@@ -108,17 +99,16 @@ export function FilterableProductGrid({
           {allCategories.map((category) => (
             <Button
               key={category.id}
-              variant={selectedCategory === category.id ? "default" : "outline"}
+              variant={selectedCategory === category.id ? "default" : "ghost"}
               onClick={() => setSelectedCategory(category.id)}
               className={cn(
-                "h-auto py-3 px-6 rounded-full transition-all duration-200",
+                "h-auto py-2 px-6 rounded-full text-sm font-medium transition-all duration-200",
                 selectedCategory === category.id
-                  ? "bg-primary text-primary-foreground shadow-md"
-                  : "hover:bg-primary/10 hover:border-primary/50"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-primary hover:bg-primary/5"
               )}
             >
-              <span className="text-xl mr-2">{category.icon}</span>
-              <span className="font-medium">{category.label}</span>
+              {category.label}
             </Button>
           ))}
         </div>

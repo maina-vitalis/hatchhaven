@@ -11,7 +11,5 @@ export function formatPrice(price: number | string): string {
   return new Intl.NumberFormat("en-KE", {
     style: "currency",
     currency: "KES",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(numericPrice).replace("KES", "KSh");
+  }).format(numericPrice).replace("KSh", "KES");
 }

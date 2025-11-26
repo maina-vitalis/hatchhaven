@@ -8,6 +8,7 @@ import { Button } from "@/src/components/ui/button";
 import { Card, CardContent } from "@/src/components/ui/card";
 import { ArrowLeft, Leaf, Shield, Truck, Check } from "lucide-react";
 import { toast } from "sonner";
+import { formatPrice } from "@/src/lib/utils";
 import { useCart } from "@/src/context/cart-context";
 
 import { ProductGallery } from "./product-details/product-gallery";
@@ -291,7 +292,7 @@ export function ProductDetails({
                       </h3>
                       <div className="mt-auto pt-2 flex items-center justify-between">
                         <span className="text-lg font-bold text-primary">
-                          ${relatedProduct.price.toFixed(2)}
+                          {formatPrice(relatedProduct.price)}
                         </span>
                         <Button size="sm" variant="secondary" className="opacity-0 group-hover:opacity-100 transition-opacity">
                           View
