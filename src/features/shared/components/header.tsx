@@ -29,6 +29,8 @@ import {
   AvatarImage,
 } from "@/src/components/ui/avatar";
 import { cn } from "@/src/lib/utils";
+import { CartSheet } from "@/src/features/cart/components/cart-sheet";
+import { useCart } from "@/src/context/cart-context";
 
 interface user {
   id: string;
@@ -41,6 +43,7 @@ interface user {
 export function Header() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
+  const { cartCount } = useCart();
 
   console.log(status);
   // Only show authenticated state when status is confirmed, not during loading
@@ -114,14 +117,21 @@ export function Header() {
             >
               <Phone className="h-5 w-5" />
             </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative hover:bg-primary/10 hover:text-primary transition-colors"
-              aria-label="Shopping cart"
-            >
-              <ShoppingCart className="h-5 w-5" />
-            </Button>
+            <CartSheet>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative hover:bg-primary/10 hover:text-primary transition-colors"
+                aria-label="Shopping cart"
+              >
+                <ShoppingCart className="h-5 w-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary text-[10px] font-bold text-primary-foreground flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </Button>
+            </CartSheet>
 
             {/* Authentication Section */}
             {isLoading ? (

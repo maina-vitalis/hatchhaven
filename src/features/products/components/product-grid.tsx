@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Card, CardContent } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
 import { ShoppingCart } from "lucide-react";
+import { formatPrice } from "@/src/lib/utils";
 
 interface Product {
   id: number;
@@ -104,7 +105,7 @@ export function ProductGrid() {
                   </h3>
                   <div className="mb-4">
                     <span className="text-xl font-bold text-primary">
-                      ${product.price}
+                      {formatPrice(product.price)}
                     </span>
                   </div>
                   <Button className="w-full bg-primary hover:bg-primary/90 mt-auto">

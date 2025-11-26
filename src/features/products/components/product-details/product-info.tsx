@@ -2,7 +2,7 @@
 
 import { Badge } from "@/src/components/ui/badge";
 import { Star } from "lucide-react";
-import { cn } from "@/src/lib/utils";
+import { cn, formatPrice } from "@/src/lib/utils";
 
 interface ProductInfoProps {
   name: string;
@@ -66,7 +66,7 @@ export function ProductInfo({
               <span className="text-sm text-muted-foreground mb-1">Price</span>
               <div className="flex items-baseline gap-2">
                 <span className="text-4xl font-bold text-primary">
-                  ${price.toFixed(2)}
+                  {formatPrice(price)}
                 </span>
                 <span className="text-sm text-muted-foreground">/ unit</span>
               </div>

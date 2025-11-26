@@ -1,50 +1,56 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/src/components/ui/card";
 import { Mail, Linkedin } from "lucide-react";
 
 interface TeamMember {
+  id: string;
   name: string;
   role: string;
   image: string;
   bio: string;
   email: string;
+  linkedin?: string;
+  active: boolean;
 }
 
 export function Team() {
-  const team: TeamMember[] = [
-    {
-      name: "John Anderson",
-      role: "Founder & CEO",
-      bio: "30+ years of agricultural expertise",
-      email: "john@hatchhaven.com",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
-    },
-    {
-      name: "Sarah Mitchell",
-      role: "Farm Manager",
-      bio: "Expert in sustainable farming practices",
-      email: "sarah@hatchhaven.com",
-      image:
-        "https://images.unsplash.com/photo-1494790108755-2616b612b786?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
-    },
-    {
-      name: "Robert Chen",
-      role: "Operations Director",
-      bio: "Supply chain and logistics specialist",
-      email: "robert@hatchhaven.com",
-      image:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
-    },
-    {
-      name: "Emily Davis",
-      role: "Quality Assurance",
-      bio: "Ensuring highest quality standards",
-      email: "emily@hatchhaven.com",
-      image:
-        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400&h=400&fit=crop",
-    },
-  ];
+  const [team, setTeam] = useState<TeamMember[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTeam = async () => {
+      try {
+        const response = await fetch("/api/admin/team");
+        if (response.ok) {
+          const data = await response.json();
+          setTeam(data.filter((m: TeamMember) => m.active));
+        }
+      } catch (error) {
+        console.error("Failed to fetch team members", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeam();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-24 bg-gradient-to-b from-background to-muted/30">
+        <div className="container mx-auto px-4 lg:px-8 text-center">
+          <p>Loading team...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (team.length === 0) {
+    return null; 
+  }
 
   return (
     <section className="py-24 bg-gradient-to-b from-background to-muted/30">
@@ -70,14 +76,20 @@ export function Team() {
               className="overflow-hidden hover:shadow-xl transition-all duration-300 border-2 hover:border-primary/50 group"
             >
               <div className="aspect-square overflow-hidden relative">
-                <Image
-                  src={member.image}
-                  alt={member.name}
-                  width={400}
-                  height={400}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  unoptimized
-                />
+                {member.image ? (
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    unoptimized
+                  />
+                ) : (
+                  <div className="w-full h-full bg-muted flex items-center justify-center text-muted-foreground">
+                    No Image
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
               <CardContent className="p-6">
@@ -85,7 +97,7 @@ export function Team() {
                 <p className="text-sm text-primary font-semibold mb-2">
                   {member.role}
                 </p>
-                <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
+                <p className="text-sm text-muted-foreground mb-4 leading-relaxed line-clamp-3">
                   {member.bio}
                 </p>
                 <div className="flex items-center gap-3 pt-4 border-t">
@@ -96,13 +108,17 @@ export function Team() {
                   >
                     <Mail className="h-5 w-5" />
                   </a>
-                  <a
-                    href="#"
-                    className="text-primary hover:text-primary/80 transition-colors"
-                    aria-label={`LinkedIn ${member.name}`}
-                  >
-                    <Linkedin className="h-5 w-5" />
-                  </a>
+                  {member.linkedin && (
+                    <a
+                      href={member.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:text-primary/80 transition-colors"
+                      aria-label={`LinkedIn ${member.name}`}
+                    >
+                      <Linkedin className="h-5 w-5" />
+                    </a>
+                  )}
                 </div>
               </CardContent>
             </Card>

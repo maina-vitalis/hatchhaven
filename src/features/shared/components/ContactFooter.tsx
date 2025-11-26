@@ -28,14 +28,14 @@ export function ContactFooter() {
   return (
     <footer className="bg-muted text-foreground border-t">
       <div className="container mx-auto px-4 lg:px-8 py-12">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 text-center md:text-left">
           {/* Brand & Description */}
-          <div>
+          <div className="flex flex-col items-center md:items-start">
             <div className="flex items-center gap-2 mb-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary">
                 <span className="text-primary-foreground text-xl">🐔</span>
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col items-start">
                 <span className="text-foreground">Hatch Haven</span>
                 <span className="text-xs text-muted-foreground">
                   Fresh & Ethical
@@ -49,24 +49,24 @@ export function ContactFooter() {
           </div>
 
           {/* Keep In Touch */}
-          <div>
-            <h3 className="mb-6">Keep In Touch</h3>
-            <div className="space-y-4 text-sm">
-              <div className="flex items-start gap-3">
+          <div className="flex flex-col items-center md:items-start">
+            <h3 className="mb-6 font-semibold">Keep In Touch</h3>
+            <div className="space-y-4 text-sm w-full max-w-xs mx-auto md:mx-0">
+              <div className="flex items-start gap-3 justify-center md:justify-start text-left">
                 <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <div>
                   <p>Sector # 48,173 Wolfe Street,</p>
                   <p>Melborn city, Australia</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-3 justify-center md:justify-start text-left">
                 <Phone className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <div>
                   <p>+88678-658-125, 0078-98-954</p>
                   <p>+1655-456-523</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-3 justify-center md:justify-start text-left">
                 <Mail className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <p>info@hatchhaven.com</p>
               </div>
@@ -74,11 +74,11 @@ export function ContactFooter() {
           </div>
 
           {/* Products */}
-          <div>
-            <h3 className="mb-6">Featured Products</h3>
-            <div className="space-y-4">
+          <div className="flex flex-col items-center md:items-start">
+            <h3 className="mb-6 font-semibold">Featured Products</h3>
+            <div className="space-y-4 w-full max-w-xs mx-auto md:mx-0">
               {products.map((product, index) => (
-                <div key={index} className="flex gap-4">
+                <div key={index} className="flex gap-4 text-left">
                   <div className="w-16 h-16 rounded-lg overflow-hidden bg-muted shrink-0">
                     <Image
                       src={product.image}
@@ -90,8 +90,8 @@ export function ContactFooter() {
                     />
                   </div>
                   <div>
-                    <h4 className="text-sm mb-1">{product.name}</h4>
-                    <p className="text-primary">{product.price}</p>
+                    <h4 className="text-sm mb-1 font-medium">{product.name}</h4>
+                    <p className="text-primary font-bold">{product.price}</p>
                   </div>
                 </div>
               ))}
@@ -99,7 +99,7 @@ export function ContactFooter() {
           </div>
 
           {/* Instagram Feed */}
-          <div>
+          <div className="flex flex-col items-center md:items-start">
             <InstagramFeed />
           </div>
         </div>

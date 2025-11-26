@@ -8,6 +8,7 @@ import { Button } from "@/src/components/ui/button";
 import { Card, CardContent } from "@/src/components/ui/card";
 import { ArrowLeft, Leaf, Shield, Truck, Check } from "lucide-react";
 import { toast } from "sonner";
+import { useCart } from "@/src/context/cart-context";
 
 import { ProductGallery } from "./product-details/product-gallery";
 import { ProductInfo } from "./product-details/product-info";
@@ -75,10 +76,19 @@ export function ProductDetails({
 
   const allImages = getAllImages();
 
+  const { addToCart } = useCart();
+
   const handleAddToCart = () => {
     if (!selectedVariant) return;
-    toast.success("Added to cart", {
-      description: `${quantity} x ${product.name} (${selectedVariant.gender !== "N/A" ? selectedVariant.gender : ""} ${selectedVariant.ageGroup})`,
+    
+    addToCart({
+      id: selectedVariant.id,
+      name: product.name,
+      price: selectedVariant.price,
+      quantity: quantity,
+      image: allImages[0] || "/placeholder-product.jpg",
+      variantId: selectedVariant.id,
+      breedName: product.breed.name,
     });
   };
 

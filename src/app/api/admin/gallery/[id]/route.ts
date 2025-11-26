@@ -15,6 +15,23 @@ export async function DELETE(
 
         const { id } = await params;
 
+        const image = await prisma.galleryImage.findUnique({
+            where: { id },
+        });
+
+        if (!image) {
+            return NextResponse.json({ error: "Image not found" }, { status: 404 });
+        }
+
+        // Delete from Cloudinary
+        if (image.imageUrl) {
+            const { extractPublicId, deleteImage } = await import("@/src/lib/cloudinary");
+            const publicId = extractPublicId(image.imageUrl);
+            if (publicId) {
+                await deleteImage(publicId);
+            }
+        }
+
         await prisma.galleryImage.delete({
             where: { id },
         });

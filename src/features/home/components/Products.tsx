@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/src/components/ui/card";
 import { Button } from "@/src/components/ui/button";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import { ShoppingCart } from "lucide-react";
+import { formatPrice } from "@/src/lib/utils";
 
 interface Product {
   id: string;
@@ -106,7 +107,7 @@ export function Products() {
                     </h3>
                     <div className="mt-auto flex items-center justify-between pt-3 border-t">
                       <span className="text-lg font-bold text-primary">
-                        ${product.price.toFixed(2)}
+                        {formatPrice(product.price)}
                       </span>
                       <Button
                         size="sm"

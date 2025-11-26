@@ -176,6 +176,15 @@ export async function DELETE(
       );
     }
 
+    // Delete image from Cloudinary if exists
+    if (variant.image) {
+      const { extractPublicId, deleteImage } = await import("@/src/lib/cloudinary");
+      const publicId = extractPublicId(variant.image);
+      if (publicId) {
+        await deleteImage(publicId);
+      }
+    }
+
     await prisma.productVariant.delete({
       where: { id },
     });

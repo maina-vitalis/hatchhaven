@@ -4,30 +4,32 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/ca
 import { Separator } from "@/src/components/ui/separator";
 import { Badge } from "@/src/components/ui/badge";
 import { ShoppingCart } from "lucide-react";
+import { useCart } from "@/src/context/cart-context";
+import { formatPrice } from "@/src/lib/utils";
 
 export function OrderSummary() {
-  // Mock data for demonstration
-  const items = [
-    {
-      id: "1",
-      name: "Rhode Island Red - Female, Mature",
-      price: 25.0,
-      quantity: 2,
-      image: "/placeholder-product.jpg",
-    },
-    {
-      id: "2",
-      name: "Organic Free-Range Eggs - Dozen",
-      price: 8.5,
-      quantity: 1,
-      image: "/placeholder-product.jpg",
-    },
-  ];
+  const { items, cartTotal } = useCart();
 
-  const subtotal = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const subtotal = cartTotal;
   const shipping = 0; // Free shipping
-  const tax = subtotal * 0.08;
+  const tax = subtotal * 0.08; // Assuming 8% tax, maybe should be 0 or configurable? Keeping logic for now.
   const total = subtotal + shipping + tax;
+
+  if (items.length === 0) {
+    return (
+      <Card className="bg-muted/30">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <ShoppingCart className="h-5 w-5" />
+            Order Summary
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-center text-muted-foreground py-8">Your cart is empty</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="bg-muted/30">
@@ -41,20 +43,24 @@ export function OrderSummary() {
         <div className="space-y-4">
           {items.map((item) => (
             <div key={item.id} className="flex gap-4">
-              <div className="h-16 w-16 rounded-md bg-muted overflow-hidden shrink-0 border">
-                {/* Placeholder for image */}
-                <div className="w-full h-full bg-gray-200 flex items-center justify-center text-xs text-gray-400">
-                  Img
-                </div>
+              <div className="h-16 w-16 rounded-md bg-muted overflow-hidden shrink-0 border relative">
+                {item.image ? (
+                   // eslint-disable-next-line @next/next/no-img-element
+                   <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center text-xs text-gray-400">
+                    Img
+                  </div>
+                )}
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="text-sm font-medium line-clamp-2">{item.name}</h4>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Qty: {item.quantity} × ${item.price.toFixed(2)}
+                  Qty: {item.quantity} × {formatPrice(item.price)}
                 </p>
               </div>
               <div className="text-sm font-medium">
-                ${(item.price * item.quantity).toFixed(2)}
+                {formatPrice(item.price * item.quantity)}
               </div>
             </div>
           ))}
@@ -65,7 +71,7 @@ export function OrderSummary() {
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>{formatPrice(subtotal)}</span>
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Shipping</span>
@@ -73,7 +79,7 @@ export function OrderSummary() {
           </div>
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Tax (8%)</span>
-            <span>${tax.toFixed(2)}</span>
+            <span>{formatPrice(tax)}</span>
           </div>
         </div>
 
@@ -82,7 +88,7 @@ export function OrderSummary() {
         <div className="flex justify-between items-center">
           <span className="font-semibold">Total</span>
           <span className="text-2xl font-bold text-primary">
-            ${total.toFixed(2)}
+            {formatPrice(total)}
           </span>
         </div>
 

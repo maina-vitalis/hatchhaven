@@ -1,6 +1,7 @@
 "use client";
 
 import { SessionProvider } from "next-auth/react";
+import { CartProvider } from "@/src/context/cart-context";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -9,7 +10,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       refetchOnWindowFocus={false}
       refetchWhenOffline={false}
     >
-      {children}
+      <CartProvider>{children}</CartProvider>
     </SessionProvider>
   );
 }

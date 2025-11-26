@@ -108,6 +108,11 @@ const menuItems = [
         icon: Users,
       },
       {
+        title: "Team",
+        url: "/admin/team",
+        icon: Users,
+      },
+      {
         title: "Settings",
         url: "/admin/settings",
         icon: Settings,
