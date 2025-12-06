@@ -64,7 +64,8 @@ export async function PUT(
     const body = await request.json();
     const { gender, ageGroup, price, stock, image, breedId } = body;
 
-    if (!gender || !ageGroup || !price || breedId) {
+    // Validate required fields
+    if (!gender?.trim() || !ageGroup?.trim() || !price || !breedId?.trim()) {
       return NextResponse.json(
         { error: "Gender, age group, price, and breed are required" },
         { status: 400 }

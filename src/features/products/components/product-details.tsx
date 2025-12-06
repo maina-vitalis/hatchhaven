@@ -95,8 +95,12 @@ export function ProductDetails({
 
   const handleBuyNow = () => {
     if (!selectedVariant) return;
-    handleAddToCart();
-    router.push("/checkout");
+    
+    const message = `Hi! I'd like to order:\n\n• ${product.name} x${quantity} - KES ${(selectedVariant.price * quantity).toFixed(2)}\n\n*Total: KES ${(selectedVariant.price * quantity).toFixed(2)}*`;
+    
+    const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "1234567890";
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
   };
 
   const getStockStatus = (): string => {

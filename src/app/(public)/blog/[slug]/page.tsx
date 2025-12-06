@@ -30,7 +30,6 @@ async function getBlogPost(slug: string) {
     if (!post) {
       const decodedSlug = decodeURIComponent(slug);
       if (decodedSlug !== slug) {
-        console.log("[BlogSinglePage] Trying decoded slug:", decodedSlug);
         post = await prisma.blogPost.findUnique({
           where: { slug: decodedSlug },
           include: {
@@ -57,7 +56,6 @@ async function getBlogPost(slug: string) {
         .replace(/-+/g, "-");
       
       if (slugified !== slug && slugified !== decodeURIComponent(slug)) {
-        console.log("[BlogSinglePage] Trying slugified:", slugified);
         post = await prisma.blogPost.findUnique({
           where: { slug: slugified },
           include: {
@@ -205,9 +203,7 @@ export default async function BlogSinglePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  console.log("[BlogSinglePage] Params slug:", slug);
   const post = await getBlogPost(slug);
-  console.log("[BlogSinglePage] Post found:", post ? "Yes" : "No");
 
   if (!post) {
     notFound();

@@ -36,7 +36,7 @@ export function BlogSingleContent({ post }: BlogSingleContentProps) {
           url: window.location.href,
         });
       } catch (error) {
-        console.log("Share cancelled");
+        // Share cancelled
       }
     } else {
       // Fallback: Copy to clipboard

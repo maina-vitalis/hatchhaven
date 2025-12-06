@@ -45,7 +45,6 @@ export function Header() {
   const { data: session, status } = useSession();
   const { cartCount } = useCart();
 
-  console.log(status);
   // Only show authenticated state when status is confirmed, not during loading
   const isAuthenticated = status === "authenticated";
   const isLoading = status === "loading";

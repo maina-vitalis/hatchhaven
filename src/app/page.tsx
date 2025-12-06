@@ -30,8 +30,32 @@ async function getGalleryImages() {
   }
 }
 
+async function getBlogPosts() {
+  try {
+    return await prisma.blogPost.findMany({
+      where: { published: true },
+      orderBy: { publishedAt: "desc" },
+      take: 3,
+      select: {
+        id: true,
+        title: true,
+        excerpt: true,
+        slug: true,
+        image: true,
+        publishedAt: true,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching blog posts:", error);
+    return [];
+  }
+}
+
 export default async function Home() {
-  const galleryImages = await getGalleryImages();
+  const [galleryImages, blogPosts] = await Promise.all([
+    getGalleryImages(),
+    getBlogPosts(),
+  ]);
 
   return (
     <>
@@ -41,7 +65,7 @@ export default async function Home() {
       <Services />
       <Gallery images={galleryImages} />
       <CustomerTestimonials />
-      <Blog />
+      <Blog posts={blogPosts} />
       <Newsletter />
       <Footer />
     </>
