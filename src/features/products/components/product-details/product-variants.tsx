@@ -124,7 +124,7 @@ export function ProductVariants({
                   {ageGroup}
                   {variant && (
                     <span className="ml-1.5 opacity-80 text-xs">
-                      — ${variant.price.toFixed(0)}
+                      — KES {variant.price.toFixed(0)}
                     </span>
                   )}
                 </Button>
