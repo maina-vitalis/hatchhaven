@@ -30,8 +30,8 @@ export function CheckoutForm() {
       .map((item) => `• ${item.name} x${item.quantity} - KES ${(item.price * item.quantity).toFixed(2)}`)
       .join("\n")}\n\n*Total: KES ${cartTotal.toFixed(2)}*\n\nPhone: ${values.phone}`;
 
-    const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "1234567890";
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    const destination = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "1234567890";
+    const whatsappUrl = `https://wa.me/${destination}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");
   };
 

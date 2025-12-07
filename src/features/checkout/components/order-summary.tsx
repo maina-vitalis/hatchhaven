@@ -11,9 +11,7 @@ export function OrderSummary() {
   const { items, cartTotal } = useCart();
 
   const subtotal = cartTotal;
-  const shipping = 0; // Free shipping
-  const tax = subtotal * 0.08; // Assuming 8% tax, maybe should be 0 or configurable? Keeping logic for now.
-  const total = subtotal + shipping + tax;
+  const total = subtotal;
 
   if (items.length === 0) {
     return (
@@ -72,14 +70,6 @@ export function OrderSummary() {
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Subtotal</span>
             <span>{formatPrice(subtotal)}</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Shipping</span>
-            <span className="text-green-600 font-medium">Free</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span className="text-muted-foreground">Tax (8%)</span>
-            <span>{formatPrice(tax)}</span>
           </div>
         </div>
 

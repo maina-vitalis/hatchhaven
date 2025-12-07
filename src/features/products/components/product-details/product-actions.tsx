@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/src/components/ui/button";
-import { ShoppingCart, Zap, Minus, Plus, Truck, Shield } from "lucide-react";
+import { ShoppingCart, Zap, Minus, Plus, Shield } from "lucide-react";
 
 interface ProductActionsProps {
   quantity: number;
@@ -69,10 +69,6 @@ export function ProductActions({
       </Button>
 
       <div className="flex items-center justify-center gap-6 pt-2 text-sm text-muted-foreground">
-        <div className="flex items-center gap-1.5">
-          <Truck className="h-4 w-4" />
-          <span>Free Shipping</span>
-        </div>
         <div className="flex items-center gap-1.5">
           <Shield className="h-4 w-4" />
           <span>Secure Payment</span>
