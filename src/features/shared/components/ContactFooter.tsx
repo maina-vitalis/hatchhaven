@@ -13,13 +13,13 @@ export function ContactFooter() {
   const products: Product[] = [
     {
       name: "Raw Chicken Broiler",
-      price: "$24.99",
+      price: "KES 2,499",
       image:
-        "https://images.unsplash.com/photo-1672787153655-0c19308dcc60?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3aG9sZSUyMGNoaWNrZW4lMjByYXd8ZW58MXx8fHwxNzYxMzc3NzgwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        "https://images.unsplash.com/photo-1672787153655-0c19308dcc60?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHx8d2hvbGUlMjBjaGlja2VuJTIwcmF3fGVufDF8fHx8MTc2MTM3Nzc4MHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     },
     {
       name: "Light Brown Eggs",
-      price: "$25.99",
+      price: "KES 2,599",
       image:
         "https://images.unsplash.com/photo-1585355611444-06154f329e96?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlja2VuJTIwZWdncyUyMGNhcnRvbnxlbnwxfHx8fDE3NjEzNzc3ODB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     },
@@ -32,9 +32,12 @@ export function ContactFooter() {
           {/* Brand & Description */}
           <div className="flex flex-col items-center md:items-start">
             <div className="flex items-center gap-2 mb-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary">
-                <span className="text-primary-foreground text-xl">🐔</span>
-              </div>
+              <Image
+                src="/logo.png"
+                alt="Hatch Haven Logo"
+                width={48}
+                height={48}
+              />
               <div className="flex flex-col items-start">
                 <span className="text-foreground">Hatch Haven</span>
                 <span className="text-xs text-muted-foreground">
@@ -55,8 +58,8 @@ export function ContactFooter() {
               <div className="flex items-start gap-3 justify-center md:justify-start text-left">
                 <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <div>
-                  <p>Sector # 48,173 Wolfe Street,</p>
-                  <p>Melborn city, Australia</p>
+                  <p>Nanyuki Town,</p>
+                  <p>Laikipia County, Kenya</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 justify-center md:justify-start text-left">

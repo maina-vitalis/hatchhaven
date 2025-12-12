@@ -4,54 +4,64 @@ import prisma from "@/src/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
-async function getBlogPosts() {
+async function getBlogPosts(page: number = 1, postsPerPage: number = 6) {
   try {
-    const posts = await prisma.blogPost.findMany({
-      where: {
-        published: true,
-      },
-      include: {
-        category: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-          },
-        },
-        author: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            avatar: true,
-          },
-        },
-        tags: {
-          include: {
-            tag: {
-              select: {
-                id: true,
-                name: true,
-                slug: true,
-              },
-            },
-          },
-        },
-        _count: {
-          select: {
-            comments: {
-              where: {
-                approved: true,
-              },
-            },
-          },
-        },
-      },
-      orderBy: [{ featured: "desc" }, { publishedAt: "desc" }],
-      take: 10,
-    });
+    const skip = (page - 1) * postsPerPage;
 
-    return posts.map((post) => ({
+    const [posts, totalCount] = await Promise.all([
+      prisma.blogPost.findMany({
+        where: {
+          published: true,
+        },
+        include: {
+          category: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+            },
+          },
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              avatar: true,
+            },
+          },
+          tags: {
+            include: {
+              tag: {
+                select: {
+                  id: true,
+                  name: true,
+                  slug: true,
+                },
+              },
+            },
+          },
+          _count: {
+            select: {
+              comments: {
+                where: {
+                  approved: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: [{ featured: "desc" }, { publishedAt: "desc" }],
+        skip,
+        take: postsPerPage,
+      }),
+      prisma.blogPost.count({
+        where: {
+          published: true,
+        },
+      }),
+    ]);
+
+    const formattedPosts = posts.map((post) => ({
       id: post.id,
       title: post.title,
       slug: post.slug,
@@ -80,9 +90,11 @@ async function getBlogPosts() {
         slug: pt.tag.slug,
       })),
     }));
+
+    return { posts: formattedPosts, totalCount };
   } catch (error) {
     console.error("Error fetching blog posts:", error);
-    return [];
+    return { posts: [], totalCount: 0 };
   }
 }
 
@@ -143,9 +155,16 @@ async function getRecentPosts() {
   }
 }
 
-export default async function BlogPage() {
-  const [posts, categories, recentPosts] = await Promise.all([
-    getBlogPosts(),
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}) {
+  const currentPage = Number(searchParams.page) || 1;
+  const postsPerPage = 6;
+
+  const [{ posts, totalCount }, categories, recentPosts] = await Promise.all([
+    getBlogPosts(currentPage, postsPerPage),
     getBlogCategories(),
     getRecentPosts(),
   ]);
@@ -157,6 +176,8 @@ export default async function BlogPage() {
         initialPosts={posts}
         categories={categories}
         recentPosts={recentPosts}
+        totalPosts={totalCount}
+        postsPerPage={postsPerPage}
       />
       <Footer />
     </>

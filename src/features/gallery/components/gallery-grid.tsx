@@ -27,7 +27,7 @@ export function GalleryGrid({ images = [] }: GalleryGridProps) {
 
   return (
     <>
-      <section className="py-16 bg-background">
+      <section id="gallery-content" className="py-16 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid sm:grid-cols-2 gap-6">
             {galleryImages.map((image, index) => (

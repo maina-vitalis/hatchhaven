@@ -1,25 +1,35 @@
-import Image from "next/image";
+import { Button } from "@/src/components/ui/button";
+import Link from "next/link";
 
 export function BlogHero() {
   return (
-    <section className="relative h-[400px] flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0">
-        <Image
-          src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaGlja2VucyUyMGNvb3B8ZW58MXx8fHwxNzYxMzc4Njc1fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
-          alt="Blog"
-          fill
-          className="object-cover"
-          priority
-          unoptimized
-        />
-        <div className="absolute inset-0 bg-black/50" />
-      </div>
+    <section className="py-24 bg-background">
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="text-center max-w-3xl mx-auto">
+          {/* Main Heading */}
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            Our Blog
+          </h1>
 
-      <div className="container relative z-10 mx-auto px-4 lg:px-8 text-center text-white">
-        <h1 className="text-5xl md:text-6xl mb-4">Blog Page</h1>
-        <p className="text-lg">
-          <span className="text-white/70">Home</span> / <span>Blog</span>
-        </p>
+          {/* Description */}
+          <p className="text-lg text-muted-foreground mb-12">
+            Stay updated with the latest news, tips, and insights from Hatch Haven. Learn about poultry care, farming practices, and delicious recipes featuring our fresh products.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button asChild>
+              <Link href="#blog-content">
+                Browse Articles
+              </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/products">
+                Shop Products
+              </Link>
+            </Button>
+          </div>
+        </div>
       </div>
     </section>
   );

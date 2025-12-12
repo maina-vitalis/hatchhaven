@@ -8,8 +8,11 @@ export function cn(...inputs: ClassValue[]) {
 
 export function formatPrice(price: number | string): string {
   const numericPrice = typeof price === "string" ? parseFloat(price) : price;
-  return new Intl.NumberFormat("en-KE", {
+  const formatted = new Intl.NumberFormat("en-KE", {
     style: "currency",
     currency: "KES",
-  }).format(numericPrice).replace("KSh", "KES");
+  }).format(numericPrice);
+
+  // Replace various forms of KSh with KES
+  return formatted.replace(/KSh|Ksh|ksh/g, "KES");
 }

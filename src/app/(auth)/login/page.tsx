@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 
@@ -103,9 +104,13 @@ function LoginForm() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-3 mb-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary shadow-md">
-              <span className="text-primary-foreground text-xl">🐔</span>
-            </div>
+            <Image
+              src="/logo.png"
+              alt="Hatch Haven Logo"
+              width={48}
+              height={48}
+              className="hover:scale-105 transition-transform"
+            />
             <div className="flex flex-col text-left">
               <span className="font-bold text-xl text-foreground leading-tight">
                 Hatch Haven

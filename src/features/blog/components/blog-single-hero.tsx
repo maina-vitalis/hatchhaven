@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Calendar, User, MessageCircle } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { format } from "date-fns";
 
 interface BlogSingleHeroProps {
@@ -7,10 +7,6 @@ interface BlogSingleHeroProps {
     title: string;
     image: string | null;
     publishedAt: Date | null;
-    author: {
-      name: string;
-    };
-    comments: number;
   };
 }
 
@@ -40,16 +36,6 @@ export function BlogSingleHero({ post }: BlogSingleHeroProps) {
             <Calendar className="h-4 w-4" />
             <span>{publishedDate}</span>
           </div>
-          <div className="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm">
-            <User className="h-4 w-4" />
-            <span>{post.author.name}</span>
-          </div>
-          {post.comments > 0 && (
-            <div className="flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm">
-              <MessageCircle className="h-4 w-4" />
-              <span>{post.comments} {post.comments === 1 ? "Comment" : "Comments"}</span>
-            </div>
-          )}
         </div>
       </div>
     </section>

@@ -11,6 +11,7 @@ import {
   Shield,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/src/components/ui/button";
@@ -68,9 +69,13 @@ export function Header() {
             href="/"
             className="flex items-center gap-3 group transition-opacity hover:opacity-90"
           >
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary shadow-md group-hover:shadow-lg transition-shadow">
-              <span className="text-primary-foreground text-xl">🐔</span>
-            </div>
+            <Image
+              src="/logo.png"
+              alt="Hatch Haven Logo"
+              width={48}
+              height={48}
+              className="group-hover:scale-105 transition-transform"
+            />
             <div className="flex flex-col">
               <span className="font-bold text-lg text-foreground leading-tight">
                 Hatch Haven
@@ -112,9 +117,12 @@ export function Header() {
               variant="ghost"
               size="icon"
               className="hidden sm:flex hover:bg-primary/10 hover:text-primary transition-colors"
-              aria-label="Contact us"
+              aria-label="Call us"
+              asChild
             >
-              <Phone className="h-5 w-5" />
+              <a href="tel:+254748645010">
+                <Phone className="h-5 w-5" />
+              </a>
             </Button>
             <CartSheet>
               <Button
@@ -269,11 +277,12 @@ export function Header() {
                   {/* Header Section */}
                   <div className="px-6 pt-6 pb-4 border-b border-border/50">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary shadow-sm">
-                        <span className="text-primary-foreground text-xl">
-                          🐔
-                        </span>
-                      </div>
+                      <Image
+                        src="/logo.png"
+                        alt="Hatch Haven Logo"
+                        width={48}
+                        height={48}
+                      />
                       <div className="flex flex-col">
                         <span className="font-bold text-lg text-foreground leading-tight">
                           Hatch Haven
@@ -313,9 +322,12 @@ export function Header() {
                     <Button
                       variant="ghost"
                       className="w-full justify-start gap-3 h-11 text-base hover:bg-muted/50"
+                      asChild
                     >
-                      <Phone className="h-5 w-5" />
-                      <span>Contact Us</span>
+                      <a href="tel:+254748645010">
+                        <Phone className="h-5 w-5" />
+                        <span>Call Us</span>
+                      </a>
                     </Button>
                     <Button
                       variant="ghost"
