@@ -1,13 +1,20 @@
 "use client";
 
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent } from "@/src/components/ui/card";
-import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
 import {
-  MessageCircle,
-  ThumbsUp,
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+  PaginationEllipsis,
+} from "@/src/components/ui/pagination";
+import {
   Clock,
   Calendar,
   ArrowRight,
@@ -22,16 +29,10 @@ interface BlogPost {
   title: string;
   excerpt: string;
   image: string | null;
-  comments: number;
-  likes: number;
   slug: string;
   category: {
     name: string;
     slug: string;
-  };
-  author: {
-    name: string;
-    avatar: string | null;
   };
   publishedAt: Date | null;
   readTime: number;
@@ -52,17 +53,76 @@ interface BlogContentProps {
     slug: string;
     image: string | null;
   }>;
+  totalPosts?: number;
+  postsPerPage?: number;
 }
 
 export function BlogContent({
   initialPosts,
   categories,
   recentPosts,
+  totalPosts = 0,
+  postsPerPage = 6,
 }: BlogContentProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
   const blogPosts = initialPosts;
 
+  // Calculate pagination
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+  const hasNextPage = currentPage < totalPages;
+  const hasPrevPage = currentPage > 1;
+
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (page === 1) {
+      params.delete('page');
+    } else {
+      params.set('page', page.toString());
+    }
+    const newUrl = params.toString() ? `/blog?${params.toString()}` : '/blog';
+    router.push(newUrl);
+  };
+
+  // Generate page numbers to display
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) {
+          pages.push(i);
+        }
+        pages.push('ellipsis');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push('ellipsis');
+        for (let i = totalPages - 3; i <= totalPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+        pages.push('ellipsis');
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
+        pages.push('ellipsis');
+        pages.push(totalPages);
+      }
+    }
+
+    return pages;
+  };
+
   return (
-    <section className="py-20 bg-background">
+    <section id="blog-content" className="py-20 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-3 gap-10">
           {/* Main Content */}
@@ -85,42 +145,56 @@ export function BlogContent({
             )}
 
             {/* Pagination */}
-            <div className="flex justify-center items-center gap-2 pt-12 border-t">
-              <Button
-                variant="outline"
-                size="sm"
-                className="rounded-md hover:bg-primary hover:text-primary-foreground transition-colors"
-              >
-                First
-              </Button>
-              <Button
-                size="sm"
-                className="bg-primary hover:bg-primary/90 rounded-md min-w-[40px]"
-              >
-                1
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="hover:bg-primary hover:text-primary-foreground transition-colors rounded-md min-w-[40px]"
-              >
-                2
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="hover:bg-primary hover:text-primary-foreground transition-colors rounded-md min-w-[40px]"
-              >
-                3
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                className="rounded-md hover:bg-primary hover:text-primary-foreground transition-colors"
-              >
-                Last
-              </Button>
-            </div>
+            {totalPages > 1 && (
+              <div className="pt-12 border-t">
+                <Pagination>
+                  <PaginationContent>
+                    {hasPrevPage && (
+                      <PaginationItem>
+                        <PaginationPrevious
+                          href={`/blog?page=${currentPage - 1}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePageChange(currentPage - 1);
+                          }}
+                        />
+                      </PaginationItem>
+                    )}
+
+                    {getPageNumbers().map((page, index) => (
+                      <PaginationItem key={index}>
+                        {page === 'ellipsis' ? (
+                          <PaginationEllipsis />
+                        ) : (
+                          <PaginationLink
+                            href={`/blog?page=${page}`}
+                            isActive={currentPage === page}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handlePageChange(page as number);
+                            }}
+                          >
+                            {page}
+                          </PaginationLink>
+                        )}
+                      </PaginationItem>
+                    ))}
+
+                    {hasNextPage && (
+                      <PaginationItem>
+                        <PaginationNext
+                          href={`/blog?page=${currentPage + 1}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePageChange(currentPage + 1);
+                          }}
+                        />
+                      </PaginationItem>
+                    )}
+                  </PaginationContent>
+                </Pagination>
+              </div>
+            )}
           </div>
 
           {/* Sidebar */}
@@ -137,17 +211,13 @@ function BlogPost({
   title,
   excerpt,
   image,
-  comments,
-  likes,
   slug,
   category,
-  author,
   publishedAt,
   readTime,
   featured,
 }: BlogPost) {
   const imageUrl = image || "/placeholder-blog.jpg";
-  const authorAvatar = author.avatar || "/placeholder-avatar.jpg";
   const publishedDate = publishedAt
     ? format(new Date(publishedAt), "MMM d, yyyy")
     : "Unknown";
@@ -206,39 +276,7 @@ function BlogPost({
             {excerpt}
           </p>
 
-          {/* Author and Actions */}
-          <div className="flex items-center justify-between pt-6 border-t">
-            <div className="flex items-center gap-3">
-              <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
-                <Image
-                  src={authorAvatar}
-                  alt={author.name}
-                  width={40}
-                  height={40}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-foreground">
-                  {author.name}
-                </p>
-                <p className="text-xs text-muted-foreground">Author</p>
-              </div>
-            </div>
 
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer">
-                  <MessageCircle className="h-4 w-4" />
-                  <span className="font-medium">{comments}</span>
-                </span>
-                <span className="flex items-center gap-1.5 hover:text-foreground transition-colors cursor-pointer">
-                  <ThumbsUp className="h-4 w-4" />
-                  <span className="font-medium">{likes}</span>
-                </span>
-              </div>
-            </div>
-          </div>
 
           {/* Read More Button */}
           <div className="mt-6">

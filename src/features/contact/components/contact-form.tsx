@@ -49,10 +49,10 @@ export function ContactForm() {
                       Call us directly
                     </p>
                     <a
-                      href="tel:+61285965100"
+                      href="tel:+254748645010"
                       className="text-primary hover:text-primary/80 text-sm font-medium"
                     >
-                      +61 2 8596 5100
+                      +254 748 645 010
                     </a>
                   </div>
                 </div>
@@ -71,10 +71,10 @@ export function ContactForm() {
                       Send us an email
                     </p>
                     <a
-                      href="mailto:info@hatchhaven.com"
+                      href="mailto:info@hatchhaven.co.ke"
                       className="text-primary hover:text-primary/80 text-sm font-medium break-all"
                     >
-                      info@hatchhaven.com
+                      info@hatchhaven.co.ke
                     </a>
                   </div>
                 </div>
@@ -90,9 +90,9 @@ export function ContactForm() {
                   <div>
                     <h3 className="font-semibold mb-1">Location</h3>
                     <p className="text-sm text-muted-foreground">
-                      Sector # 48, 123 Street
+                      Nanyuki Town
                       <br />
-                      Melbourne City, Australia
+                      Laikipia County, Kenya
                     </p>
                   </div>
                 </div>
@@ -147,7 +147,7 @@ export function ContactForm() {
                       <Input
                         id="phone"
                         type="tel"
-                        placeholder="+61 2 1234 5678"
+                        placeholder="+254 7XX XXX XXX"
                         className="h-11"
                       />
                     </div>
@@ -210,19 +210,19 @@ export function ContactForm() {
               Find Us On The Map
             </h3>
             <p className="text-muted-foreground">
-              Visit our farm location in Melbourne, Australia
+              Visit our farm location in Nanyuki, Kenya
             </p>
           </div>
           <div className="rounded-2xl overflow-hidden shadow-2xl border-2 border-border">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8354345093707!2d144.9537353159042!3d-37.81720974201446!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d4c2b349649%3A0xb6899234e561db11!2sEnvato!5e0!3m2!1sen!2sau!4v1234567890123!5m2!1sen!2sau"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15955.363636363636!2d37.0736!3d0.0062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1787a0a0a0a0a0a0%3A0x0!2sNanyuki%2C%20Kenya!5e0!3m2!1sen!2ske!4v1234567890123!5m2!1sen!2ske"
               width="100%"
               height="450"
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Hatch Haven Farm Location"
+              title="Hatch Haven Farm Location - Nanyuki, Kenya"
               className="w-full"
             />
           </div>

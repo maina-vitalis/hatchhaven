@@ -54,7 +54,7 @@ async function getBlogPost(slug: string) {
         .replace(/[^\w\s-]/g, "")
         .replace(/\s+/g, "-")
         .replace(/-+/g, "-");
-      
+
       if (slugified !== slug && slugified !== decodeURIComponent(slug)) {
         post = await prisma.blogPost.findUnique({
           where: { slug: slugified },
@@ -216,7 +216,7 @@ export default async function BlogSinglePage({
 
   return (
     <>
-      <BlogSingleHero post={{ ...post, comments: post.comments.length }} />
+      <BlogSingleHero post={post} />
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-8">

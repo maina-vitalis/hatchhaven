@@ -20,7 +20,7 @@ export function Services() {
       icon: <Truck className="h-6 w-6 text-primary" />,
       title: "Free Delivery",
       description:
-        "Free delivery on orders over $50 within 20 miles of our farm",
+        "Free delivery on orders over KES 5,000 within 20 miles of our farm",
     },
     {
       icon: <Shield className="h-6 w-6 text-primary" />,

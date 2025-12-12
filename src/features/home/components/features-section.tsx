@@ -5,7 +5,7 @@ export function FeaturesSection() {
     {
       icon: Truck,
       title: "Free Delivery",
-      description: "On orders over $50",
+      description: "On orders over KES 5,000",
     },
     {
       icon: Shield,

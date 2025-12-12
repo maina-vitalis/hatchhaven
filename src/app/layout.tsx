@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Fresh Poultry - Premium Quality Poultry Delivered Fresh",
   description:
-    "Premium quality poultry including chickens, turkeys, ducks and fresh eggs. Free delivery on orders over $50. Award-winning poultry farm since 2010.",
+    "Premium quality poultry including chickens, turkeys, ducks and fresh eggs. Free delivery on orders over KES 5,000. Award-winning poultry farm since 2010.",
 };
 
 export default function RootLayout({
@@ -36,7 +36,7 @@ export default function RootLayout({
           <ConditionalHeader />
           <main>{children}</main>
           {/* Footer will be added conditionally based on route */}
-          <Toaster />
+          <Toaster richColors visibleToasts={1} />
         </Providers>
       </body>
     </html>

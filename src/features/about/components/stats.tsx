@@ -1,89 +1,80 @@
 import { Card, CardContent } from "@/src/components/ui/card";
+import { Badge } from "@/src/components/ui/badge";
 import { TrendingUp, Package, Users, Award, Heart, Globe } from "lucide-react";
 
 interface Stat {
-  icon: React.ReactNode;
+  icon: React.ComponentType<{ className?: string }>;
   value: string;
   label: string;
   description?: string;
+  color: string;
 }
 
 export function Stats() {
   const stats: Stat[] = [
     {
-      icon: <TrendingUp className="h-10 w-10 text-primary" />,
+      icon: TrendingUp,
       value: "25+",
       label: "Years in Business",
       description: "Trusted expertise since 2000",
+      color: "bg-blue-500/10 text-blue-600"
     },
     {
-      icon: <Package className="h-10 w-10 text-primary" />,
+      icon: Package,
       value: "2,500+",
       label: "Products Daily",
       description: "Fresh products delivered",
+      color: "bg-green-500/10 text-green-600"
     },
     {
-      icon: <Users className="h-10 w-10 text-primary" />,
+      icon: Users,
       value: "10,000+",
       label: "Happy Customers",
       description: "Satisfied families & businesses",
+      color: "bg-purple-500/10 text-purple-600"
     },
     {
-      icon: <Award className="h-10 w-10 text-primary" />,
+      icon: Award,
       value: "15+",
       label: "Awards Won",
       description: "Industry recognition",
+      color: "bg-yellow-500/10 text-yellow-600"
     },
     {
-      icon: <Heart className="h-10 w-10 text-primary" />,
+      icon: Heart,
       value: "100%",
       label: "Ethical Practices",
       description: "Free-range & organic",
+      color: "bg-red-500/10 text-red-600"
     },
     {
-      icon: <Globe className="h-10 w-10 text-primary" />,
+      icon: Globe,
       value: "50+",
       label: "Local Communities",
       description: "Regions served",
+      color: "bg-indigo-500/10 text-indigo-600"
     },
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-primary/5">
+    <section className="py-16 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="text-center mb-16">
-          <p className="text-primary mb-4 text-sm font-semibold uppercase tracking-wider">
-            By The Numbers
-          </p>
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+        <div className="text-center mb-12">
+          <h2 className="text-2xl font-bold mb-8 text-foreground">
             Our Impact & Achievements
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            These numbers reflect our commitment to excellence, quality, and
-            community service
-          </p>
         </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
           {stats.map((stat, index) => (
-            <Card
-              key={index}
-              className="text-center border-2 hover:border-primary/50 hover:shadow-lg transition-all duration-300 group"
-            >
-              <CardContent className="p-8">
-                <div className="inline-flex items-center justify-center mb-6 p-4 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                  {stat.icon}
-                </div>
-                <div className="text-5xl md:text-6xl font-bold mb-3 text-foreground">
-                  {stat.value}
-                </div>
-                <h3 className="text-lg font-semibold mb-2">{stat.label}</h3>
-                {stat.description && (
-                  <p className="text-sm text-muted-foreground">
-                    {stat.description}
-                  </p>
-                )}
-              </CardContent>
-            </Card>
+            <div key={index} className="text-center">
+              <div className="text-3xl font-bold mb-1 text-primary">
+                {stat.value}
+              </div>
+              <div className="text-sm text-muted-foreground">
+                {stat.label}
+              </div>
+            </div>
           ))}
         </div>
       </div>

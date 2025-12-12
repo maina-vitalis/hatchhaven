@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { MessageCircle, User } from "lucide-react";
+import { MessageCircle, User, MapPin } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
@@ -12,7 +12,7 @@ import { useCart } from "@/src/context/cart-context";
 
 const checkoutSchema = z.object({
   name: z.string().min(2, "Name is required"),
-  phone: z.string().min(10, "Valid phone number is required"),
+  location: z.string().min(5, "Location is required"),
 });
 
 type CheckoutFormValues = z.infer<typeof checkoutSchema>;
@@ -22,13 +22,13 @@ export function CheckoutForm() {
 
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutSchema),
-    defaultValues: { name: "", phone: "" },
+    defaultValues: { name: "", location: "" },
   });
 
   const onSubmit = (values: CheckoutFormValues) => {
     const message = `Hi, I'm ${values.name}!\n\nI'd like to order:\n\n${items
       .map((item) => `• ${item.name} x${item.quantity} - KES ${(item.price * item.quantity).toFixed(2)}`)
-      .join("\n")}\n\n*Total: KES ${cartTotal.toFixed(2)}*\n\nPhone: ${values.phone}`;
+      .join("\n")}\n\n*Total: KES ${cartTotal.toFixed(2)}*\n\nDelivery Location: ${values.location}`;
 
     const destination = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "1234567890";
     const whatsappUrl = `https://wa.me/${destination}?text=${encodeURIComponent(message)}`;
@@ -53,10 +53,17 @@ export function CheckoutForm() {
             )}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="phone">Phone Number</Label>
-            <Input id="phone" placeholder="+1234567890" {...form.register("phone")} />
-            {form.formState.errors.phone && (
-              <p className="text-sm text-destructive">{form.formState.errors.phone.message}</p>
+            <Label htmlFor="location" className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-primary" />
+              Delivery Location
+            </Label>
+            <Input
+              id="location"
+              placeholder="e.g., Nairobi, Karen, Langata Road"
+              {...form.register("location")}
+            />
+            {form.formState.errors.location && (
+              <p className="text-sm text-destructive">{form.formState.errors.location.message}</p>
             )}
           </div>
         </CardContent>

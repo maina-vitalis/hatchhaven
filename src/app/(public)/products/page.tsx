@@ -1,11 +1,6 @@
 import {
-  ProductHero,
   FilterableProductGrid,
-  FeaturedProducts,
-  VideoSection,
-  ProductGallery,
 } from "@/src/features/products";
-import { Footer } from "@/src/features/shared";
 import prisma from "@/src/lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -67,16 +62,9 @@ export default async function ProductsPage() {
   const { products, categories } = await getInitialData();
 
   return (
-    <>
-      <ProductHero />
-      <FilterableProductGrid
-        initialProducts={products}
-        initialCategories={categories}
-      />
-      <FeaturedProducts />
-      <VideoSection />
-      <ProductGallery />
-      <Footer />
-    </>
+    <FilterableProductGrid
+      initialProducts={products}
+      initialCategories={categories}
+    />
   );
 }

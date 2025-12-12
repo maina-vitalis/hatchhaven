@@ -7,11 +7,10 @@ export function Navigation() {
       <div className="container mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <Image
-            src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=40&h=40&fit=crop&crop=center"
+            src="/logo.png"
             alt="Fresh Poultry Logo"
             width={40}
             height={40}
-            className="rounded-full"
           />
           <span className="text-xl font-bold text-gray-800">Fresh Poultry</span>
         </div>

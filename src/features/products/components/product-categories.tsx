@@ -11,28 +11,28 @@ export function ProductCategories() {
       name: "Chickens",
       image:
         "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?w=300&h=200&fit=crop&crop=center",
-      price: "From $12.99",
+      price: "From KES 1,299",
       description: "Free-range chickens",
     },
     {
       name: "Turkeys",
       image:
         "https://images.unsplash.com/photo-1574781330855-d0db2706b3d0?w=300&h=200&fit=crop&crop=center",
-      price: "From $24.99",
+      price: "From KES 2,499",
       description: "Premium turkeys",
     },
     {
       name: "Ducks",
       image:
         "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=300&h=200&fit=crop&crop=center",
-      price: "From $18.99",
+      price: "From KES 1,899",
       description: "Fresh ducks",
     },
     {
       name: "Eggs",
       image:
         "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=300&h=200&fit=crop&crop=center",
-      price: "From $4.99",
+      price: "From KES 499",
       description: "Farm fresh eggs",
     },
   ];
