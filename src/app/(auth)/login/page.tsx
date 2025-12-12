@@ -236,12 +236,13 @@ function LoginForm() {
                 </div>
               </div>
 
-              <div className="mt-6 grid  gap-3">
+              <div className="mt-6 grid gap-3">
                 <Button
                   type="button"
                   variant="outline"
                   className="w-full"
-                  disabled
+                  onClick={() => signIn("google", { callbackUrl })}
+                  disabled={isSubmitting}
                 >
                   <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                     <path
@@ -261,7 +262,7 @@ function LoginForm() {
                       fill="#EA4335"
                     />
                   </svg>
-                  Google
+                  Continue with Google
                 </Button>
               </div>
             </div>

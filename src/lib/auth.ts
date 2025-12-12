@@ -1,14 +1,21 @@
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "./prisma";
 import { verifyPassword } from "./auth-utils";
+import { Adapter } from "next-auth/adapters";
 
 export const authOptions: NextAuthConfig = {
-  // Note: PrismaAdapter is commented out for credentials provider
-  // adapter: PrismaAdapter(prisma) as any,
+  adapter: PrismaAdapter(prisma) as Adapter,
   trustHost: true, // Required for deployment behind proxies
   debug: process.env.NODE_ENV === "development", // Enable debug in development
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      allowDangerousEmailAccountLinking: true,
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -18,15 +25,20 @@ export const authOptions: NextAuthConfig = {
       async authorize(credentials) {
         try {
           if (!credentials?.email || !credentials?.password) {
-            throw new Error("Please enter both your email and password to continue.");
+            throw new Error(
+              "Please enter both your email and password to continue."
+            );
           }
 
           const email = credentials.email as string;
           const password = credentials.password as string;
 
           // Add timeout to database query
-          const queryTimeout = new Promise((_, reject) => {
-            setTimeout(() => reject(new Error("Database connection timeout")), 5000);
+          const queryTimeout = new Promise<never>((_, reject) => {
+            setTimeout(
+              () => reject(new Error("Database connection timeout")),
+              5000
+            );
           });
 
           const userQuery = prisma.user.findUnique({
@@ -35,22 +47,28 @@ export const authOptions: NextAuthConfig = {
             },
           });
 
-          const user = await Promise.race([userQuery, queryTimeout]) as any;
+          const user = await Promise.race([userQuery, queryTimeout]);
 
           if (!user || !user.email) {
-            throw new Error("We couldn't find an account with that email address. Please check your email or sign up for a new account.");
+            throw new Error(
+              "We couldn't find an account with that email address. Please check your email or sign up for a new account."
+            );
           }
 
           // Check if user has a password set (for credentials-based auth)
           if (!user.password) {
-            throw new Error("This account was created using a social login (Google/GitHub). Please use that method to sign in, or reset your password to use email/password login.");
+            throw new Error(
+              "This account was created using a social login (Google/GitHub). Please use that method to sign in, or reset your password to use email/password login."
+            );
           }
 
           // Verify password
           const isValid = await verifyPassword(password, user.password);
 
           if (!isValid) {
-            throw new Error("The password you entered is incorrect. Please try again or use the 'Forgot password?' link if you need to reset it.");
+            throw new Error(
+              "The password you entered is incorrect. Please try again or use the 'Forgot password?' link if you need to reset it."
+            );
           }
 
           return {
@@ -65,20 +83,27 @@ export const authOptions: NextAuthConfig = {
 
           // Handle specific errors
           if (error instanceof Error) {
-            if (error.message.includes("timeout") || error.message.includes("ETIMEDOUT")) {
-              throw new Error("We're having trouble connecting to our servers. Please check your internet connection and try again.");
+            if (
+              error.message.includes("timeout") ||
+              error.message.includes("ETIMEDOUT")
+            ) {
+              throw new Error(
+                "We're having trouble connecting to our servers. Please check your internet connection and try again."
+              );
             }
             // Re-throw user-friendly errors
             throw error;
           }
 
-          throw new Error("An unexpected error occurred during sign in. Please try again.");
+          throw new Error(
+            "An unexpected error occurred during sign in. Please try again."
+          );
         }
       },
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: "database",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
 
@@ -88,19 +113,27 @@ export const authOptions: NextAuthConfig = {
     error: "/login",
   },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user && user.id) {
-        token.id = user.id;
-        token.role = (user as { role: "CUSTOMER" | "ADMIN" }).role;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (session.user && token.id) {
-        session.user.id = token.id;
-        (session.user as { role: "CUSTOMER" | "ADMIN" }).role = token.role as "CUSTOMER" | "ADMIN";
+    async session({ session, user }) {
+      if (session.user && user) {
+        session.user.id = user.id;
+        (session.user as { role: "CUSTOMER" | "ADMIN" }).role = (
+          user as { role: "CUSTOMER" | "ADMIN" }
+        ).role;
       }
       return session;
+    },
+    async signIn({ account }) {
+      // Allow OAuth sign-ins
+      if (account?.provider === "google") {
+        return true;
+      }
+
+      // Allow credentials sign-ins (handled by the provider)
+      if (account?.provider === "credentials") {
+        return true;
+      }
+
+      return true;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
@@ -108,4 +141,3 @@ export const authOptions: NextAuthConfig = {
 
 // Export auth function for server-side usage
 export const { handlers, auth, signIn, signOut } = NextAuth(authOptions);
-
