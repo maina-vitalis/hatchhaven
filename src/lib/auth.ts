@@ -1,21 +1,14 @@
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "./prisma";
 import { verifyPassword } from "./auth-utils";
-import { Adapter } from "next-auth/adapters";
 
 export const authOptions: NextAuthConfig = {
-  adapter: PrismaAdapter(prisma) as Adapter,
+  // Note: PrismaAdapter is commented out for credentials provider
+  // adapter: PrismaAdapter(prisma) as any,
   trustHost: true, // Required for deployment behind proxies
   debug: process.env.NODE_ENV === "development", // Enable debug in development
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      allowDangerousEmailAccountLinking: true,
-    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -103,7 +96,7 @@ export const authOptions: NextAuthConfig = {
     }),
   ],
   session: {
-    strategy: "database",
+    strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
 
@@ -113,27 +106,19 @@ export const authOptions: NextAuthConfig = {
     error: "/login",
   },
   callbacks: {
-    async session({ session, user }) {
-      if (session.user && user) {
-        session.user.id = user.id;
-        (session.user as { role: "CUSTOMER" | "ADMIN" }).role = (
-          user as { role: "CUSTOMER" | "ADMIN" }
-        ).role;
+    async jwt({ token, user }) {
+      if (user && user.id) {
+        token.id = user.id;
+        token.role = (user as { role: "CUSTOMER" | "ADMIN" }).role;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user && token.id) {
+        session.user.id = token.id;
+        (session.user as { role: "CUSTOMER" | "ADMIN" }).role = token.role as "CUSTOMER" | "ADMIN";
       }
       return session;
-    },
-    async signIn({ account }) {
-      // Allow OAuth sign-ins
-      if (account?.provider === "google") {
-        return true;
-      }
-
-      // Allow credentials sign-ins (handled by the provider)
-      if (account?.provider === "credentials") {
-        return true;
-      }
-
-      return true;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
