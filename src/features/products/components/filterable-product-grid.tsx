@@ -33,8 +33,6 @@ interface FilterableProductGridProps {
   initialCategories: Category[];
 }
 
-
-
 export function FilterableProductGrid({
   initialProducts,
   initialCategories,
@@ -95,22 +93,31 @@ export function FilterableProductGrid({
         </div>
 
         {/* Category Filters */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {allCategories.map((category) => (
-            <Button
-              key={category.id}
-              variant={selectedCategory === category.id ? "default" : "ghost"}
-              onClick={() => setSelectedCategory(category.id)}
-              className={cn(
-                "h-auto py-2 px-6 rounded-full text-sm font-medium transition-all duration-200",
-                selectedCategory === category.id
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-primary hover:bg-primary/5"
-              )}
-            >
-              {category.label}
-            </Button>
-          ))}
+        <div className="relative md:static mb-8 md:mb-12">
+          <div className="flex overflow-x-auto pb-4 -mx-4 px-4 md:flex-wrap md:justify-center md:overflow-visible md:pb-0 md:px-0 gap-3 scrollbar-hide snap-x">
+            {allCategories.map((category) => (
+              <Button
+                key={category.id}
+                variant={
+                  selectedCategory === category.id ? "default" : "outline"
+                }
+                onClick={() => setSelectedCategory(category.id)}
+                className={cn(
+                  "h-auto py-2 px-6 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap snap-center shrink-0 border",
+                  selectedCategory === category.id
+                    ? "bg-primary text-primary-foreground shadow-sm hover:bg-primary/90"
+                    : "bg-background text-muted-foreground border-border hover:border-primary/50 hover:text-primary hover:bg-primary/5"
+                )}
+              >
+                {category.label}
+              </Button>
+            ))}
+          </div>
+          {/* Scroll Indicator Gradient */}
+          <div
+            className="absolute top-0 right-0 bottom-4 w-12 bg-gradient-to-l from-background to-transparent pointer-events-none md:hidden"
+            aria-hidden="true"
+          />
         </div>
 
         {/* Products Grid */}
