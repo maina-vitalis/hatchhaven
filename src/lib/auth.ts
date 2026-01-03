@@ -1,14 +1,21 @@
 import NextAuth, { type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "./prisma";
 import { verifyPassword } from "./auth-utils";
 
 export const authOptions: NextAuthConfig = {
-  // Note: PrismaAdapter is commented out for credentials provider
-  // adapter: PrismaAdapter(prisma) as any,
+  // Enable PrismaAdapter for database persistence
+  adapter: PrismaAdapter(prisma) as any,
   trustHost: true, // Required for deployment behind proxies
   debug: process.env.NODE_ENV === "development", // Enable debug in development
   providers: [
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      allowDangerousEmailAccountLinking: true, // Allow linking if user signed up with email first
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -51,7 +58,7 @@ export const authOptions: NextAuthConfig = {
           // Check if user has a password set (for credentials-based auth)
           if (!user.password) {
             throw new Error(
-              "This account was created using a social login (Google/GitHub). Please use that method to sign in, or reset your password to use email/password login."
+              "This account was created using a social login (Google). Please use that method to sign in, or reset your password to use email/password login."
             );
           }
 
@@ -116,7 +123,9 @@ export const authOptions: NextAuthConfig = {
     async session({ session, token }) {
       if (session.user && token.id) {
         session.user.id = token.id;
-        (session.user as { role: "CUSTOMER" | "ADMIN" }).role = token.role as "CUSTOMER" | "ADMIN";
+        (session.user as { role: "CUSTOMER" | "ADMIN" }).role = token.role as
+          | "CUSTOMER"
+          | "ADMIN";
       }
       return session;
     },

@@ -27,6 +27,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Skeleton } from "@/src/components/ui/skeleton";
+import { GoogleSignInButton } from "@/src/components/auth/google-sign-in-button";
 
 function LoginForm() {
   const router = useRouter();
@@ -44,14 +45,21 @@ function LoginForm() {
   // Map technical errors to user-friendly messages
   const getErrorMessage = (error: string): string => {
     const errorMap: Record<string, string> = {
-      "CredentialsSignin": "Invalid email or password. Please check your credentials and try again.",
-      "No user found with this email": "We couldn't find an account with that email address. Please check your email or sign up for a new account.",
-      "Invalid email or password": "The email or password you entered is incorrect. Please try again.",
-      "Please enter your email and password": "Both email and password are required to sign in.",
-      "Please sign in with your social account or set a password": "This account was created using a social login (Google/GitHub). Please use that method to sign in.",
-      "Configuration": "There's a problem with the authentication system. Please contact support.",
-      "AccessDenied": "You don't have permission to access this resource.",
-      "Verification": "The verification link has expired or is invalid. Please request a new one.",
+      CredentialsSignin:
+        "Invalid email or password. Please check your credentials and try again.",
+      "No user found with this email":
+        "We couldn't find an account with that email address. Please check your email or sign up for a new account.",
+      "Invalid email or password":
+        "The email or password you entered is incorrect. Please try again.",
+      "Please enter your email and password":
+        "Both email and password are required to sign in.",
+      "Please sign in with your social account or set a password":
+        "This account was created using a social login (Google/GitHub). Please use that method to sign in.",
+      Configuration:
+        "There's a problem with the authentication system. Please contact support.",
+      AccessDenied: "You don't have permission to access this resource.",
+      Verification:
+        "The verification link has expired or is invalid. Please request a new one.",
     };
 
     // Check if the error matches any known error
@@ -62,7 +70,10 @@ function LoginForm() {
     }
 
     // Default error message
-    return error || "An unexpected error occurred. Please try again or contact support if the problem persists.";
+    return (
+      error ||
+      "An unexpected error occurred. Please try again or contact support if the problem persists."
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -86,7 +97,9 @@ function LoginForm() {
         router.refresh();
       }
     } catch (err) {
-      setError("An unexpected error occurred. Please check your internet connection and try again.");
+      setError(
+        "An unexpected error occurred. Please check your internet connection and try again."
+      );
       setIsSubmitting(false);
     }
   };
@@ -224,7 +237,21 @@ function LoginForm() {
               </Button>
             </form>
 
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-muted-foreground/20" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-background px-2 text-muted-foreground">
+                  Or continue with
+                </span>
+              </div>
+            </div>
 
+            <GoogleSignInButton
+              callbackUrl={callbackUrl}
+              text="Sign in with Google"
+            />
 
             <p className="mt-6 text-center text-sm text-muted-foreground">
               Don&apos;t have an account?{" "}
