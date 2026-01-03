@@ -5,7 +5,7 @@ import { Button } from "@/src/components/ui/button";
 
 export function Hero() {
   return (
-    <section className="relative h-[600px] md:h-[700px] flex items-center justify-center overflow-hidden">
+    <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
@@ -16,31 +16,42 @@ export function Hero() {
           priority
           unoptimized
         />
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
       {/* Content */}
       <div className="container relative z-10 mx-auto px-4 lg:px-8">
-        <div className="max-w-2xl text-white text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-            Fresh Ethical Poultry
-          </h1>
-          <p className="text-lg md:text-xl mb-8 text-white/90">
-            Farm-fresh chicken, turkey, and ducks delivered to your door
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
+        <div className="max-w-3xl mx-auto text-white text-center space-y-8 animate-in fade-in zoom-in duration-700">
+          <div className="space-y-4">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
+              Fresh, Ethical, <br className="hidden md:block" />
+              <span className="text-primary-foreground">
+                Farm-Raised Poultry
+              </span>
+            </h1>
+            <p className="text-lg md:text-2xl text-white/90 font-light max-w-2xl mx-auto px-4">
+              Premium chicken, turkey, and ducks produced with care and
+              delivered fresh to your doorstep.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
             <Button
               size="lg"
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-8"
+              className="bg-primary hover:bg-primary/90 text-white border-0 h-14 px-8 text-lg font-medium shadow-xl hover:translate-y-[-2px] transition-all"
               asChild
             >
               <Link href="/products">
-                Shop Now
+                Shop Fresh Poultry
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button size="lg" className="border-white/3  px-8" asChild>
-              <Link href="/about">Learn More</Link>
+            <Button
+              size="lg"
+              variant="outline"
+              className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-black h-14 px-8 text-lg font-medium backdrop-blur-sm transition-all"
+              asChild
+            >
+              <Link href="/about">Our Farm Story</Link>
             </Button>
           </div>
         </div>

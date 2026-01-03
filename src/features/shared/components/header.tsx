@@ -269,172 +269,139 @@ export function Header() {
                   className="hover:bg-primary/10 hover:text-primary"
                   aria-label="Open menu"
                 >
-                  <Menu className="h-5 w-5" />
+                  <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent className="w-[320px] sm:w-[400px] p-0">
-                <div className="flex flex-col h-full">
-                  {/* Header Section */}
-                  <div className="px-6 pt-6 pb-4 border-b border-border/50">
-                    <div className="flex items-center gap-3">
-                      <Image
-                        src="/logo.png"
-                        alt="Hatch Haven Logo"
-                        width={48}
-                        height={48}
-                      />
-                      <div className="flex flex-col">
-                        <span className="font-bold text-lg text-foreground leading-tight">
-                          Hatch Haven
-                        </span>
-                        <span className="text-xs text-muted-foreground leading-tight">
-                          Fresh & Ethical
-                        </span>
-                      </div>
+              <SheetContent
+                side="right"
+                className="w-[300px] sm:w-[400px] p-0 flex flex-col border-l"
+              >
+                <div className="p-6 border-b border-border/50 bg-muted/10">
+                  <Link href="/" className="flex items-center gap-3 w-fit">
+                    <Image
+                      src="/logo.png"
+                      alt="Hatch Haven Logo"
+                      width={40}
+                      height={40}
+                    />
+                    <div className="flex flex-col">
+                      <span className="font-bold text-lg text-foreground leading-none">
+                        Hatch Haven
+                      </span>
+                      <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mt-1">
+                        Fresh & Ethical
+                      </span>
                     </div>
-                  </div>
+                  </Link>
+                </div>
 
-                  {/* Navigation Section */}
-                  <nav className="flex-1 px-4 py-6 overflow-y-auto">
-                    <div className="flex flex-col gap-1">
-                      {navItems.map((item) => {
-                        const isActive = pathname === item.path;
-                        return (
-                          <Link
-                            key={item.name}
-                            href={item.path}
-                            className={cn(
-                              "px-4 py-3 rounded-lg text-base font-medium transition-all duration-200",
-                              isActive
-                                ? "bg-primary/10 text-primary font-semibold"
-                                : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-                            )}
-                          >
-                            {item.name}
-                          </Link>
-                        );
-                      })}
+                <div className="flex-1 overflow-y-auto px-6 py-8">
+                  <nav className="flex flex-col gap-1">
+                    <div className="mb-4 px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      Menu
                     </div>
+                    {navItems.map((item) => {
+                      const isActive = pathname === item.path;
+                      return (
+                        <Link
+                          key={item.name}
+                          href={item.path}
+                          className={cn(
+                            "flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
+                            isActive
+                              ? "bg-primary/10 text-primary font-semibold"
+                              : "text-foreground hover:bg-muted"
+                          )}
+                        >
+                          {item.name}
+                          {isActive && (
+                            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                          )}
+                        </Link>
+                      );
+                    })}
                   </nav>
 
-                  {/* Footer Actions */}
-                  <div className="px-4 pt-4 pb-6 border-t border-border/50 space-y-2">
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start gap-3 h-11 text-base hover:bg-muted/50"
-                      asChild
-                    >
-                      <a href="tel:+254748645010">
-                        <Phone className="h-5 w-5" />
-                        <span>Call Us</span>
-                      </a>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start gap-3 h-11 text-base hover:bg-muted/50"
-                    >
-                      <ShoppingCart className="h-5 w-5" />
-                      <span>Cart</span>
-                    </Button>
+                  <div className="my-8 h-px bg-border/50" />
 
-                    {/* Mobile Auth Section */}
-                    {isLoading ? (
-                      <div className="pt-2 space-y-2">
-                        <div className="px-4 py-2 flex items-center gap-3">
-                          <div className="h-10 w-10 rounded-full bg-muted animate-pulse" />
-                          <div className="flex flex-col gap-2">
-                            <div className="h-4 w-24 bg-muted animate-pulse rounded" />
-                            <div className="h-3 w-32 bg-muted animate-pulse rounded" />
-                          </div>
+                  <div className="flex flex-col gap-1">
+                    <div className="mb-4 px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                      Support & Cart
+                    </div>
+                    <Link
+                      href="/cart"
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                        <ShoppingCart className="h-4 w-4" />
+                      </div>
+                      Cart
+                      {cartCount > 0 && (
+                        <span className="ml-auto bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full">
+                          {cartCount}
+                        </span>
+                      )}
+                    </Link>
+                    <a
+                      href="tel:+254748645010"
+                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                        <Phone className="h-4 w-4" />
+                      </div>
+                      Call Us
+                    </a>
+                  </div>
+                </div>
+
+                <div className="p-6 border-t border-border/50 bg-muted/10">
+                  {isLoading ? (
+                    <div className="flex items-center gap-3 animate-pulse">
+                      <div className="w-10 h-10 rounded-full bg-muted" />
+                      <div className="space-y-2">
+                        <div className="w-24 h-3 bg-muted rounded" />
+                        <div className="w-16 h-2 bg-muted rounded" />
+                      </div>
+                    </div>
+                  ) : isAuthenticated ? (
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3 overflow-hidden">
+                        <Avatar className="h-10 w-10 border border-border">
+                          <AvatarImage
+                            src={session?.user?.image || undefined}
+                          />
+                          <AvatarFallback className="bg-primary/10 text-primary font-bold">
+                            {session?.user?.name?.[0].toUpperCase() || "U"}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-sm font-semibold truncate text-foreground">
+                            {session?.user?.name || "User"}
+                          </span>
+                          <span className="text-[10px] text-muted-foreground truncate">
+                            {session?.user?.email}
+                          </span>
                         </div>
                       </div>
-                    ) : isAuthenticated ? (
-                      <>
-                        {isAdmin && (
-                          <Button
-                            variant="ghost"
-                            className="w-full justify-start gap-3 h-11 text-base hover:bg-muted/50"
-                            asChild
-                          >
-                            <Link href="/admin">
-                              <Shield className="h-5 w-5" />
-                              <span>Admin Dashboard</span>
-                            </Link>
-                          </Button>
-                        )}
-                        <div className="pt-2 space-y-2">
-                          <div className="px-4 py-2 flex items-center gap-3">
-                            <Avatar className="h-10 w-10">
-                              <AvatarImage
-                                src={session?.user?.image || undefined}
-                                alt={session?.user?.name || "User"}
-                              />
-                              <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
-                                {session?.user?.name
-                                  ? session.user.name
-                                      .split(" ")
-                                      .map((n) => n[0])
-                                      .join("")
-                                      .toUpperCase()
-                                      .slice(0, 2)
-                                  : session?.user?.email
-                                  ? session.user.email[0].toUpperCase()
-                                  : "U"}
-                              </AvatarFallback>
-                            </Avatar>
-                            <div className="flex flex-col">
-                              <p className="font-medium text-sm">
-                                {session?.user?.name || "User"}
-                              </p>
-                              <p className="text-xs text-muted-foreground truncate">
-                                {session?.user?.email}
-                              </p>
-                            </div>
-                          </div>
-                          <Button
-                            variant="ghost"
-                            className="w-full justify-start gap-3 h-11 text-base hover:bg-muted/50"
-                            asChild
-                          >
-                            <Link href="/profile">
-                              <User className="h-5 w-5" />
-                              <span>Profile</span>
-                            </Link>
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            className="w-full justify-start gap-3 h-11 text-base hover:bg-destructive/10 hover:text-destructive"
-                            onClick={() => signOut({ callbackUrl: "/" })}
-                          >
-                            <LogOut className="h-5 w-5" />
-                            <span>Sign Out</span>
-                          </Button>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <Button
-                          variant="ghost"
-                          className="w-full justify-start gap-3 h-11 text-base hover:bg-muted/50"
-                          asChild
-                        >
-                          <Link href="/login">
-                            <LogIn className="h-5 w-5" />
-                            <span>Sign In</span>
-                          </Link>
-                        </Button>
-                        <Button
-                          className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all mt-2 font-semibold gap-2"
-                          asChild
-                        >
-                          <Link href="/signup">
-                            <UserPlus className="h-4 w-4" />
-                            Sign Up
-                          </Link>
-                        </Button>
-                      </>
-                    )}
-                  </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => signOut({ callbackUrl: "/" })}
+                        className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 shrink-0"
+                      >
+                        <LogOut className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-3">
+                      <Button variant="outline" className="w-full" asChild>
+                        <Link href="/login">Log In</Link>
+                      </Button>
+                      <Button className="w-full" asChild>
+                        <Link href="/signup">Sign Up</Link>
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>

@@ -8,6 +8,7 @@ import { Button } from "@/src/components/ui/button";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import { ShoppingCart } from "lucide-react";
 import { formatPrice } from "@/src/lib/utils";
+import { Badge } from "@/src/components/ui/badge";
 
 interface Product {
   id: string;
@@ -43,100 +44,110 @@ export function Products() {
   }, []);
 
   return (
-    <section className="py-20 bg-background">
+    <section className="py-24 bg-background relative">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Our Products</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Browse our selection of premium, farm-fresh poultry and eggs
+        <div className="flex flex-col items-center text-center space-y-4 mb-16">
+          <Badge
+            variant="outline"
+            className="w-fit px-4 py-1 border-primary/20 text-primary bg-primary/5"
+          >
+            Farm Fresh
+          </Badge>
+          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
+            Our Featured Products
+          </h2>
+          <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
+            Browse our selection of premium, ethically raised poultry and fresh
+            eggs.
           </p>
         </div>
 
         {loading ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {Array.from({ length: 8 }).map((_, i) => (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {Array.from({ length: 4 }).map((_, i) => (
               <Card
                 key={i}
-                className="overflow-hidden flex flex-col p-0 py-0 gap-0 rounded-xl"
+                className="overflow-hidden border-0 shadow-sm bg-card rounded-2xl"
               >
-                <Skeleton className="aspect-4/3 w-full rounded-t-xl" />
-                <CardContent className="p-4 px-4 flex flex-col flex-1 space-y-3">
-                  <Skeleton className="h-3 w-16" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-3/4" />
-                  <div className="mt-auto flex items-center justify-between pt-3 border-t">
-                    <Skeleton className="h-6 w-16" />
-                    <Skeleton className="h-8 w-8 rounded-full" />
-                  </div>
+                <Skeleton className="aspect-[4/3] w-full" />
+                <CardContent className="p-6 space-y-3">
+                  <Skeleton className="h-4 w-24" />
+                  <Skeleton className="h-5 w-full" />
+                  <Skeleton className="h-4 w-1/2" />
                 </CardContent>
               </Card>
             ))}
           </div>
         ) : products.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {products.map((product) => (
-              <Card
+              <Link
                 key={product.id}
-                className="group overflow-hidden hover:shadow-lg transition-shadow flex flex-col p-0 py-0 gap-0 rounded-xl"
+                href={`/products/${product.id}`}
+                className="group block"
               >
-                <Link href={`/products/${product.id}`}>
-                  <div className="relative aspect-4/3 w-full overflow-hidden bg-muted rounded-t-xl">
+                <Card className="overflow-hidden border-border/50 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-primary/20 hover:-translate-y-1 rounded-2xl h-full flex flex-col">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-muted">
                     <Image
                       src={product.image}
                       alt={product.name}
                       width={400}
                       height={300}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       unoptimized
                     />
                     {product.stock === 0 && (
-                      <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                        <span className="text-white font-semibold bg-red-500 px-3 py-1 rounded text-sm">
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center backdrop-blur-sm">
+                        <span className="text-white font-semibold bg-red-500/90 px-4 py-2 rounded-full text-sm shadow-lg">
                           Out of Stock
                         </span>
                       </div>
                     )}
+                    <div className="absolute bottom-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                      <div className="bg-white/90 backdrop-blur-md p-2 rounded-full shadow-lg text-primary">
+                        <ShoppingCart className="w-5 h-5" />
+                      </div>
+                    </div>
                   </div>
 
-                  <CardContent className="p-4 px-4 flex flex-col flex-1">
-                    <span className="text-xs font-medium text-primary mb-1 uppercase tracking-wide">
-                      {product.categoryName}
-                    </span>
-                    <h3 className="text-base font-semibold mb-2 line-clamp-2">
-                      {product.name}
-                    </h3>
-                    <div className="mt-auto flex items-center justify-between pt-3 border-t">
-                      <span className="text-lg font-bold text-primary">
+                  <CardContent className="p-6 flex flex-col flex-1">
+                    <div className="space-y-1 mb-4">
+                      <span className="text-xs font-bold text-primary uppercase tracking-wider">
+                        {product.categoryName}
+                      </span>
+                      <h3 className="text-lg font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors">
+                        {product.name}
+                      </h3>
+                    </div>
+                    <div className="mt-auto pt-4 border-t border-border/50 flex items-center justify-between">
+                      <span className="text-xl font-bold text-foreground">
                         {formatPrice(product.price)}
                       </span>
-                      <Button
-                        size="sm"
-                        className="h-8 w-8 rounded-full p-0"
-                        aria-label={`View ${product.name} details`}
-                        disabled={product.stock === 0}
-                        asChild
-                      >
-                        <Link href={`/products/${product.id}`}>
-                          <ShoppingCart className="h-4 w-4" />
-                        </Link>
-                      </Button>
+                      <span className="text-sm text-muted-foreground font-medium group-hover:underline decoration-primary/50 underline-offset-4">
+                        View Details
+                      </span>
                     </div>
                   </CardContent>
-                </Link>
-              </Card>
+                </Card>
+              </Link>
             ))}
           </div>
         ) : (
-          <div className="text-center py-12">
+          <div className="text-center py-20 bg-muted/30 rounded-3xl border border-dashed border-border">
             <p className="text-muted-foreground text-lg">
-              No products available yet. Check back soon!
+              No products available right now.
             </p>
           </div>
         )}
 
-        <div className="text-center mt-12">
-          <Button size="lg" className="px-8" asChild>
-            <Link href="/products">View All Products</Link>
+        <div className="text-center mt-16">
+          <Button
+            size="lg"
+            variant="outline"
+            className="px-8 h-12 text-base border-primary/20 hover:border-primary hover:bg-primary/5"
+            asChild
+          >
+            <Link href="/products">View Full Catalog</Link>
           </Button>
         </div>
       </div>
