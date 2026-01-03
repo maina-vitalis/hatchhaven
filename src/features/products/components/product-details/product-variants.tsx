@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/src/components/ui/button";
 import { cn } from "@/src/lib/utils";
 
 interface ProductVariant {
@@ -24,39 +23,53 @@ export function ProductVariants({
 }: ProductVariantsProps) {
   if (variants.length <= 1) return null;
 
+  const genders = Array.from(new Set(variants.map((v) => v.gender)));
+  const hasGender = !variants.every((v) => v.gender === "N/A");
+
   return (
     <div className="space-y-6">
       {/* Gender Selection */}
-      {!variants.every((v) => v.gender === "N/A") && (
+      {hasGender && (
         <div className="space-y-3">
-          <div className="flex justify-between items-center">
-            <span className="text-sm font-medium">Select Type</span>
-          </div>
-          <div className="grid grid-cols-3 gap-3">
-            {Array.from(new Set(variants.map((v) => v.gender))).map((gender) => {
+          <label className="text-sm font-semibold text-foreground">
+            Select Type
+          </label>
+          <div className="grid grid-cols-2 gap-3">
+            {genders.map((gender) => {
               const variant = variants.find((v) => v.gender === gender);
               const isSelected = selectedVariant?.gender === gender;
+              const isOutOfStock = variants
+                .filter((v) => v.gender === gender)
+                .every((v) => v.stock === 0);
+
               return (
                 <button
                   key={gender}
                   onClick={() => {
-                    const newVariant = variants.find((v) => v.gender === gender);
+                    // Try to find a variant with the same age group first
+                    let newVariant = variants.find(
+                      (v) =>
+                        v.gender === gender &&
+                        v.ageGroup === selectedVariant?.ageGroup
+                    );
+                    // If not found, just get the first one
+                    if (!newVariant) {
+                      newVariant = variants.find((v) => v.gender === gender);
+                    }
                     if (newVariant) onVariantSelect(newVariant);
                   }}
-                  disabled={variant?.stock === 0}
+                  disabled={isOutOfStock}
                   className={cn(
-                    "flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all",
+                    "relative flex items-center justify-center py-3 px-4 rounded-xl border-2 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ring-offset-2",
                     isSelected
-                      ? "border-primary bg-primary/5 text-primary"
-                      : "border-muted hover:border-primary/50",
-                    variant?.stock === 0 && "opacity-50 cursor-not-allowed bg-muted"
+                      ? "border-primary bg-primary/5 text-primary shadow-sm"
+                      : "border-muted bg-background hover:border-muted-foreground/30 text-muted-foreground hover:text-foreground",
+                    isOutOfStock && "opacity-50 cursor-not-allowed bg-muted/50"
                   )}
                 >
                   <span className="font-semibold">{gender}</span>
-                  {variant?.stock === 0 && (
-                    <span className="text-[10px] text-destructive mt-1">
-                      Sold Out
-                    </span>
+                  {isSelected && (
+                    <div className="absolute top-0 right-0 -mt-1 -mr-1 w-3 h-3 bg-primary rounded-full ring-2 ring-background" />
                   )}
                 </button>
               );
@@ -65,69 +78,69 @@ export function ProductVariants({
         </div>
       )}
 
-      {/* Size/Quantity Selection */}
+      {/* Age Group / Size Selection */}
       <div className="space-y-3">
         <div className="flex justify-between items-center">
-          <span className="text-sm font-medium">
-            {variants.some((v) => v.gender !== "N/A")
-              ? "Select Age Group"
-              : "Select Size / Quantity"}
-          </span>
+          <label className="text-sm font-semibold text-foreground">
+            {hasGender ? "Select Age Group" : "Select Option"}
+          </label>
         </div>
-        <div className="flex flex-wrap gap-2">
+
+        <div className="flex flex-wrap gap-3">
           {Array.from(new Set(variants.map((v) => v.ageGroup)))
             .filter((ageGroup) => {
-              if (selectedVariant?.gender && selectedVariant.gender !== "N/A") {
+              // Show age groups relevant to selected gender (if gender selected)
+              if (hasGender && selectedVariant?.gender) {
                 return variants.some(
                   (v) =>
-                    v.ageGroup === ageGroup && v.gender === selectedVariant.gender
+                    v.ageGroup === ageGroup &&
+                    v.gender === selectedVariant.gender
                 );
               }
-              if (variants.every((v) => v.gender === "N/A")) {
-                return true;
-              }
-              return variants.some(
-                (v) =>
-                  v.ageGroup === ageGroup && v.gender === selectedVariant?.gender
-              );
+              return true;
             })
             .map((ageGroup) => {
+              // Find the specific variant for this age group + selected gender
               const variant = variants.find(
                 (v) =>
                   v.ageGroup === ageGroup &&
-                  (selectedVariant?.gender === "N/A" ||
-                    v.gender === selectedVariant?.gender ||
-                    variants.every((v) => v.gender === "N/A"))
+                  (!hasGender || v.gender === selectedVariant?.gender)
               );
+
               const isSelected = selectedVariant?.ageGroup === ageGroup;
+              const isOutOfStock = !variant || variant.stock === 0;
+
               return (
-                <Button
+                <button
                   key={ageGroup}
-                  variant={isSelected ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => {
-                    const newVariant = variants.find(
-                      (v) =>
-                        v.ageGroup === ageGroup &&
-                        (selectedVariant?.gender === "N/A" ||
-                          v.gender === selectedVariant?.gender ||
-                          variants.every((v) => v.gender === "N/A"))
-                    );
-                    if (newVariant) onVariantSelect(newVariant);
-                  }}
-                  disabled={!variant || variant.stock === 0}
+                  onClick={() => variant && onVariantSelect(variant)}
+                  disabled={isOutOfStock}
                   className={cn(
-                    "h-9 rounded-lg",
-                    isSelected && "ring-2 ring-primary ring-offset-2"
+                    "group relative flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ring-offset-2",
+                    isSelected
+                      ? "border-primary bg-primary/5 text-primary shadow-sm"
+                      : "border-muted bg-background hover:border-muted-foreground/30 text-muted-foreground hover:text-foreground",
+                    isOutOfStock && "opacity-50 cursor-not-allowed bg-muted/50"
                   )}
                 >
-                  {ageGroup}
-                  {variant && (
-                    <span className="ml-1.5 opacity-80 text-xs">
-                      — KES {variant.price.toFixed(0)}
+                  <span className="font-medium text-sm">{ageGroup}</span>
+                  {variant && !isOutOfStock ? (
+                    <span
+                      className={cn(
+                        "text-xs font-semibold px-1.5 py-0.5 rounded-md transition-colors",
+                        isSelected
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted text-muted-foreground group-hover:bg-muted-foreground/20"
+                      )}
+                    >
+                      {variant.price.toLocaleString()}
+                    </span>
+                  ) : (
+                    <span className="text-[10px] text-destructive font-medium uppercase tracking-wide">
+                      Sold Out
                     </span>
                   )}
-                </Button>
+                </button>
               );
             })}
         </div>

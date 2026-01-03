@@ -191,7 +191,9 @@ export function ProductForm({ breeds, onSuccess }: ProductFormProps) {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="Male">Male (Live Birds)</SelectItem>
-                      <SelectItem value="Female">Female (Live Birds)</SelectItem>
+                      <SelectItem value="Female">
+                        Female (Live Birds)
+                      </SelectItem>
                       <SelectItem value="Pair">Pair (Live Birds)</SelectItem>
                       <SelectItem value="N/A">N/A (Eggs/Meat)</SelectItem>
                     </SelectContent>
@@ -204,31 +206,13 @@ export function ProductForm({ breeds, onSuccess }: ProductFormProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>Size / Age</Label>
-                  <Select
-                    value={form.watch("ageGroup")}
-                    onValueChange={(value) => form.setValue("ageGroup", value)}
-                  >
-                    <SelectTrigger className="h-11">
-                      <SelectValue placeholder="Select size/age" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Chick">Chick</SelectItem>
-                      <SelectItem value="1-7 months">1-7 months</SelectItem>
-                      <SelectItem value="Mature">Mature</SelectItem>
-                      <SelectItem value="Half Dozen">
-                        Half Dozen (6 eggs)
-                      </SelectItem>
-                      <SelectItem value="Dozen">Dozen (12 eggs)</SelectItem>
-                      <SelectItem value="18 Pack">18 Pack</SelectItem>
-                      <SelectItem value="30 Pack">30 Pack</SelectItem>
-                      <SelectItem value="1 lb">1 lb</SelectItem>
-                      <SelectItem value="2 lbs">2 lbs</SelectItem>
-                      <SelectItem value="5 lbs">5 lbs</SelectItem>
-                      <SelectItem value="10 lbs">10 lbs</SelectItem>
-                      <SelectItem value="Whole">Whole</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="ageGroup">Size / Age</Label>
+                  <Input
+                    id="ageGroup"
+                    placeholder="e.g. 3 months, Mature, 1kg"
+                    className="h-11"
+                    {...form.register("ageGroup")}
+                  />
                   {form.formState.errors.ageGroup && (
                     <p className="text-sm text-destructive">
                       {form.formState.errors.ageGroup.message}

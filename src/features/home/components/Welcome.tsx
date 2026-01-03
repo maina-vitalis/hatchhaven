@@ -1,8 +1,11 @@
+"use client";
+
 import { Check, Leaf, Shield, Heart, Truck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/src/components/ui/button";
 import { Badge } from "@/src/components/ui/badge";
+import { motion } from "framer-motion";
 
 export function Welcome() {
   const features = [
@@ -36,7 +39,13 @@ export function Welcome() {
       <div className="container mx-auto px-4 lg:px-8 relative">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Image Section */}
-          <div className="relative order-2 lg:order-1">
+          <motion.div
+            className="relative order-2 lg:order-1"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
             <div className="relative group">
               {/* Main image */}
               <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl ring-1 ring-border/50">
@@ -52,7 +61,13 @@ export function Welcome() {
 
               {/* Floating badge */}
               <div className="absolute -top-6 -right-6 z-10 hidden md:block">
-                <div className="bg-white p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+                <motion.div
+                  className="bg-white p-4 rounded-2xl shadow-xl flex items-center gap-3"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.5, duration: 0.5 }}
+                >
                   <div className="bg-green-100 p-2 rounded-full">
                     <Leaf className="w-6 h-6 text-green-600" />
                   </div>
@@ -62,10 +77,10 @@ export function Welcome() {
                     </p>
                     <p className="font-bold text-foreground">100% Organic</p>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Content Section */}
           <div className="order-1 lg:order-2 space-y-8">
@@ -89,11 +104,27 @@ export function Welcome() {
             </div>
 
             {/* Features Grid */}
-            <div className="grid sm:grid-cols-2 gap-6">
+            <motion.div
+              className="grid sm:grid-cols-2 gap-6"
+              variants={{
+                hidden: { opacity: 0 },
+                show: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.1 },
+                },
+              }}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+            >
               {features.map((feature, index) => (
-                <div
+                <motion.div
                   key={feature.title}
                   className="flex items-start gap-4 p-4 rounded-xl hover:bg-muted/50 transition-colors"
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    show: { opacity: 1, y: 0 },
+                  }}
                 >
                   <div className="shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
                     <feature.icon className="w-6 h-6 text-primary" />
@@ -106,9 +137,9 @@ export function Welcome() {
                       {feature.description}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             {/* CTA Section */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">

@@ -6,7 +6,16 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/src/components/ui/button";
 import { Card, CardContent } from "@/src/components/ui/card";
-import { ArrowLeft, Leaf, Shield, Truck, Check } from "lucide-react";
+import {
+  ArrowLeft,
+  Leaf,
+  Shield,
+  Truck,
+  Check,
+  ChevronRight,
+  Heart,
+  Share2,
+} from "lucide-react";
 import { toast } from "sonner";
 import { formatPrice } from "@/src/lib/utils";
 import { useCart } from "@/src/context/cart-context";
@@ -60,6 +69,7 @@ export function ProductDetails({
     product.variants[0] || null
   );
   const [quantity, setQuantity] = useState(1);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   // Get all available images for the product
   const getAllImages = (): string[] => {
@@ -81,7 +91,7 @@ export function ProductDetails({
 
   const handleAddToCart = () => {
     if (!selectedVariant) return;
-    
+
     addToCart({
       id: selectedVariant.id,
       name: product.name,
@@ -91,15 +101,23 @@ export function ProductDetails({
       variantId: selectedVariant.id,
       breedName: product.breed.name,
     });
+    toast.success("Added to cart");
   };
 
   const handleBuyNow = () => {
     if (!selectedVariant) return;
-    
-    const message = `Hi! I'd like to order:\n\n• ${product.name} x${quantity} - KES ${(selectedVariant.price * quantity).toFixed(2)}\n\n*Total: KES ${(selectedVariant.price * quantity).toFixed(2)}*`;
-    
-    const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "1234567890";
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+    const message = `Hi! I'd like to order:\n\n• ${
+      product.name
+    } x${quantity} - KES ${(selectedVariant.price * quantity).toFixed(
+      2
+    )}\n\n*Total: KES ${(selectedVariant.price * quantity).toFixed(2)}*`;
+
+    const whatsappNumber =
+      process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "254700000000";
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+      message
+    )}`;
     window.open(whatsappUrl, "_blank");
   };
 
@@ -112,169 +130,206 @@ export function ProductDetails({
 
   const getStockBadgeClasses = (): string => {
     if (!selectedVariant) return "bg-muted/50 text-muted-foreground";
-    if (selectedVariant.stock > 10) return "bg-green-500/10 text-green-700 border-green-200";
-    if (selectedVariant.stock > 0) return "bg-yellow-500/10 text-yellow-700 border-yellow-200";
-    return "bg-red-500/10 text-red-700 border-red-200";
+    if (selectedVariant.stock > 10)
+      return "bg-green-100 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-400 dark:border-green-800";
+    if (selectedVariant.stock > 0)
+      return "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800";
+    return "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-400 dark:border-red-800";
   };
 
   const features = [
     {
       icon: Leaf,
-      title: "Free-Range & Organic",
-      description: "Raised in open pastures with access to natural feed",
+      title: "100% Organic",
+      description: "Free-range & chemical free",
     },
     {
       icon: Shield,
-      title: "No Hormones or Antibiotics",
-      description: "100% natural, hormone-free and antibiotic-free",
+      title: "Health Guarantee",
+      description: "Vet checked & vaccinated",
     },
     {
       icon: Truck,
-      title: "Fresh Daily Delivery",
-      description: "Order by 2 PM for next-day delivery",
+      title: "Fast Delivery",
+      description: "Countrywide shipping",
     },
     {
       icon: Check,
-      title: "Ethically Raised",
-      description: "Animal welfare is our top priority",
+      title: "Ethical Farming",
+      description: "Humanely raised poultry",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Breadcrumb */}
-      <div className="border-b bg-background/95 backdrop-blur-sm sticky top-0 z-40">
-        <div className="container mx-auto px-4 lg:px-8 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground overflow-x-auto whitespace-nowrap no-scrollbar">
-              <Link
-                href="/"
-                className="hover:text-foreground transition-colors"
-              >
-                Home
-              </Link>
-              <span>/</span>
-              <Link
-                href="/products"
-                className="hover:text-foreground transition-colors"
-              >
-                Products
-              </Link>
-              <span>/</span>
-              <Link
-                href={`/products?category=${
-                  product.categorySlug || product.category.toLowerCase()
+    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950/50 pb-20">
+      {/* Top Navigation Bar / Breadcrumb */}
+      <div className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <nav className="flex items-center gap-2 text-sm text-muted-foreground overflow-hidden">
+            <Link
+              href="/products"
+              className="flex items-center hover:text-foreground transition-colors"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">Back to Products</span>
+              <span className="sm:hidden">Back</span>
+            </Link>
+            <ChevronRight className="h-4 w-4 shrink-0 opacity-50" />
+            <Link
+              href={`/products?category=${
+                product.categorySlug || product.category.toLowerCase()
+              }`}
+              className="hover:text-foreground transition-colors truncate"
+            >
+              {product.category}
+            </Link>
+            <ChevronRight className="h-4 w-4 shrink-0 opacity-50" />
+            <span className="font-medium text-foreground truncate">
+              {product.breed.name}
+            </span>
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full"
+              onClick={() => setIsFavorite(!isFavorite)}
+            >
+              <Heart
+                className={`h-5 w-5 ${
+                  isFavorite ? "fill-red-500 text-red-500" : ""
                 }`}
-                className="hover:text-foreground transition-colors"
-              >
-                {product.category}
-              </Link>
-              <span>/</span>
-              <span className="text-foreground font-medium truncate max-w-[200px]">
-                {product.name}
-              </span>
-            </div>
-            <Button variant="ghost" size="sm" asChild className="hidden sm:flex">
-              <Link href="/products">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back
-              </Link>
+              />
+            </Button>
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <Share2 className="h-5 w-5" />
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 lg:px-8 py-8 max-w-7xl">
-        {/* Product Layout */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-16">
-          {/* Image Gallery - Left Column */}
-          <div className="order-2 lg:order-1">
+      <main className="container mx-auto px-4 py-8 lg:py-12 max-w-7xl">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16">
+          {/* Left Column: Gallery */}
+          <div className="lg:col-span-7 xl:col-span-8 space-y-8">
             <ProductGallery
               images={allImages}
               productName={product.name}
               isSoldOut={selectedVariant?.stock === 0}
             />
+
+            {/* Description & Specs Tabs (Desktop) */}
+            <div className="hidden lg:block">
+              <ProductTabs
+                description={product.breed.description}
+                purpose={product.breed.purpose}
+                category={product.category}
+                breedName={product.breed.name}
+                origin={product.breed.origin}
+                gender={selectedVariant?.gender}
+                ageGroup={selectedVariant?.ageGroup}
+              />
+            </div>
           </div>
 
-          {/* Product Info - Right Column */}
-          <div className="order-1 lg:order-2 flex flex-col h-full">
-            <div className="space-y-6">
-              <ProductInfo
-                name={product.name}
-                category={product.category}
-                purpose={product.breed.purpose}
-                origin={product.breed.origin}
-                price={selectedVariant?.price}
-                stockStatus={getStockStatus()}
-                stockBadgeClasses={getStockBadgeClasses()}
-                stockCount={selectedVariant?.stock || 0}
-              />
+          {/* Right Column: Buying Section (Sticky) */}
+          <div className="lg:col-span-5 xl:col-span-4">
+            <div className="lg:sticky lg:top-24 space-y-8">
+              {/* Main Product Info & Purchase Card */}
+              <div className="bg-background rounded-3xl p-6 lg:p-8 shadow-sm border space-y-6">
+                <ProductInfo
+                  name={product.name}
+                  category={product.category}
+                  purpose={product.breed.purpose}
+                  origin={product.breed.origin}
+                  price={selectedVariant?.price}
+                  stockStatus={getStockStatus()}
+                  stockBadgeClasses={getStockBadgeClasses()}
+                  stockCount={selectedVariant?.stock || 0}
+                />
 
-              <ProductVariants
-                variants={product.variants}
-                selectedVariant={selectedVariant}
-                onVariantSelect={setSelectedVariant}
-              />
+                <div className="h-px bg-border" />
 
-              <ProductActions
-                quantity={quantity}
-                stock={selectedVariant?.stock || 0}
-                onQuantityChange={setQuantity}
-                onAddToCart={handleAddToCart}
-                onBuyNow={handleBuyNow}
-                disabled={!selectedVariant || selectedVariant.stock === 0}
-              />
+                <ProductVariants
+                  variants={product.variants}
+                  selectedVariant={selectedVariant}
+                  onVariantSelect={setSelectedVariant}
+                />
+
+                <ProductActions
+                  quantity={quantity}
+                  stock={selectedVariant?.stock || 0}
+                  onQuantityChange={setQuantity}
+                  onAddToCart={handleAddToCart}
+                  onBuyNow={handleBuyNow}
+                  disabled={!selectedVariant || selectedVariant.stock === 0}
+                />
+
+                {/* Trust Badges Check */}
+                <div className="grid grid-cols-2 gap-3 pt-4">
+                  {features.slice(0, 2).map((item) => (
+                    <div
+                      key={item.title}
+                      className="flex items-start gap-2 text-xs text-muted-foreground"
+                    >
+                      <item.icon className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                      <span>{item.title}</span>
+                    </div>
+                  ))}
+                  {features.slice(2, 4).map((item) => (
+                    <div
+                      key={item.title}
+                      className="flex items-start gap-2 text-xs text-muted-foreground"
+                    >
+                      <item.icon className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                      <span>{item.title}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mobile Description (visible only on small screens) */}
+              <div className="lg:hidden">
+                <ProductTabs
+                  description={product.breed.description}
+                  purpose={product.breed.purpose}
+                  category={product.category}
+                  breedName={product.breed.name}
+                  origin={product.breed.origin}
+                  gender={selectedVariant?.gender}
+                  ageGroup={selectedVariant?.ageGroup}
+                />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Detailed Features Section */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-16">
-          {features.map((feature) => (
-            <Card key={feature.title} className="bg-muted/30 border-none shadow-none">
-              <CardContent className="p-6 flex flex-col gap-3">
-                <div className="p-3 rounded-xl bg-background w-fit shadow-sm">
-                  <feature.icon className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold mb-1">{feature.title}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {feature.description}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <ProductTabs
-          description={product.breed.description}
-          purpose={product.breed.purpose}
-          category={product.category}
-          breedName={product.breed.name}
-          origin={product.breed.origin}
-          gender={selectedVariant?.gender}
-          ageGroup={selectedVariant?.ageGroup}
-        />
-
-        {/* Related Products */}
+        {/* Similar Products */}
         {relatedProducts.length > 0 && (
-          <div>
+          <div className="mt-20 lg:mt-32">
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold">You May Also Like</h2>
-              <Button variant="outline" asChild>
-                <Link href="/products">View All Products</Link>
+              <div>
+                <h2 className="text-2xl lg:text-3xl font-bold tracking-tight">
+                  You May Also Like
+                </h2>
+                <p className="text-muted-foreground mt-1">
+                  Other premium poultry you might be interested in
+                </p>
+              </div>
+              <Button variant="outline" asChild className="hidden sm:flex">
+                <Link href="/products">View All</Link>
               </Button>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
               {relatedProducts.map((relatedProduct) => (
-                <Link 
-                  key={relatedProduct.id} 
+                <Link
+                  key={relatedProduct.id}
                   href={`/products/${relatedProduct.id}`}
-                  className="group"
+                  className="group block"
                 >
-                  <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-none bg-muted/10 h-full flex flex-col">
+                  <Card className="overflow-hidden border-none shadow-sm hover:shadow-lg transition-all duration-300 h-full flex flex-col bg-background rounded-2xl">
                     <div className="relative aspect-square w-full overflow-hidden bg-muted">
                       <Image
                         src={relatedProduct.image}
@@ -283,33 +338,35 @@ export function ProductDetails({
                         className="object-cover group-hover:scale-110 transition-transform duration-500"
                         unoptimized
                       />
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
                     </div>
                     <CardContent className="p-4 flex flex-col flex-1">
                       <div className="mb-2">
-                        <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                        <span className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground/80">
                           {relatedProduct.category}
                         </span>
                       </div>
-                      <h3 className="text-base font-bold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                      <h3 className="font-bold text-base leading-tight mb-2 line-clamp-2 group-hover:text-primary transition-colors">
                         {relatedProduct.name}
                       </h3>
                       <div className="mt-auto pt-2 flex items-center justify-between">
-                        <span className="text-lg font-bold text-primary">
+                        <span className="font-bold text-lg text-primary">
                           {formatPrice(relatedProduct.price)}
                         </span>
-                        <Button size="sm" variant="secondary" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                          View
-                        </Button>
                       </div>
                     </CardContent>
                   </Card>
                 </Link>
               ))}
             </div>
+
+            <div className="mt-8 flex justify-center sm:hidden">
+              <Button variant="outline" asChild className="w-full">
+                <Link href="/products">View All Products</Link>
+              </Button>
+            </div>
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }

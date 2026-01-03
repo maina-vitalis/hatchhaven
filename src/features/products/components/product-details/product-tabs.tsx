@@ -6,8 +6,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/src/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/ui/card";
-import { Check, Truck, Shield, Info } from "lucide-react";
+import { Card, CardContent } from "@/src/components/ui/card";
+import { Truck, ShieldCheck, Info, Leaf } from "lucide-react";
 
 interface ProductTabsProps {
   description: string;
@@ -29,193 +29,158 @@ export function ProductTabs({
   ageGroup,
 }: ProductTabsProps) {
   return (
-    <div className="mb-16">
+    <div className="w-full">
       <Tabs defaultValue="description" className="w-full">
-        <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent gap-6 mb-8 overflow-x-auto">
-          <TabsTrigger
-            value="description"
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 py-3 text-base"
-          >
-            Description
-          </TabsTrigger>
-          <TabsTrigger
-            value="specifications"
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 py-3 text-base"
-          >
-            Specifications
-          </TabsTrigger>
-          <TabsTrigger
-            value="shipping"
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 py-3 text-base"
-          >
-            Shipping & Returns
-          </TabsTrigger>
-          <TabsTrigger
-            value="care"
-            className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-0 py-3 text-base"
-          >
-            Care Guide
-          </TabsTrigger>
+        <TabsList className="w-full justify-start border-b h-auto p-0 bg-transparent space-x-8 mb-8 overflow-x-auto no-scrollbar">
+          {["Description", "Specifications", "Shipping", "Care Guide"].map(
+            (tab) => (
+              <TabsTrigger
+                key={tab}
+                value={tab.toLowerCase().split(" ")[0]}
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {tab}
+              </TabsTrigger>
+            )
+          )}
         </TabsList>
 
         <TabsContent
           value="description"
-          className="animate-in fade-in-50 slide-in-from-bottom-2"
+          className="space-y-8 animate-in fade-in-50"
         >
-          <div className="grid lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-6">
-              <h3 className="text-2xl font-bold">About {breedName}</h3>
-              <p className="text-muted-foreground leading-relaxed text-lg">
-                {description}
-              </p>
-              {purpose && (
-                <div className="p-6 rounded-2xl bg-primary/5 border border-primary/10">
-                  <h4 className="font-semibold mb-2 text-primary">
-                    Ideal Purpose
-                  </h4>
-                  <p className="text-foreground/80">{purpose}</p>
-                </div>
-              )}
-            </div>
-            <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Why Choose Us?</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex gap-3">
-                    <Check className="h-5 w-5 text-green-500 shrink-0" />
-                    <span className="text-sm">100% Health Guarantee</span>
-                  </div>
-                  <div className="flex gap-3">
-                    <Check className="h-5 w-5 text-green-500 shrink-0" />
-                    <span className="text-sm">Expert Support Available</span>
-                  </div>
-                  <div className="flex gap-3">
-                    <Check className="h-5 w-5 text-green-500 shrink-0" />
-                    <span className="text-sm">Ethically Sourced</span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+          <div className="prose prose-slate dark:prose-invert max-w-none">
+            <h3 className="text-2xl font-bold mb-4">About {breedName}</h3>
+            <p className="text-lg leading-relaxed text-muted-foreground">
+              {description}
+            </p>
           </div>
+
+          {purpose && (
+            <div className="flex items-start gap-4 p-6 bg-slate-50 dark:bg-slate-900 rounded-2xl">
+              <Leaf className="h-6 w-6 text-green-600 mt-1" />
+              <div>
+                <h4 className="font-semibold text-foreground">Ideal Purpose</h4>
+                <p className="text-muted-foreground">{purpose}</p>
+              </div>
+            </div>
+          )}
         </TabsContent>
 
-        <TabsContent
-          value="specifications"
-          className="animate-in fade-in-50 slide-in-from-bottom-2"
-        >
-          <div className="border rounded-xl overflow-hidden">
+        <TabsContent value="specifications" className="animate-in fade-in-50">
+          <div className="rounded-2xl border overflow-hidden">
             <dl className="divide-y">
-              <div className="grid grid-cols-3 gap-4 p-4 bg-muted/30">
-                <dt className="font-medium text-muted-foreground">Category</dt>
-                <dd className="col-span-2 font-medium">{category}</dd>
-              </div>
-              <div className="grid grid-cols-3 gap-4 p-4">
-                <dt className="font-medium text-muted-foreground">Breed</dt>
-                <dd className="col-span-2 font-medium">{breedName}</dd>
-              </div>
-              {origin && (
-                <div className="grid grid-cols-3 gap-4 p-4 bg-muted/30">
-                  <dt className="font-medium text-muted-foreground">Origin</dt>
-                  <dd className="col-span-2 font-medium">{origin}</dd>
-                </div>
-              )}
-              {gender && (
-                <div className="grid grid-cols-3 gap-4 p-4">
-                  <dt className="font-medium text-muted-foreground">
-                    Gender/Type
-                  </dt>
-                  <dd className="col-span-2 font-medium">{gender}</dd>
-                </div>
-              )}
-              {ageGroup && (
-                <div className="grid grid-cols-3 gap-4 p-4 bg-muted/30">
-                  <dt className="font-medium text-muted-foreground">Age/Size</dt>
-                  <dd className="col-span-2 font-medium">{ageGroup}</dd>
-                </div>
+              {[
+                { label: "Category", value: category },
+                { label: "Breed", value: breedName },
+                { label: "Origin", value: origin },
+                { label: "Gender", value: gender },
+                { label: "Age Group", value: ageGroup },
+              ].map(
+                (item, i) =>
+                  item.value && (
+                    <div
+                      key={item.label}
+                      className={`grid grid-cols-3 gap-4 p-4 ${
+                        i % 2 === 0 ? "bg-muted/30" : "bg-transparent"
+                      }`}
+                    >
+                      <dt className="font-medium text-muted-foreground">
+                        {item.label}
+                      </dt>
+                      <dd className="col-span-2 font-medium text-foreground">
+                        {item.value}
+                      </dd>
+                    </div>
+                  )
               )}
             </dl>
           </div>
         </TabsContent>
 
-        <TabsContent
-          value="shipping"
-          className="animate-in fade-in-50 slide-in-from-bottom-2"
-        >
+        <TabsContent value="shipping" className="animate-in fade-in-50">
           <div className="grid md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Truck className="h-5 w-5" /> Shipping Info
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  We take extra care in packaging to ensure your products arrive
-                  safely. Live birds are shipped via specialized carriers with
-                  climate control.
-                </p>
-                <ul className="list-disc list-inside text-sm space-y-1 text-muted-foreground">
-                  <li>Orders processed within 24 hours</li>
-                  <li>Express delivery available</li>
-                  <li>Tracking number provided</li>
+            <Card className="border-none shadow-sm bg-muted/30">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 bg-background rounded-lg shadow-sm">
+                    <Truck className="h-5 w-5 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-lg">
+                    Shipping Information
+                  </h3>
+                </div>
+                <ul className="space-y-3 text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2" />
+                    <span>Orders processed within 24 hours</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2" />
+                    <span>
+                      Specialized climate-controlled transport for live birds
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2" />
+                    <span>Nationwide delivery network</span>
+                  </li>
                 </ul>
               </CardContent>
             </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Shield className="h-5 w-5" /> Returns & Guarantee
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">
-                  Your satisfaction is our priority. If you are not completely
-                  satisfied with your purchase, please contact us within 24 hours
-                  of delivery.
+
+            <Card className="border-none shadow-sm bg-muted/30">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 bg-background rounded-lg shadow-sm">
+                    <ShieldCheck className="h-5 w-5 text-green-600" />
+                  </div>
+                  <h3 className="font-semibold text-lg">Our Guarantee</h3>
+                </div>
+                <p className="text-muted-foreground mb-4">
+                  We stand by the quality of our poultry.
                 </p>
-                <p className="text-sm font-medium">
-                  Live Arrival Guarantee: We guarantee all live birds arrive
-                  healthy.
-                </p>
+                <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                  <ShieldCheck className="h-4 w-4 text-green-600" />
+                  100% Live Arrival Guarantee
+                </div>
               </CardContent>
             </Card>
           </div>
         </TabsContent>
 
-        <TabsContent
-          value="care"
-          className="animate-in fade-in-50 slide-in-from-bottom-2"
-        >
-          <Card className="bg-primary/5 border-primary/20">
-            <CardContent className="p-8">
-              <div className="flex items-start gap-4">
-                <Info className="h-6 w-6 text-primary shrink-0 mt-1" />
-                <div className="space-y-4">
-                  <h3 className="text-xl font-bold">Care Instructions</h3>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-semibold mb-2">Immediate Care</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Upon arrival, ensure access to fresh water and appropriate
-                        feed immediately. Keep in a draft-free,
-                        temperature-controlled environment.
-                      </p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold mb-2">Long-term Care</h4>
-                      <p className="text-sm text-muted-foreground">
-                        Maintain clean bedding and fresh water daily. Follow
-                        specific breed guidelines for nutrition and housing
-                        requirements.
-                      </p>
-                    </div>
+        <TabsContent value="care" className="animate-in fade-in-50">
+          <div className="bg-amber-50 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-900 rounded-2xl p-6 lg:p-8">
+            <div className="flex gap-4">
+              <Info className="h-6 w-6 text-amber-600 shrink-0" />
+              <div className="space-y-4">
+                <h3 className="text-lg font-bold text-amber-900 dark:text-amber-100">
+                  Care Guide
+                </h3>
+                <div className="grid md:grid-cols-2 gap-8">
+                  <div>
+                    <h4 className="font-semibold text-amber-800 dark:text-amber-200 mb-2">
+                      Immediate Arrival
+                    </h4>
+                    <p className="text-amber-700/80 dark:text-amber-300/80 text-sm leading-relaxed">
+                      Ensure access to fresh water and appropriate feed
+                      immediately. Keep in a draft-free, temperature-controlled
+                      environment for the first 48 hours.
+                    </p>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-amber-800 dark:text-amber-200 mb-2">
+                      Ongoing Maintenance
+                    </h4>
+                    <p className="text-amber-700/80 dark:text-amber-300/80 text-sm leading-relaxed">
+                      Maintain clean bedding daily. Follow specific breed
+                      guidelines for nutrition requirements.
+                    </p>
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

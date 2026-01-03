@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { SidebarProvider, SidebarInset } from "@/src/components/ui/sidebar";
 import { AdminSidebar } from "@/src/features/admin/components/admin-sidebar";
 import { Loader2 } from "lucide-react";
+import { AdminHeader } from "@/src/features/admin/components/admin-header";
 
 export default function AdminLayout({
   children,
@@ -46,7 +47,10 @@ export default function AdminLayout({
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
         <AdminSidebar />
-        <SidebarInset className="flex flex-col">{children}</SidebarInset>
+        <SidebarInset className="flex flex-col">
+          <AdminHeader />
+          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
+        </SidebarInset>
       </div>
     </SidebarProvider>
   );

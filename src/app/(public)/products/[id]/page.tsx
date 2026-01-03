@@ -1,9 +1,57 @@
+import { Metadata } from "next";
 import { ProductDetails } from "@/src/features/products/components/product-details";
 import { Footer } from "@/src/features/shared";
 import { notFound } from "next/navigation";
 import prisma from "@/src/lib/prisma";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const product = await getProductData(id);
+
+  if (!product) {
+    return {
+      title: "Product Not Found",
+      description: "The requested product could not be found.",
+    };
+  }
+
+  const title = product.name;
+  const description = `${product.name} - ${product.breed.description.substring(
+    0,
+    150
+  )}...`;
+  const images =
+    product.images.length > 0 ? product.images : ["/placeholder-product.jpg"];
+
+  return {
+    title: title,
+    description: description,
+    openGraph: {
+      title: title,
+      description: description,
+      images: images.map((url) => ({
+        url,
+        width: 1200,
+        height: 630,
+        alt: title,
+      })),
+      url: `https://www.hatchhavenacres.co.ke/products/${id}`,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: title,
+      description: description,
+      images: images,
+    },
+  };
+}
 
 async function getProductData(id: string) {
   try {

@@ -10,6 +10,8 @@ import { ShoppingCart } from "lucide-react";
 import { formatPrice } from "@/src/lib/utils";
 import { Badge } from "@/src/components/ui/badge";
 
+import { motion } from "framer-motion";
+
 interface Product {
   id: string;
   name: string;
@@ -79,59 +81,78 @@ export function Products() {
             ))}
           </div>
         ) : products.length > 0 ? (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <motion.div
+            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8"
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: { staggerChildren: 0.1 },
+              },
+            }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+          >
             {products.map((product) => (
-              <Link
+              <motion.div
                 key={product.id}
-                href={`/products/${product.id}`}
-                className="group block"
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  show: { opacity: 1, y: 0 },
+                }}
               >
-                <Card className="overflow-hidden border-border/50 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-primary/20 hover:-translate-y-1 rounded-2xl h-full flex flex-col">
-                  <div className="relative aspect-[4/3] overflow-hidden bg-muted">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      width={400}
-                      height={300}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      unoptimized
-                    />
-                    {product.stock === 0 && (
-                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center backdrop-blur-sm">
-                        <span className="text-white font-semibold bg-red-500/90 px-4 py-2 rounded-full text-sm shadow-lg">
-                          Out of Stock
+                <Link
+                  href={`/products/${product.id}`}
+                  className="group block h-full"
+                >
+                  <Card className="overflow-hidden border-border/50 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-primary/20 hover:-translate-y-1 rounded-2xl h-full flex flex-col">
+                    <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        width={400}
+                        height={300}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        unoptimized
+                      />
+                      {product.stock === 0 && (
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center backdrop-blur-sm">
+                          <span className="text-white font-semibold bg-red-500/90 px-4 py-2 rounded-full text-sm shadow-lg">
+                            Out of Stock
+                          </span>
+                        </div>
+                      )}
+                      <div className="absolute bottom-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                        <div className="bg-white/90 backdrop-blur-md p-2 rounded-full shadow-lg text-primary">
+                          <ShoppingCart className="w-5 h-5" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <CardContent className="p-6 flex flex-col flex-1">
+                      <div className="space-y-1 mb-4">
+                        <span className="text-xs font-bold text-primary uppercase tracking-wider">
+                          {product.categoryName}
+                        </span>
+                        <h3 className="text-lg font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors">
+                          {product.name}
+                        </h3>
+                      </div>
+                      <div className="mt-auto pt-4 border-t border-border/50 flex items-center justify-between">
+                        <span className="text-xl font-bold text-foreground">
+                          {formatPrice(product.price)}
+                        </span>
+                        <span className="text-sm text-muted-foreground font-medium group-hover:underline decoration-primary/50 underline-offset-4">
+                          View Details
                         </span>
                       </div>
-                    )}
-                    <div className="absolute bottom-4 right-4 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                      <div className="bg-white/90 backdrop-blur-md p-2 rounded-full shadow-lg text-primary">
-                        <ShoppingCart className="w-5 h-5" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <CardContent className="p-6 flex flex-col flex-1">
-                    <div className="space-y-1 mb-4">
-                      <span className="text-xs font-bold text-primary uppercase tracking-wider">
-                        {product.categoryName}
-                      </span>
-                      <h3 className="text-lg font-semibold text-foreground line-clamp-2 group-hover:text-primary transition-colors">
-                        {product.name}
-                      </h3>
-                    </div>
-                    <div className="mt-auto pt-4 border-t border-border/50 flex items-center justify-between">
-                      <span className="text-xl font-bold text-foreground">
-                        {formatPrice(product.price)}
-                      </span>
-                      <span className="text-sm text-muted-foreground font-medium group-hover:underline decoration-primary/50 underline-offset-4">
-                        View Details
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         ) : (
           <div className="text-center py-20 bg-muted/30 rounded-3xl border border-dashed border-border">
             <p className="text-muted-foreground text-lg">

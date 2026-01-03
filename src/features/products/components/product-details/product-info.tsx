@@ -26,68 +26,91 @@ export function ProductInfo({
   stockCount,
 }: ProductInfoProps) {
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-2 flex-wrap">
-        <Badge
-          variant="secondary"
-          className="text-xs font-semibold uppercase tracking-wider bg-primary/10 text-primary hover:bg-primary/20"
-        >
-          {category}
-        </Badge>
-        {purpose && (
-          <Badge variant="outline" className="text-xs">
-            {purpose}
+    <div className="space-y-6">
+      <div className="space-y-4">
+        <div className="flex items-center gap-2 flex-wrap">
+          <Badge
+            variant="secondary"
+            className="rounded-full px-3 py-1 font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+          >
+            {category}
           </Badge>
-        )}
-        <div className="flex items-center gap-1 text-yellow-500 text-sm ml-auto">
-          <Star className="h-4 w-4 fill-current" />
-          <span className="font-medium text-foreground">4.9</span>
-          <span className="text-muted-foreground">(128 reviews)</span>
+          {purpose && (
+            <Badge
+              variant="outline"
+              className="rounded-full px-3 py-1 text-muted-foreground border-muted-foreground/20"
+            >
+              {purpose}
+            </Badge>
+          )}
+        </div>
+
+        <h1 className="text-3xl lg:text-4xl font-extrabold text-foreground leading-tight tracking-tight">
+          {name}
+        </h1>
+
+        <div className="flex items-center gap-3">
+          <div className="flex text-yellow-500">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="h-4 w-4 fill-current" />
+            ))}
+          </div>
+          <span className="text-sm text-muted-foreground font-medium underline underline-offset-4 decoration-muted-foreground/30 hover:decoration-primary cursor-pointer transition-colors">
+            128 Reviews
+          </span>
         </div>
       </div>
 
-      <div>
-        <h1 className="text-3xl lg:text-5xl font-bold mb-3 leading-tight tracking-tight">
-          {name}
-        </h1>
-        {origin && (
-          <p className="text-base text-muted-foreground flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-primary/60" />
-            Origin: {origin}
-          </p>
+      {/* Price Section */}
+      <div className="space-y-2">
+        {price !== undefined ? (
+          <div className="flex items-center justify-between">
+            <div className="space-y-1">
+              <div className="flex items-baseline gap-2">
+                <span className="text-4xl font-bold text-foreground tracking-tight">
+                  {formatPrice(price)}
+                </span>
+                <span className="text-muted-foreground font-medium">
+                  / unit
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Price includes VAT
+              </p>
+            </div>
+
+            <div className="text-right">
+              <Badge
+                variant="outline"
+                className={cn(
+                  "px-2.5 py-0.5 rounded-full border mb-1.5",
+                  stockBadgeClasses
+                )}
+              >
+                {stockStatus}
+              </Badge>
+              {stockCount > 0 && stockCount <= 10 && (
+                <p className="text-[10px] text-red-500 font-medium animate-pulse">
+                  Only {stockCount} left!
+                </p>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="p-4 bg-muted/30 rounded-lg text-center">
+            <p className="text-muted-foreground font-medium">
+              Select options to view price
+            </p>
+          </div>
         )}
       </div>
 
-      {/* Price & Stock */}
-      <div className="flex items-end gap-4 pb-4 border-b">
-        {price !== undefined ? (
-          <>
-            <div className="flex flex-col">
-              <span className="text-sm text-muted-foreground mb-1">Price</span>
-              <div className="flex items-baseline gap-2">
-                <span className="text-4xl font-bold text-primary">
-                  {formatPrice(price)}
-                </span>
-                <span className="text-sm text-muted-foreground">/ unit</span>
-              </div>
-            </div>
-            <div className="ml-auto flex flex-col items-end">
-              <Badge variant="outline" className={cn("mb-1", stockBadgeClasses)}>
-                {stockStatus}
-              </Badge>
-              {stockCount > 0 && (
-                <span className="text-xs text-muted-foreground">
-                  {stockCount} available
-                </span>
-              )}
-            </div>
-          </>
-        ) : (
-          <p className="text-muted-foreground text-sm">
-            Select a variant to see pricing
-          </p>
-        )}
-      </div>
+      {origin && (
+        <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/40 p-3 rounded-xl">
+          <span className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]" />
+          Origin: <span className="font-medium text-foreground">{origin}</span>
+        </div>
+      )}
     </div>
   );
 }

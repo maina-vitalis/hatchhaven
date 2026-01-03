@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
-import { SidebarTrigger } from "@/src/components/ui/sidebar";
+import { motion } from "framer-motion";
 import {
   Card,
   CardContent,
@@ -15,12 +14,11 @@ import {
   ShoppingCart,
   Users,
   DollarSign,
-  LogOut,
   Loader2,
   Tag,
   Layers,
+  ArrowUpRight,
 } from "lucide-react";
-import { signOut } from "next-auth/react";
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
 
@@ -34,7 +32,6 @@ interface Stats {
 }
 
 export default function AdminDashboard() {
-  const { data: session } = useSession();
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -56,186 +53,181 @@ export default function AdminDashboard() {
       setLoading(false);
     }
   };
-  return (
-    <>
-      <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-        <SidebarTrigger className="-ml-1" />
-        <div className="flex-1">
-          <h1 className="text-lg font-semibold">Dashboard</h1>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-muted-foreground">
-            {session?.user?.email}
-          </span>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => signOut({ callbackUrl: "/" })}
-            className="gap-2"
-          >
-            <LogOut className="h-4 w-4" />
-            Sign Out
-          </Button>
-        </div>
-      </header>
-      <div className="flex flex-1 flex-col gap-4 p-4 md:p-6 overflow-auto">
-        {/* Stats Overview */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Products
-              </CardTitle>
-              <Package className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              {loading ? (
-                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-              ) : (
-                <>
-                  <div className="text-2xl font-bold">
-                    {stats?.totalProducts || 0}
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Product variants
-                  </p>
-                </>
-              )}
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Orders
-              </CardTitle>
-              <ShoppingCart className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              {loading ? (
-                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-              ) : (
-                <>
-                  <div className="text-2xl font-bold">
-                    {stats?.totalOrders || 0}
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    All time orders
-                  </p>
-                </>
-              )}
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Revenue
-              </CardTitle>
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              {loading ? (
-                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-              ) : (
-                <>
-                  <div className="text-2xl font-bold">
-                    $
-                    {(stats?.totalRevenue || 0).toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Total sales revenue
-                  </p>
-                </>
-              )}
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              {loading ? (
-                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-              ) : (
-                <>
-                  <div className="text-2xl font-bold">
-                    {stats?.totalUsers || 0}
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Registered customers
-                  </p>
-                </>
-              )}
-            </CardContent>
-          </Card>
-        </div>
 
-        {/* Main Content Area */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-          <Card className="col-span-4">
-            <CardHeader>
+  return (
+    <div className="flex flex-1 flex-col gap-4 md:gap-8">
+      {/* Stats Overview */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <Card className="rounded-xl border bg-card text-card-foreground shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Total Products
+            </CardTitle>
+            <Package className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            ) : (
+              <>
+                <div className="text-2xl font-bold">
+                  {stats?.totalProducts || 0}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Product variants
+                </p>
+              </>
+            )}
+          </CardContent>
+        </Card>
+        <Card className="rounded-xl border bg-card text-card-foreground shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
+            <ShoppingCart className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            ) : (
+              <>
+                <div className="text-2xl font-bold">
+                  {stats?.totalOrders || 0}
+                </div>
+                <p className="text-xs text-muted-foreground">All time orders</p>
+              </>
+            )}
+          </CardContent>
+        </Card>
+        <Card className="rounded-xl border bg-card text-card-foreground shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+            <DollarSign className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            ) : (
+              <>
+                <div className="text-2xl font-bold">
+                  $
+                  {(stats?.totalRevenue || 0).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Total sales revenue
+                </p>
+              </>
+            )}
+          </CardContent>
+        </Card>
+        <Card className="rounded-xl border bg-card text-card-foreground shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+            <Users className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            ) : (
+              <>
+                <div className="text-2xl font-bold">
+                  {stats?.totalUsers || 0}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Registered customers
+                </p>
+              </>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
+        <Card className="xl:col-span-2 rounded-xl shadow-sm">
+          <CardHeader className="flex flex-row items-center">
+            <div className="grid gap-2">
               <CardTitle>Recent Activity</CardTitle>
               <CardDescription>Latest updates and activities</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <p className="text-sm text-muted-foreground">
-                  No recent activity to display
-                </p>
+            </div>
+            <Button asChild size="sm" className="ml-auto gap-1">
+              <Link href="/admin/orders">
+                View All
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col items-center justify-center py-12 text-center rounded-lg border border-dashed">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted">
+                <Layers className="h-6 w-6 text-muted-foreground" />
               </div>
-            </CardContent>
-          </Card>
-          <Card className="col-span-3">
-            <CardHeader>
-              <CardTitle>Quick Actions</CardTitle>
-              <CardDescription>Common administrative tasks</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <Link href="/admin/products">
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start gap-2"
-                  >
-                    <Package className="h-4 w-4" />
-                    Add Products
-                  </Button>
-                </Link>
-                <Link href="/admin/categories">
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start gap-2"
-                  >
-                    <Tag className="h-4 w-4" />
-                    Manage Categories ({stats?.totalCategories || 0})
-                  </Button>
-                </Link>
-                <Link href="/admin/breeds">
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start gap-2"
-                  >
-                    <Layers className="h-4 w-4" />
-                    Manage Breeds ({stats?.totalBreeds || 0})
-                  </Button>
-                </Link>
-                <Link href="/admin/variants">
-                  <Button
-                    variant="outline"
-                    className="w-full justify-start gap-2"
-                  >
-                    <Package className="h-4 w-4" />
-                    Manage Variants ({stats?.totalProducts || 0})
-                  </Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              <h3 className="mt-4 text-lg font-semibold">No recent activity</h3>
+              <p className="mb-4 mt-2 text-sm text-muted-foreground max-w-sm">
+                There hasn't been any recent activity on the platform. New
+                orders and updates will appear here.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="xl:col-span-1 rounded-xl shadow-sm">
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+            <CardDescription>Common administrative tasks</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-3">
+              <Link href="/admin/products" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2 h-11"
+                >
+                  <Package className="h-4 w-4 text-muted-foreground" />
+                  Add Products
+                </Button>
+              </Link>
+              <Link href="/admin/categories" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2 h-11"
+                >
+                  <Tag className="h-4 w-4 text-muted-foreground" />
+                  Manage Categories
+                  <span className="ml-auto text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                    {stats?.totalCategories || 0}
+                  </span>
+                </Button>
+              </Link>
+              <Link href="/admin/breeds" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2 h-11"
+                >
+                  <Layers className="h-4 w-4 text-muted-foreground" />
+                  Manage Breeds
+                  <span className="ml-auto text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                    {stats?.totalBreeds || 0}
+                  </span>
+                </Button>
+              </Link>
+              <Link href="/admin/variants" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start gap-2 h-11"
+                >
+                  <Package className="h-4 w-4 text-muted-foreground" />
+                  Manage Variants
+                  <span className="ml-auto text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+                    {stats?.totalProducts || 0}
+                  </span>
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-    </>
+    </div>
   );
 }

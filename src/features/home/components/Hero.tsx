@@ -1,7 +1,10 @@
+"use client";
+
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/src/components/ui/button";
+import { motion } from "framer-motion";
 
 export function Hero() {
   return (
@@ -21,20 +24,40 @@ export function Hero() {
 
       {/* Content */}
       <div className="container relative z-10 mx-auto px-4 lg:px-8">
-        <div className="max-w-3xl mx-auto text-white text-center space-y-8 animate-in fade-in zoom-in duration-700">
+        <motion.div
+          className="max-w-3xl mx-auto text-white text-center space-y-8"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
           <div className="space-y-4">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight">
+            <motion.h1
+              className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+            >
               Fresh, Ethical, <br className="hidden md:block" />
               <span className="text-primary-foreground">
                 Farm-Raised Poultry
               </span>
-            </h1>
-            <p className="text-lg md:text-2xl text-white/90 font-light max-w-2xl mx-auto px-4">
+            </motion.h1>
+            <motion.p
+              className="text-lg md:text-2xl text-white/90 font-light max-w-2xl mx-auto px-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.8 }}
+            >
               Premium chicken, turkey, and ducks produced with care and
               delivered fresh to your doorstep.
-            </p>
+            </motion.p>
           </div>
-          <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+          <motion.div
+            className="flex flex-col sm:flex-row justify-center gap-4 pt-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+          >
             <Button
               size="lg"
               className="bg-primary hover:bg-primary/90 text-white border-0 h-14 px-8 text-lg font-medium shadow-xl hover:translate-y-[-2px] transition-all"
@@ -53,8 +76,8 @@ export function Hero() {
             >
               <Link href="/about">Our Farm Story</Link>
             </Button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
