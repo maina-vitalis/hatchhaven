@@ -13,6 +13,7 @@ export type ProductCategory = "all" | string;
 
 export interface Product {
   id: string;
+  slug: string; // Add slug field
   name: string;
   price: number;
   image: string;
@@ -149,7 +150,7 @@ export function FilterableProductGrid({
                   key={product.id}
                   className="group relative overflow-hidden border border-border/50 bg-background hover:border-primary/20 hover:shadow-xl transition-all duration-300 flex flex-col p-0"
                 >
-                  <Link href={`/products/${product.id}`}>
+                  <Link href={`/products/${product.slug}`}>
                     <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
                       <Image
                         src={product.image}
@@ -187,7 +188,7 @@ export function FilterableProductGrid({
                           disabled={product.stock === 0}
                           asChild
                         >
-                          <Link href={`/products/${product.id}`}>
+                          <Link href={`/products/${product.slug}`}>
                             <ShoppingCart className="h-4 w-4" />
                           </Link>
                         </Button>

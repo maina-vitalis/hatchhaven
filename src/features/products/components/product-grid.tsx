@@ -7,6 +7,7 @@ import { formatPrice } from "@/src/lib/utils";
 
 interface Product {
   id: number;
+  slug: string; // Add slug field
   name: string;
   price: number;
   image: string;
@@ -16,6 +17,7 @@ export function ProductGrid() {
   const products: Product[] = [
     {
       id: 1,
+      slug: "whole-chicken",
       name: "Whole Chicken",
       price: 12.99,
       image:
@@ -23,6 +25,7 @@ export function ProductGrid() {
     },
     {
       id: 2,
+      slug: "farm-fresh-eggs",
       name: "Farm Fresh Eggs",
       price: 6.99,
       image:
@@ -30,6 +33,7 @@ export function ProductGrid() {
     },
     {
       id: 3,
+      slug: "chicken-wings",
       name: "Chicken Wings",
       price: 8.99,
       image:
@@ -37,6 +41,7 @@ export function ProductGrid() {
     },
     {
       id: 4,
+      slug: "chicken-breast",
       name: "Chicken Breast",
       price: 9.99,
       image:
@@ -44,6 +49,7 @@ export function ProductGrid() {
     },
     {
       id: 5,
+      slug: "chicken-drumsticks",
       name: "Chicken Drumsticks",
       price: 7.99,
       image:
@@ -51,6 +57,7 @@ export function ProductGrid() {
     },
     {
       id: 6,
+      slug: "organic-duck",
       name: "Organic Duck",
       price: 18.99,
       image:
@@ -58,6 +65,7 @@ export function ProductGrid() {
     },
     {
       id: 7,
+      slug: "premium-turkey",
       name: "Premium Turkey",
       price: 24.99,
       image:
@@ -65,6 +73,7 @@ export function ProductGrid() {
     },
     {
       id: 8,
+      slug: "quail-eggs",
       name: "Quail Eggs",
       price: 8.99,
       image:
@@ -88,7 +97,7 @@ export function ProductGrid() {
               key={product.id}
               className="group overflow-hidden hover:shadow-lg transition-shadow flex flex-col !p-0 !py-0 !gap-0 rounded-xl"
             >
-              <Link href={`/products/${product.id}`}>
+              <Link href={`/products/${product.slug}`}>
                 <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted rounded-t-xl">
                   <Image
                     src={product.image}

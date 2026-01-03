@@ -61,7 +61,7 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/80 shadow-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-md supports-backdrop-filter:bg-background/80 shadow-sm">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
@@ -286,7 +286,7 @@ export function Header() {
                     />
                     <div className="flex flex-col">
                       <span className="font-bold text-lg text-foreground leading-none">
-                        Hatch Haven
+                        Hatch Haven Acres
                       </span>
                       <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mt-1">
                         Fresh & Ethical
@@ -328,20 +328,6 @@ export function Header() {
                     <div className="mb-4 px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                       Support & Cart
                     </div>
-                    <Link
-                      href="/cart"
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors"
-                    >
-                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                        <ShoppingCart className="h-4 w-4" />
-                      </div>
-                      Cart
-                      {cartCount > 0 && (
-                        <span className="ml-auto bg-primary text-primary-foreground text-[10px] font-bold px-2 py-0.5 rounded-full">
-                          {cartCount}
-                        </span>
-                      )}
-                    </Link>
                     <a
                       href="tel:+254748645010"
                       className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors"

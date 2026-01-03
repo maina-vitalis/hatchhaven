@@ -121,7 +121,7 @@ export function Footer() {
         <Separator className="mb-8" />
 
         {/* Bottom */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div className="flex flex-col sm:flex-row gap-4 text-sm">
             <div className="flex items-center gap-2">
               <Phone className="h-4 w-4 text-primary" />
@@ -136,7 +136,7 @@ export function Footer() {
               <span>Nanyuki</span>
             </div>
           </div>
-          <p className="text-sm">© {new Date().getFullYear()} Hatch Haven. All rights reserved.</p>
+          <p className="text-sm self-start md:self-center">© {new Date().getFullYear()} Hatch Haven. All rights reserved.</p>
         </div>
       </div>
     </footer>

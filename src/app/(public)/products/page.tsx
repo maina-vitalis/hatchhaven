@@ -7,17 +7,27 @@ export const dynamic = "force-dynamic";
 
 async function getInitialData() {
   try {
-    const [products, categories] = await Promise.all([
-      prisma.productVariant.findMany({
+    const [breeds, categories] = await Promise.all([
+      // Get breeds instead of variants to match the API approach
+      prisma.breed.findMany({
         include: {
-          breed: {
-            include: {
-              category: true,
+          category: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+              image: true,
             },
           },
-          images: {
-            take: 1,
-            orderBy: { order: "asc" },
+          variants: {
+            take: 1, // Get first variant for each breed
+            include: {
+              images: {
+                take: 1,
+                orderBy: { order: "asc" },
+              },
+            },
+            orderBy: { createdAt: "asc" },
           },
         },
         orderBy: { createdAt: "desc" },
@@ -27,24 +37,35 @@ async function getInitialData() {
       }),
     ]);
 
-    const formattedProducts = products.map((variant) => ({
-      id: variant.id,
-      name: `${variant.breed.name} - ${
-        variant.gender === "N/A"
-          ? variant.ageGroup
-          : `${variant.gender}, ${variant.ageGroup}`
-      }`,
-      price: variant.price,
-      image:
-        variant.image ||
-        variant.images[0]?.imageUrl ||
-        variant.breed.image ||
-        variant.breed.category.image ||
-        "/placeholder-product.jpg",
-      category: variant.breed.category.slug,
-      categoryName: variant.breed.category.name,
-      stock: variant.stock,
-    }));
+    // Filter out breeds without variants and transform the data
+    const formattedProducts = breeds
+      .filter(breed => breed.variants.length > 0)
+      .map((breed) => {
+        const firstVariant = breed.variants[0];
+        return {
+          id: breed.id,
+          slug: breed.slug, // Add slug field
+          name: breed.name, // Use breed name instead of variant-specific name
+          price: firstVariant.price,
+          image:
+            firstVariant.image ||
+            firstVariant.images[0]?.imageUrl ||
+            breed.image ||
+            breed.category.image ||
+            "/placeholder-product.jpg",
+          category: breed.category.slug,
+          categoryName: breed.category.name,
+          breed: {
+            id: breed.id,
+            name: breed.name,
+            slug: breed.slug,
+          },
+          // Include first variant info for compatibility
+          gender: firstVariant.gender,
+          ageGroup: firstVariant.ageGroup,
+          stock: firstVariant.stock,
+        };
+      });
 
     const formattedCategories = categories.map((cat) => ({
       ...cat,

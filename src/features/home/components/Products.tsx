@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 
 interface Product {
   id: string;
+  slug: string; // Add slug field
   name: string;
   price: number;
   image: string;
@@ -103,7 +104,7 @@ export function Products() {
                 }}
               >
                 <Link
-                  href={`/products/${product.id}`}
+                  href={`/products/${product.slug}`}
                   className="group block h-full"
                 >
                   <Card className="overflow-hidden border-border/50 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-primary/20 hover:-translate-y-1 rounded-2xl h-full flex flex-col">

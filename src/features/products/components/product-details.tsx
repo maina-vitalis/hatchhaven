@@ -38,6 +38,7 @@ interface ProductVariant {
 interface ProductDetailsProps {
   readonly product: {
     id: string;
+    slug?: string; // Add optional slug field
     name: string;
     category: string;
     categorySlug?: string;
@@ -53,6 +54,7 @@ interface ProductDetailsProps {
   };
   readonly relatedProducts?: Array<{
     id: string;
+    slug: string; // Add slug field
     name: string;
     price: number;
     image: string;
@@ -114,7 +116,7 @@ export function ProductDetails({
     )}\n\n*Total: KES ${(selectedVariant.price * quantity).toFixed(2)}*`;
 
     const whatsappNumber =
-      process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "254700000000";
+      process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
       message
     )}`;
@@ -326,7 +328,7 @@ export function ProductDetails({
               {relatedProducts.map((relatedProduct) => (
                 <Link
                   key={relatedProduct.id}
-                  href={`/products/${relatedProduct.id}`}
+                  href={`/products/${relatedProduct.slug}`}
                   className="group block"
                 >
                   <Card className="overflow-hidden border-none shadow-sm hover:shadow-lg transition-all duration-300 h-full flex flex-col bg-background rounded-2xl">
