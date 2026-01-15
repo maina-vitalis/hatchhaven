@@ -37,7 +37,7 @@ export function ProductTabs({
               <TabsTrigger
                 key={tab}
                 value={tab.toLowerCase().split(" ")[0]}
-                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
+                className="rounded-md border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:text-primary data-[state=active]:shadow-none px-1 py-3 text-base font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 {tab}
               </TabsTrigger>

@@ -15,7 +15,12 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { Button } from "@/src/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/src/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetClose,
+} from "@/src/components/ui/sheet";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -303,23 +308,43 @@ export function Header() {
                     {navItems.map((item) => {
                       const isActive = pathname === item.path;
                       return (
+                        <SheetClose key={item.name} asChild>
+                          <Link
+                            href={item.path}
+                            className={cn(
+                              "flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
+                              isActive
+                                ? "bg-primary/10 text-primary font-semibold"
+                                : "text-foreground hover:bg-muted"
+                            )}
+                          >
+                            {item.name}
+                            {isActive && (
+                              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                            )}
+                          </Link>
+                        </SheetClose>
+                      );
+                    })}
+                    {isAdmin && (
+                      <SheetClose asChild>
                         <Link
-                          key={item.name}
-                          href={item.path}
+                          href="/admin"
                           className={cn(
-                            "flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
-                            isActive
+                            "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
+                            pathname.startsWith("/admin")
                               ? "bg-primary/10 text-primary font-semibold"
                               : "text-foreground hover:bg-muted"
                           )}
                         >
-                          {item.name}
-                          {isActive && (
-                            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                          <Shield className="h-4 w-4" />
+                          Admin Dashboard
+                          {pathname.startsWith("/admin") && (
+                            <div className="ml-auto w-1.5 h-1.5 rounded-full bg-primary" />
                           )}
                         </Link>
-                      );
-                    })}
+                      </SheetClose>
+                    )}
                   </nav>
 
                   <div className="my-8 h-px bg-border/50" />
@@ -328,15 +353,17 @@ export function Header() {
                     <div className="mb-4 px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                       Support & Cart
                     </div>
-                    <a
-                      href="tel:+254748645010"
-                      className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors"
-                    >
-                      <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                        <Phone className="h-4 w-4" />
-                      </div>
-                      Call Us
-                    </a>
+                    <SheetClose asChild>
+                      <a
+                        href="tel:+254748645010"
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-foreground hover:bg-muted transition-colors"
+                      >
+                        <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+                          <Phone className="h-4 w-4" />
+                        </div>
+                        Call Us
+                      </a>
+                    </SheetClose>
                   </div>
                 </div>
 
@@ -380,12 +407,16 @@ export function Header() {
                     </div>
                   ) : (
                     <div className="grid grid-cols-2 gap-3">
-                      <Button variant="outline" className="w-full" asChild>
-                        <Link href="/login">Log In</Link>
-                      </Button>
-                      <Button className="w-full" asChild>
-                        <Link href="/signup">Sign Up</Link>
-                      </Button>
+                      <SheetClose asChild>
+                        <Button variant="outline" className="w-full" asChild>
+                          <Link href="/login">Log In</Link>
+                        </Button>
+                      </SheetClose>
+                      <SheetClose asChild>
+                        <Button className="w-full" asChild>
+                          <Link href="/signup">Sign Up</Link>
+                        </Button>
+                      </SheetClose>
                     </div>
                   )}
                 </div>

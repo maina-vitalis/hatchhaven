@@ -115,8 +115,7 @@ export function ProductDetails({
       2
     )}\n\n*Total: KES ${(selectedVariant.price * quantity).toFixed(2)}*`;
 
-    const whatsappNumber =
-      process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+    const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
       message
     )}`;
@@ -165,7 +164,7 @@ export function ProductDetails({
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950/50 pb-20">
       {/* Top Navigation Bar / Breadcrumb */}
-      <div className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+      <div className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-backdrop-filter:bg-background/60">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <nav className="flex items-center gap-2 text-sm text-muted-foreground overflow-hidden">
             <Link
