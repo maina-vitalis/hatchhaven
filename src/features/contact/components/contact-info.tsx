@@ -11,7 +11,7 @@ const TikTokIcon = ({ className }: { className?: string }) => (
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-.88-.05A6.33 6.33 0 0 0 5.16 20.5a6.33 6.33 0 0 0 10.86-4.43V7.83a8.24 8.24 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.2-.26z"/>
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-.88-.05A6.33 6.33 0 0 0 5.16 20.5a6.33 6.33 0 0 0 10.86-4.43V7.83a8.24 8.24 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.2-.26z" />
   </svg>
 );
 
@@ -29,10 +29,10 @@ export function ContactInfo() {
     {
       icon: Phone,
       title: "Call Us",
-      subtitle: "0748645010",
-      link: "tel:0748645010",
+      subtitle: "0704 938 330",
+      link: "tel:+254704938330",
       linkText: "Call now for immediate assistance",
-      color: "bg-green-500/10 text-green-600"
+      color: "bg-green-500/10 text-green-600",
     },
     {
       icon: Mail,
@@ -40,21 +40,21 @@ export function ContactInfo() {
       subtitle: "info@hatchhaven.co.ke",
       link: "mailto:info@hatchhaven.co.ke",
       linkText: "Send us an email anytime",
-      color: "bg-blue-500/10 text-blue-600"
+      color: "bg-blue-500/10 text-blue-600",
     },
     {
       icon: MapPin,
       title: "Visit Us",
       subtitle: "Nanyuki, Kenya",
       linkText: "Premium poultry farm location",
-      color: "bg-red-500/10 text-red-600"
+      color: "bg-red-500/10 text-red-600",
     },
     {
       icon: Clock,
       title: "Business Hours",
       subtitle: "Monday - Friday: 8:00 AM - 6:00 PM",
       linkText: "Saturday: 9:00 AM - 4:00 PM",
-      color: "bg-purple-500/10 text-purple-600"
+      color: "bg-purple-500/10 text-purple-600",
     },
   ];
 
@@ -63,19 +63,19 @@ export function ContactInfo() {
       icon: Facebook,
       name: "Facebook",
       href: "https://www.facebook.com/share/1KR5U8RB2W/?mibextid=wwXIfr",
-      color: "hover:text-blue-600"
+      color: "hover:text-blue-600",
     },
     {
       icon: Instagram,
       name: "Instagram",
       href: "https://www.instagram.com/hatchpoultry.ke?igsh=eXM2bXJyOWVzM3Bm&utm_source=qr",
-      color: "hover:text-pink-600"
+      color: "hover:text-pink-600",
     },
     {
       icon: TikTokIcon,
       name: "TikTok",
       href: "https://www.tiktok.com/@hatchhavenacre?_r=1&_t=ZM-922sRdeftL2",
-      color: "hover:text-black"
+      color: "hover:text-black",
     },
   ];
 
@@ -93,7 +93,8 @@ export function ContactInfo() {
             Contact <span className="text-primary">Information</span>
           </h2>
           <p className="text-muted-foreground max-w-3xl mx-auto text-lg leading-relaxed">
-            Choose the most convenient way to get in touch with our team. We're here to help with all your poultry needs.
+            Choose the most convenient way to get in touch with our team.
+            We&apos;re here to help with all your poultry needs.
           </p>
         </div>
 
@@ -105,7 +106,9 @@ export function ContactInfo() {
             >
               <div className="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-full -translate-y-10 translate-x-10" />
               <CardContent className="p-8 text-center relative">
-                <div className={`w-16 h-16 mx-auto mb-6 rounded-2xl ${detail.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                <div
+                  className={`w-16 h-16 mx-auto mb-6 rounded-2xl ${detail.color} flex items-center justify-center group-hover:scale-110 transition-transform`}
+                >
                   <detail.icon className="h-8 w-8" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">{detail.title}</h3>
@@ -138,7 +141,8 @@ export function ContactInfo() {
             Stay Connected
           </h3>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Follow us on social media for the latest updates, farm stories, and product announcements.
+            Follow us on social media for the latest updates, farm stories, and
+            product announcements.
           </p>
 
           <div className="flex justify-center gap-6">

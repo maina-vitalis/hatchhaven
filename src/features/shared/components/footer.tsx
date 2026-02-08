@@ -1,10 +1,4 @@
-import {
-  Facebook,
-  Instagram,
-  Mail,
-  Phone,
-  MapPin,
-} from "lucide-react";
+import { Facebook, Instagram, Mail, Phone, MapPin } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Separator } from "@/src/components/ui/separator";
@@ -17,7 +11,7 @@ const TikTokIcon = ({ className }: { className?: string }) => (
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-.88-.05A6.33 6.33 0 0 0 5.16 20.5a6.33 6.33 0 0 0 10.86-4.43V7.83a8.24 8.24 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.2-.26z"/>
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-.88-.05A6.33 6.33 0 0 0 5.16 20.5a6.33 6.33 0 0 0 10.86-4.43V7.83a8.24 8.24 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.2-.26z" />
   </svg>
 );
 
@@ -125,7 +119,7 @@ export function Footer() {
           <div className="flex flex-col sm:flex-row gap-4 text-sm">
             <div className="flex items-center gap-2">
               <Phone className="h-4 w-4 text-primary" />
-              <span> 0748645010</span>
+              <span> 0704 938 330</span>
             </div>
             <div className="flex items-center gap-2">
               <Mail className="h-4 w-4 text-primary" />
@@ -136,7 +130,9 @@ export function Footer() {
               <span>Nanyuki</span>
             </div>
           </div>
-          <p className="text-sm self-start md:self-center">© {new Date().getFullYear()} Hatch Haven. All rights reserved.</p>
+          <p className="text-sm self-start md:self-center">
+            © {new Date().getFullYear()} Hatch Haven. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

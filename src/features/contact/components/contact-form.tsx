@@ -30,7 +30,7 @@ export function ContactForm() {
           </p>
           <h2 className="text-4xl md:text-5xl font-bold mb-4">Get In Touch</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
-            Fill out the form below and we'll respond as soon as possible
+            Fill out the form below and well respond as soon as possible
           </p>
         </div>
 
@@ -49,10 +49,10 @@ export function ContactForm() {
                       Call us directly
                     </p>
                     <a
-                      href="tel:+254748645010"
+                      href="tel:+254704938330"
                       className="text-primary hover:text-primary/80 text-sm font-medium"
                     >
-                      +254 748 645 010
+                      0704 938 330
                     </a>
                   </div>
                 </div>

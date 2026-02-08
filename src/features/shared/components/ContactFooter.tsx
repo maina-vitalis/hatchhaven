@@ -65,8 +65,7 @@ export function ContactFooter() {
               <div className="flex items-start gap-3 justify-center md:justify-start text-left">
                 <Phone className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                 <div>
-                  <p>+88678-658-125, 0078-98-954</p>
-                  <p>+1655-456-523</p>
+                  <p>0704 938 330</p>
                 </div>
               </div>
               <div className="flex items-start gap-3 justify-center md:justify-start text-left">
@@ -111,7 +110,7 @@ export function ContactFooter() {
 
         {/* Bottom */}
         <div className="text-center text-sm text-muted-foreground">
-          <p>© 2025 Hatch Haven. All rights reserved.</p>
+          <p>© 2026 Hatch Haven. All rights reserved.</p>
         </div>
       </div>
     </footer>
