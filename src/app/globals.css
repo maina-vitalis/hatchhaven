@@ -20,7 +20,7 @@
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar: var(--sidebar);
 
-  /* Chart Colors (retained original vibrant OKLCH palette) */
+  /* Chart Colors */
   --color-chart-1: oklch(0.646 0.222 41.116);
   --color-chart-2: oklch(0.6 0.118 184.704);
   --color-chart-3: oklch(0.398 0.07 227.392);
@@ -45,91 +45,114 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
 
-  /* Radius */
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
+  /* Radius — sharp with slight softness */
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.25rem; /* Sharp edges — 4px base */
 
-  /* 🌞 Light Theme (Vibrant Orange Accent) */
-  --background: oklch(0.985 0.003 90);
-  --foreground: oklch(0.145 0.01 275);
+  /* ─────────────────────────────────────────
+     🌞 LIGHT MODE — Aviara Birds (White + #F77F00)
+  ───────────────────────────────────────── */
+
+  /* Base */
+  --background: oklch(1 0 0);                    /* #FFFFFF pure white */
+  --foreground: oklch(0.13 0.03 55);             /* #1A1008 deep warm brown */
+
+  /* Cards & Popovers */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0.01 275);
+  --card-foreground: oklch(0.13 0.03 55);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0.01 275);
+  --popover-foreground: oklch(0.13 0.03 55);
 
-  --primary: oklch(0.72 0.18 55);
-  /* Vibrant orange */
-  --primary-foreground: oklch(0.985 0 0);
+  /* Primary — #F77F00 orange */
+  --primary: oklch(0.68 0.19 55);               /* #F77F00 */
+  --primary-foreground: oklch(1 0 0);            /* white */
 
-  --secondary: oklch(0.96 0.02 75);
-  --secondary-foreground: oklch(0.25 0.04 70);
+  /* Secondary — warm cream */
+  --secondary: oklch(0.96 0.025 75);             /* #F5F0EB */
+  --secondary-foreground: oklch(0.25 0.05 60);   /* #4A2E10 */
 
-  --muted: oklch(0.95 0.01 275);
-  --muted-foreground: oklch(0.52 0.02 275);
+  /* Muted — light sand */
+  --muted: oklch(0.96 0.015 75);                /* #F5F0EB */
+  --muted-foreground: oklch(0.52 0.04 60);       /* #8A6848 */
 
-  --accent: oklch(0.88 0.12 55);
-  --accent-foreground: oklch(0.12 0.02 275);
+  /* Accent — pale orange */
+  --accent: oklch(0.94 0.05 70);                /* #FFF0DE */
+  --accent-foreground: oklch(0.35 0.1 55);       /* #B55C00 */
 
-  --destructive: oklch(0.63 0.23 27);
+  /* Destructive */
+  --destructive: oklch(0.55 0.22 27);
 
-  --border: oklch(0.92 0.005 275);
-  --input: oklch(0.92 0.005 275);
-  --ring: oklch(0.74 0.16 55);
+  /* Borders & Inputs */
+  --border: oklch(0.9 0.015 70);                /* #E8E0D4 warm sand border */
+  --input: oklch(0.9 0.015 70);
+  --ring: oklch(0.68 0.19 55);                  /* #F77F00 focus ring */
 
-  /* Sidebar (soft orange tone) */
-  --sidebar: oklch(0.98 0.02 75);
-  --sidebar-foreground: oklch(0.22 0.03 275);
-  --sidebar-primary: oklch(0.74 0.16 55);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.96 0.02 75);
-  --sidebar-accent-foreground: oklch(0.3 0.05 70);
-  --sidebar-border: oklch(0.9 0.005 275);
-  --sidebar-ring: oklch(0.74 0.16 55);
+  /* Sidebar */
+  --sidebar: oklch(0.98 0.015 75);              /* #FFF8F0 warm off-white */
+  --sidebar-foreground: oklch(0.18 0.03 55);
+  --sidebar-primary: oklch(0.68 0.19 55);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.94 0.05 70);
+  --sidebar-accent-foreground: oklch(0.3 0.08 60);
+  --sidebar-border: oklch(0.9 0.015 70);
+  --sidebar-ring: oklch(0.68 0.19 55);
 }
 
 .dark {
-  /* 🌙 Dark Theme (Burnt Orange Glow) */
-  --background: oklch(0.16 0.01 275);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.22 0.01 275);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.22 0.01 275);
-  --popover-foreground: oklch(0.985 0 0);
+  /* ─────────────────────────────────────────
+     🌙 DARK MODE — Aviara Birds (Deep Amber Black + #F77F00)
+  ───────────────────────────────────────── */
 
-  --primary: oklch(0.74 0.16 55);
-  --primary-foreground: oklch(0.15 0.01 275);
+  /* Base — deep amber-tinted black, NOT cold gray */
+  --background: oklch(0.13 0.025 55);           /* #100A00 */
+  --foreground: oklch(0.96 0.03 80);            /* #FFF0DE warm cream */
 
-  --secondary: oklch(0.25 0.01 275);
-  --secondary-foreground: oklch(0.9 0.02 55);
+  /* Cards & Popovers */
+  --card: oklch(0.17 0.025 55);                 /* #1A1008 */
+  --card-foreground: oklch(0.96 0.03 80);
+  --popover: oklch(0.17 0.025 55);
+  --popover-foreground: oklch(0.96 0.03 80);
 
-  --muted: oklch(0.25 0.01 275);
-  --muted-foreground: oklch(0.65 0.02 275);
+  /* Primary — same orange, unchanged */
+  --primary: oklch(0.68 0.19 55);              /* #F77F00 */
+  --primary-foreground: oklch(1 0 0);
 
-  --accent: oklch(0.7 0.14 55);
-  --accent-foreground: oklch(0.985 0 0);
+  /* Secondary — dark amber surface */
+  --secondary: oklch(0.2 0.03 55);             /* #2A1600 */
+  --secondary-foreground: oklch(0.82 0.12 65); /* #FFA240 */
 
-  --destructive: oklch(0.6 0.23 27);
+  /* Muted */
+  --muted: oklch(0.2 0.03 55);
+  --muted-foreground: oklch(0.6 0.05 65);      /* #A08060 */
 
-  --border: oklch(0.3 0.01 275);
-  --input: oklch(0.3 0.01 275);
-  --ring: oklch(0.74 0.16 55);
+  /* Accent — darker orange tint */
+  --accent: oklch(0.62 0.16 55);              /* #D96E00 */
+  --accent-foreground: oklch(1 0 0);
 
-  /* Sidebar (dark amber glow) */
-  --sidebar: oklch(0.22 0.01 275);
-  --sidebar-foreground: oklch(0.95 0 0);
-  --sidebar-primary: oklch(0.7 0.14 55);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.35 0.02 275);
-  --sidebar-accent-foreground: oklch(0.95 0 0);
-  --sidebar-border: oklch(0.3 0.01 275);
-  --sidebar-ring: oklch(0.74 0.16 55);
+  /* Destructive */
+  --destructive: oklch(0.58 0.22 27);
+
+  /* Borders & Inputs — amber-tinted dark */
+  --border: oklch(0.24 0.04 55);              /* #3D2000 */
+  --input: oklch(0.24 0.04 55);
+  --ring: oklch(0.68 0.19 55);               /* #F77F00 focus ring */
+
+  /* Sidebar */
+  --sidebar: oklch(0.17 0.025 55);
+  --sidebar-foreground: oklch(0.95 0.02 80);
+  --sidebar-primary: oklch(0.68 0.19 55);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.25 0.04 55);
+  --sidebar-accent-foreground: oklch(0.9 0.06 70);
+  --sidebar-border: oklch(0.24 0.04 55);
+  --sidebar-ring: oklch(0.68 0.19 55);
 }
 
 @layer base {
@@ -142,7 +165,7 @@
   }
 }
 
-/* TipTap Editor Styles */
+/* ─── TipTap Editor ─── */
 .ProseMirror {
   outline: none;
 }
@@ -227,21 +250,19 @@
   font-size: 0.875em;
 }
 
-/* Custom background patterns */
+/* ─── Utilities ─── */
 .bg-grid-pattern {
   background-image: linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
-/* Smooth transitions for hover effects */
 .transition-all {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
 }
 
-/* Hide scrollbar utility */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
