@@ -1,9 +1,21 @@
+import type { Metadata } from "next";
 import {
   FilterableProductGrid,
 } from "@/src/features/products";
 import prisma from "@/src/lib/prisma";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Shop Poultry & Eggs",
+  description:
+    "Browse and order premium free-range chickens, turkeys, ducks, guinea fowl, and fresh eggs from Hatch Haven Acres, Nanyuki, Kenya.",
+  openGraph: {
+    title: "Shop Poultry & Eggs | Hatch Haven Acres",
+    description: "Premium farm-raised poultry and eggs delivered across Kenya.",
+    url: "https://www.hatchhavenacres.com/products",
+  },
+};
 
 async function getInitialData() {
   try {

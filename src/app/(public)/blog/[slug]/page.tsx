@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   BlogSingleHero,
   BlogSingleContent,
@@ -8,6 +9,39 @@ import prisma from "@/src/lib/prisma";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await prisma.blogPost.findUnique({
+    where: { slug },
+    select: { title: true, excerpt: true, image: true, publishedAt: true },
+  });
+
+  if (!post) return { title: "Post Not Found" };
+
+  return {
+    title: post.title,
+    description: post.excerpt ?? undefined,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt ?? undefined,
+      url: `https://www.hatchhavenacres.com/blog/${slug}`,
+      type: "article",
+      publishedTime: post.publishedAt?.toISOString(),
+      images: post.image ? [{ url: post.image, width: 1200, height: 630, alt: post.title }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.excerpt ?? undefined,
+      images: post.image ? [post.image] : [],
+    },
+  };
+}
 
 async function getBlogPost(slug: string) {
   try {
@@ -214,18 +248,35 @@ export default async function BlogSinglePage({
     getBlogCategories(),
   ]);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    image: post.image,
+    datePublished: post.publishedAt,
+    author: { "@type": "Person", name: post.author.name },
+    publisher: {
+      "@type": "Organization",
+      name: "Hatch Haven Acres",
+      url: "https://www.hatchhavenacres.com",
+    },
+    url: `https://www.hatchhavenacres.com/blog/${slug}`,
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <BlogSingleHero post={post} />
       <section className="py-16 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Main Content */}
             <div className="lg:col-span-2">
               <BlogSingleContent post={{ ...post, slug }} />
             </div>
-
-            {/* Sidebar */}
             <div className="lg:col-span-1">
               <BlogSingleSidebar
                 categories={categories}

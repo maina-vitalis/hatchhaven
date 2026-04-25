@@ -41,7 +41,7 @@ export async function generateMetadata({
         height: 630,
         alt: title,
       })),
-      url: `https://www.hatchhavenacres.co.ke/products/${slug}`,
+      url: `https://www.hatchhavenacres.com/products/${slug}`,
       type: "website",
     },
     twitter: {
@@ -215,8 +215,34 @@ export default async function ProductDetailPage({
     notFound();
   }
 
+  const lowestPrice = Math.min(...product.variants.map((v) => v.price));
+  const inStock = product.variants.some((v) => v.stock > 0);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.breed.description,
+    image: product.images[0] ?? "/placeholder-product.jpg",
+    url: `https://www.hatchhavenacres.com/products/${slug}`,
+    brand: { "@type": "Brand", name: "Hatch Haven Acres" },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "KES",
+      price: lowestPrice,
+      availability: inStock
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      seller: { "@type": "Organization", name: "Hatch Haven Acres" },
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <ProductDetails product={product} relatedProducts={relatedProducts} />
       <Footer />
     </>

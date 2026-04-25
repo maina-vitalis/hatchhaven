@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.hatchhavenacres.co.ke"),
+  metadataBase: new URL("https://www.hatchhavenacres.com"),
   title: {
     default: "Hatch Haven Acres | Premium Farm-Raised Poultry & Eggs",
     template: "%s | Hatch Haven Acres",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_KE",
-    url: "https://www.hatchhavenacres.co.ke",
+    url: "https://www.hatchhavenacres.com",
     title: "Hatch Haven Acres | Fresh, Ethical, Farm-Raised Poultry",
     description:
       "Order premium quality, free-range chicken, turkey, ducks, and fresh eggs. Hormone-free and ethically raised on our sustainable farm.",
@@ -87,7 +87,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en-KE">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning

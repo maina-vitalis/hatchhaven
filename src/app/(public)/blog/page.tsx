@@ -1,8 +1,20 @@
+import type { Metadata } from "next";
 import { BlogHero, BlogContent } from "@/src/features/blog";
 import { Footer } from "@/src/features/shared";
 import prisma from "@/src/lib/prisma";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "Poultry farming tips, breed guides, farm news, and more from the Hatch Haven Acres team.",
+  openGraph: {
+    title: "Blog | Hatch Haven Acres",
+    description: "Insights and stories from our farm in Nanyuki, Kenya.",
+    url: "https://www.hatchhavenacres.com/blog",
+  },
+};
 
 async function getBlogPosts(page: number = 1, postsPerPage: number = 6) {
   try {
