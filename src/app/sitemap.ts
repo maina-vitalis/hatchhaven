@@ -21,10 +21,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // Dynamic routes (Products)
-  // Fetch all product variants
-  const products = await prisma.productVariant.findMany({
+  const products = await prisma.breed.findMany({
     select: {
-      id: true,
+      slug: true,
       updatedAt: true,
     },
     orderBy: {
@@ -33,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   const productRoutes = products.map((product) => ({
-    url: `${baseUrl}/products/${product.id}`,
+    url: `${baseUrl}/products/${product.slug}`,
     lastModified: product.updatedAt,
     changeFrequency: "weekly" as const,
     priority: 0.7,
